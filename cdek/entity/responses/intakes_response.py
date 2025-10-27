@@ -8,7 +8,7 @@ from ...mixin.common import Common as CommonMixin
 from ...mixin.package import Package as PackageMixin
 from .statuses_response import StatusesResponse
 
-class IntakesResponse(Source, IntakesMixin, CommonMixin, PackageMixin):
+class IntakesResponse(IntakesMixin, CommonMixin, PackageMixin, Source):
 
     intake_number: str | None = None
     statuses: list[StatusesResponse] | None = None

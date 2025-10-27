@@ -22,11 +22,6 @@ class OrderResponse(Source, OrderMixin, CommonMixin, TariffMixin):
     requests: list | None = field(default_factory=list)
     services: list | None = field(default_factory=list)
 
-    def __init__(self, properties=None):
-        """Переопределяем __init__ чтобы вызвать родительский"""
-        # Вызываем Source.__init__ напрямую
-        Source.__init__(self, properties)
-
     def get_last_related(self, entity_type: str):
         """Получить последнюю связанную сущность"""
         newest = []

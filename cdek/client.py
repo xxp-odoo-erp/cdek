@@ -4,6 +4,7 @@ from typing import Optional, Callable, Any, Dict
 from . import constants
 from .exceptions import CdekAuthException, CdekRequestException
 from .entity.responses.tariff import TariffResponse
+from .entity.responses.tariff_list_response import TariffListResponse
 from .entity.responses.entity import EntityResponse
 from .entity.responses.print_response import PrintResponse
 from .entity.responses.order import OrderResponse
@@ -337,10 +338,32 @@ class CdekClient:
         return TariffResponse(self._api_request('POST', constants.CALC_TARIFF_URL, tariff))
 
     def calculate_tariff_list(self, tariff):
-        """Расчёт стоимости и сроков доставки по всем доступным тарифам"""
+        """Расчёт стоимости и сроков доставки по всем доступным тарифам
+
+        Args:
+            tariff: объект Tariff с параметрами запроса (type, from_location, to_location, packages)
+
+        Returns:
+            Список объектов TariffListResponse с информацией о доступных тарифах
+        """
         response = self._api_request('POST', constants.CALC_TARIFFLIST_URL, tariff)
-        # Здесь должен быть импорт и создание TariffListResponse объектов
-        return response
+
+        # API возвращает словарь с ключом "tariff_codes" содержащим список тарифов
+        if isinstance(response, dict) and 'tariff_codes' in response:
+            tariff_codes = response['tariff_codes']
+            if isinstance(tariff_codes, list):
+                return [TariffListResponse(**item) for item in tariff_codes]
+
+        # Если это список тарифов напрямую
+        if isinstance(response, list):
+            return [TariffListResponse(**item) for item in response]
+
+        # Если это словарь с одним тарифом
+        if isinstance(response, dict):
+            return [TariffListResponse(**response)]
+
+        # Если это список с одним элементом или пустой список
+        return []
 
     def create_order(self, order):
         """Создание заказа"""
@@ -462,7 +485,8 @@ class CdekClient:
 
     def get_intakes(self, uuid: str):
         """Информация о заявке на вызов курьера"""
-        return IntakesResponse(self._api_request('GET', f'{constants.INTAKES_URL}/{uuid}'))
+        response = self._api_request('GET', f'{constants.INTAKES_URL}/{uuid}')
+        return IntakesResponse.from_dict(response)
 
     def delete_intakes(self, uuid: str) -> bool:
         """Удаление заявки на вызов курьера"""

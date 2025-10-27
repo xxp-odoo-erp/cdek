@@ -11,9 +11,5 @@ class PaymentResponse(Source):
 
     orders: list | None = field(default_factory=list)
 
-    def __init__(self, properties=None):
-        """Переопределяем __init__ чтобы вызвать родительский"""
-        Source.__init__(self, properties)
-
     def get_orders(self) -> list | None:
         return self.orders
