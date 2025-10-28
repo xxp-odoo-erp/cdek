@@ -1,110 +1,110 @@
 # CDEK Python SDK v2
 
-Python библиотека для работы с API СДЭК версии 2.0
+Python library for working with CDEK API version 2.0
 
-## Установка
+## Installation
 
 ```bash
 pip install cdek-sdk-2
 ```
 
-## Быстрый старт
+## Quick Start
 
-### Создание клиента
+### Creating a Client
 
 ```python
 from cdek import CdekClient
 
-# Создание клиента для тестовой среды
+# Create a test client
 client = CdekClient('TEST')
 
-# Создание клиента для production
+# Create a production client
 client = CdekClient('PROD', account='your_account', secure='your_password')
 ```
 
-### Получение списка городов
+### Getting List of Cities
 
 ```python
-# Получить список городов с фильтрацией
-cities = client.get_cities({'size': 10, 'city': 'Москва'})
+# Get list of cities with filtering
+cities = client.get_cities({'size': 10, 'city': 'Moscow'})
 
 for city in cities:
     print(f"{city.get('city')} - {city.get('code')}")
 ```
 
-### Расчёт тарифа
+### Calculating Tariff
 
 ```python
-from cdek.entity.requests.tariff import Tariff
+from cdek.requests.tariff import Tariff
 
-# Создание объекта для расчёта тарифа
+# Create tariff calculation object
 tariff = Tariff()
-tariff.set_type(1)  # Тип доставки (1 - курьерская доставка)
-tariff.set_tariff_code(136)  # Код тарифа
-tariff.set_city_codes(44, 137)  # Коды городов отправителя и получателя
-tariff.set_package_weight(1000)  # Вес в граммах
+tariff.set_type(1)  # Delivery type (1 - courier delivery)
+tariff.set_tariff_code(136)  # Tariff code
+tariff.set_city_codes(44, 137)  # Sender and recipient city codes
+tariff.set_package_weight(1000)  # Weight in grams
 
-# Расчёт тарифа
+# Calculate tariff
 result = client.calculate_tariff(tariff)
-print(f"Стоимость: {result.get_total_sum()}")
-print(f"Срок доставки: {result.get_delivery_period()}")
+print(f"Cost: {result.get_total_sum()}")
+print(f"Delivery time: {result.get_delivery_period()}")
 ```
 
-### Создание заказа
+### Creating an Order
 
 ```python
-from cdek.entity.requests.order import Order
-from cdek.entity.requests.location import Location
-from cdek.entity.requests.contact import Contact
-from cdek.entity.requests.package import Package
-from cdek.entity.requests.item import Item
-from cdek.entity.requests.money import Money
-from cdek.entity.requests.phone import Phone
+from cdek.requests.order import Order
+from cdek.requests.location import Location
+from cdek.requests.contact import Contact
+from cdek.requests.package import Package
+from cdek.requests.item import Item
+from cdek.requests.money import Money
+from cdek.requests.phone import Phone
 
-# Создание заказа
+# Create order
 order = Order()
 
-# Номер заказа в системе магазина
+# Order number in shop system
 order.set_im_number('ORDER-12345')
 
-# Отправитель
+# Sender
 sender_location = Location()
-sender_location.set_code(44)  # Код города Москвы
+sender_location.set_code(44)  # Moscow city code
 order.set_sender_location(sender_location)
 
 sender_contact = Contact()
-sender_contact.set_name('Иван Иванов')
+sender_contact.set_name('Ivan Ivanov')
 sender_phone = Phone()
 sender_phone.set_number('+79000000000')
 sender_contact.set_phone(sender_phone)
 order.set_sender(sender_contact)
 
-# Получатель
+# Recipient
 recipient_location = Location()
-recipient_location.set_code(137)  # Код города Санкт-Петербурга
+recipient_location.set_code(137)  # Saint Petersburg city code
 order.set_recipient_location(recipient_location)
 
 recipient_contact = Contact()
-recipient_contact.set_name('Петр Петров')
+recipient_contact.set_name('Petr Petrov')
 recipient_phone = Phone()
 recipient_phone.set_number('+79111111111')
 recipient_contact.set_phone(recipient_phone)
 order.set_recipient(recipient_contact)
 
-# Упаковка
+# Package
 package = Package()
 package.set_number('1')
-package.set_weight(1000)  # Вес в граммах
-package.set_length(10)  # Длина в см
-package.set_width(10)  # Ширина в см
-package.set_height(10)  # Высота в см
+package.set_weight(1000)  # Weight in grams
+package.set_length(10)  # Length in cm
+package.set_width(10)  # Width in cm
+package.set_height(10)  # Height in cm
 
-# Товар
+# Item
 item = Item()
-item.set_name('Товар тест')
+item.set_name('Test Item')
 item.set_ware_key('12345')
 item.set_amount(1)
-item.set_cost(1000)  # Стоимость в рублях
+item.set_cost(1000)  # Cost in rubles
 
 money = Money()
 money.set_sum(1000)
@@ -114,58 +114,58 @@ item.set_payment(money)
 package.set_items([item])
 order.set_packages([package])
 
-# Отдельные параметры заказа
-order.set_type(1)  # Тип доставки
-order.set_tariff_code(136)  # Код тарифа
+# Order parameters
+order.set_type(1)  # Delivery type
+order.set_tariff_code(136)  # Tariff code
 
-# Создание заказа
+# Create order
 result = client.create_order(order)
-print(f"Заказ создан: {result.get_entity().get_uuid()}")
+print(f"Order created: {result.get_entity().get_uuid()}")
 ```
 
-### Получение информации о заказе
+### Getting Order Information
 
 ```python
-# По трек-номеру
+# By tracking number
 order_info = client.get_order_info_by_cdek_number('GRZ123456')
 
-# По номеру заказа в системе магазина
+# By shop order number
 order_info = client.get_order_info_by_im_number('ORDER-12345')
 
-# По UUID заказа
+# By order UUID
 order_info = client.get_order_info_by_uuid('order-uuid')
 ```
 
-### Получение PDF документов
+### Getting PDF Documents
 
 ```python
-# Получение ШК-места
+# Get barcode
 barcode_pdf = client.get_barcode_pdf('barcode-uuid')
 with open('barcode.pdf', 'wb') as f:
     f.write(barcode_pdf)
 
-# Получение накладной
+# Get invoice
 invoice_pdf = client.get_invoice_pdf('invoice-uuid')
 with open('invoice.pdf', 'wb') as f:
     f.write(invoice_pdf)
 ```
 
-## Основные возможности
+## Main Features
 
-- ✅ Автоматическая авторизация с кэшированием токена
-- ✅ Получение справочников (регионы, города, ПВЗ)
-- ✅ Расчёт стоимости доставки
-- ✅ Создание и управление заказами
-- ✅ Получение информации о заказах
-- ✅ Работа с накладными и ШК
-- ✅ Создание договоренностей для курьера
-- ✅ Заявки на вызов курьера
-- ✅ Управление webhook'ами
-- ✅ Получение реестров и платежей
-- ✅ Получение чеков
-- ✅ Полная поддержка API СДЭК v2
+- ✅ Automatic authorization with token caching
+- ✅ Get directories (regions, cities, pickup points)
+- ✅ Calculate delivery costs
+- ✅ Create and manage orders
+- ✅ Get order information
+- ✅ Work with invoices and barcodes
+- ✅ Create courier agreements
+- ✅ Courier pickup requests
+- ✅ Webhook management
+- ✅ Get registries and payments
+- ✅ Get receipts
+- ✅ Full support for CDEK API v2
 
-## Обработка ошибок
+## Error Handling
 
 ```python
 from cdek.exceptions import CdekException, CdekAuthException, CdekRequestException
@@ -173,27 +173,27 @@ from cdek.exceptions import CdekException, CdekAuthException, CdekRequestExcepti
 try:
     result = client.get_cities({'size': 10})
 except CdekAuthException as e:
-    print(f"Ошибка авторизации: {e}")
+    print(f"Authorization error: {e}")
 except CdekRequestException as e:
-    print(f"Ошибка запроса: {e}")
-    print(f"Код статуса: {e.status_code}")
+    print(f"Request error: {e}")
+    print(f"Status code: {e.status_code}")
 except CdekException as e:
-    print(f"Общая ошибка: {e}")
+    print(f"General error: {e}")
 ```
 
-## Сохранение токена авторизации
+## Saving Authorization Token
 
-Для уменьшения количества запросов на авторизацию можно сохранять токен:
+To reduce the number of authorization requests, you can save the token:
 
 ```python
 def save_token(data):
-    # Сохранение токена (в базу данных, файл и т.д.)
+    # Save token (to database, file, etc.)
     with open('token.json', 'w') as f:
         import json
         json.dump(data, f)
 
 def load_token():
-    # Загрузка токена
+    # Load token
     try:
         with open('token.json', 'r') as f:
             import json
@@ -201,24 +201,23 @@ def load_token():
     except FileNotFoundError:
         return None
 
-# Загрузка сохранённого токена
+# Load saved token
 token_data = load_token()
 if token_data:
     client.set_memory(token_data['cdekAuth'], save_token)
 
-# Создание клиента
+# Create client
 client = CdekClient('PROD', account='your_account', secure='your_password')
 ```
 
-## Документация
+## Documentation
 
-Полная документация по API СДЭК доступна на [https://api.cdek.ru/](https://api.cdek.ru/)
+Full CDEK API documentation is available at [https://apidoc.cdek.ru](https://apidoc.cdek.ru)
 
-## Лицензия
+## License
 
 MIT License
 
-## Поддержка
+## Support
 
-Если у вас возникли вопросы или проблемы, создайте issue в [GitHub репозитории](https://github.com/cdek/sdk-python)
-
+If you have questions or issues, create an issue in the [GitHub repository](https://github.com/cdek/sdk-python)

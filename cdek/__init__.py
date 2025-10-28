@@ -1,22 +1,22 @@
 """
 CDEK Python SDK v2
 
-Библиотека для работы с API СДЭК версии 2.
+Python library for working with CDEK API version 2.
 
-Пример использования:
-    from cdekpy import CdekClient
+Usage example:
+    from cdek import CdekClient
 
-    # Создание клиента для тестовой среды
+    # Create a test client
     client = CdekClient('TEST')
 
-    # Создание клиента для production
-    client = CdekClient('PROD', account='your_account', secure_password='your_password')
+    # Create a production client
+    client = CdekClient('PROD', account='your_account', secure='your_password')
 
-    # Получение списка городов
+    # Get list of cities
     cities = client.get_cities({'size': 10})
 
-    # Расчёт тарифа
-    from cdekpy.entity.requests.tariff import Tariff
+    # Calculate tariff
+    from cdek.requests.tariff import Tariff
     tariff = Tariff()
     tariff.set_type(1)
     tariff.set_tariff_code(136)
