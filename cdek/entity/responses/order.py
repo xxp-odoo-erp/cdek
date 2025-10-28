@@ -11,6 +11,7 @@ class OrderResponse(Source, OrderMixin, CommonMixin, TariffMixin):
 
     is_return: bool | None = None
     is_reverse: bool | None = None
+    is_client_return: bool | None = None
     delivery_mode: str | None = None
     delivery_problem: list | None = field(default_factory=list)
     delivery_detail: list | None = field(default_factory=list)
@@ -21,6 +22,8 @@ class OrderResponse(Source, OrderMixin, CommonMixin, TariffMixin):
     related_entities: list | None = field(default_factory=list)
     requests: list | None = field(default_factory=list)
     services: list | None = field(default_factory=list)
+    has_reverse_order: bool | None = None
+    calls: dict | None = None
 
     def get_last_related(self, entity_type: str):
         """Получить последнюю связанную сущность"""

@@ -12,6 +12,7 @@ class EntityResponse(Source):
     requests: list[RequestResponse] | None = None
     entity: dict | None = None
     uuid: str | None = None
+    related_entities: list | None = None
 
     def get_entry_uuid(self) -> str | None:
         # Сначала пытаемся получить из uuid

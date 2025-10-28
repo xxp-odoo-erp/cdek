@@ -1,10 +1,11 @@
 """
 Класс CallsResponse для ответов от API
 """
-
+from dataclasses import dataclass
 from .source import Source
 
 
+@dataclass
 class CallsResponse(Source):
 
     failed_calls: list | None = None

@@ -15,6 +15,42 @@ from .entity.responses.intakes_response import IntakesResponse
 from .entity.responses.check_response import CheckResponse
 from .entity.responses.webhook_list_response import WebhookListResponse
 
+def prepare_json_response(properties: dict | None = None) -> dict:
+    if properties is None:
+        return None
+    # Обработка структуры с 'entity'
+    if 'entity' in properties and isinstance(properties['entity'], (dict, list)):
+        entity_data = properties['entity']
+        # Проверяем если это список
+        if isinstance(entity_data, list) and len(entity_data) > 1:
+            if 'requests' in properties:
+                entity_data[0]['requests'] = properties.get('requests', [])
+            properties = entity_data[0]
+        elif isinstance(entity_data, dict):
+            # Копируем данные из entity
+            entity_dict = entity_data.copy()
+            # Добавляем requests если есть на верхнем уровне
+            if 'requests' in properties and 'requests' not in entity_dict:
+                entity_dict['requests'] = properties.get('requests', [])
+            if 'related_entities' in properties and 'related_entities' not in entity_dict:
+                entity_dict['related_entities'] = properties.get('related_entities', [])
+            properties = entity_dict
+
+    # Обработка структуры type.entity
+    elif 'type' in properties and isinstance(properties['type'], dict):
+        type_data = properties['type']
+        if 'entity' in type_data and isinstance(type_data['entity'], dict):
+            # Берем данные из type.entity
+            entity_data = type_data['entity'].copy()
+            # Добавляем requests если есть
+            if 'requests' in type_data:
+                entity_data['requests'] = type_data['requests']
+            if 'related_entities' in type_data:
+                entity_data['related_entities'] = type_data.get('related_entities', [])
+            # Используем entity_data для заполнения
+            properties = entity_data
+    return properties
+
 
 class CdekClient:
     """Клиент взаимодействия с API CDEK 2.0"""
@@ -146,7 +182,7 @@ class CdekClient:
 
             # Парсим JSON ответ
             if response.text:
-                api_response = response.json()
+                api_response = prepare_json_response(response.json())
             else:
                 api_response = {}
 
@@ -334,8 +370,8 @@ class CdekClient:
         """Расчёт стоимости и сроков доставки по коду тарифа"""
         if not tariff.get_tariff_code():
             raise ValueError('Не установлен обязательный параметр tariff_code')
-
-        return TariffResponse(self._api_request('POST', constants.CALC_TARIFF_URL, tariff))
+        response = self._api_request('POST', constants.CALC_TARIFF_URL, tariff)
+        return TariffResponse(**response)
 
     def calculate_tariff_list(self, tariff):
         """Расчёт стоимости и сроков доставки по всем доступным тарифам
@@ -367,17 +403,24 @@ class CdekClient:
 
     def create_order(self, order):
         """Создание заказа"""
-        return EntityResponse(self._api_request('POST', constants.ORDERS_URL, order))
+        response = self._api_request('POST', constants.ORDERS_URL, order)
+        return EntityResponse(**response)
 
     def delete_order(self, uuid: str) -> bool:
         """Удалить заказ по uuid"""
         try:
-            request = EntityResponse(self._api_request('DELETE', f'{constants.ORDERS_URL}/{uuid}'))
+            response = self._api_request('DELETE', f'{constants.ORDERS_URL}/{uuid}')
+            request = EntityResponse(**response)
             requests_list = request.get_requests()
 
             # Логируем для отладки
             if requests_list and len(requests_list) > 0:
-                state = requests_list[0].get_state()
+                first_request = requests_list[0]
+                # Поддерживаем как объекты RequestResponse, так и словари
+                if isinstance(first_request, dict):
+                    state = first_request.get('state')
+                else:
+                    state = first_request.get_state()
 
                 # Проверяем результат
                 # По документации API, успешное удаление возвращает state != 'INVALID'
@@ -407,31 +450,38 @@ class CdekClient:
 
     def cancel_order(self, order_uuid: str):
         """Регистрация отказа"""
-        return EntityResponse(self._api_request('POST', f'{constants.ORDERS_URL}/{order_uuid}/refusal'))
+        response = self._api_request('POST', f'{constants.ORDERS_URL}/{order_uuid}/refusal')
+        return EntityResponse(**response)
 
     def update_order(self, order):
         """Обновление заказа"""
-        return EntityResponse(self._api_request('PATCH', constants.ORDERS_URL, order))
+        response = self._api_request('PATCH', constants.ORDERS_URL, order)
+        return EntityResponse(**response)
 
     def get_order_info_by_cdek_number(self, cdek_number: str):
         """Полная информация о заказе по трек номеру"""
-        return OrderResponse.from_dict(self._api_request('GET', constants.ORDERS_URL, {'cdek_number': cdek_number}))
+        response = self._api_request('GET', constants.ORDERS_URL, {'cdek_number': cdek_number})
+        return OrderResponse(**response)
 
     def get_order_info_by_im_number(self, im_number: str):
         """Полная информация о заказе по ID заказа в магазине"""
-        return OrderResponse.from_dict(self._api_request('GET', constants.ORDERS_URL, {'im_number': im_number}))
+        response = self._api_request('GET', constants.ORDERS_URL, {'im_number': im_number})
+        return OrderResponse(**response)
 
     def get_order_info_by_uuid(self, uuid: str):
         """Полная информация о заказе по uuid"""
-        return OrderResponse.from_dict(self._api_request('GET', f'{constants.ORDERS_URL}/{uuid}'))
+        response = self._api_request('GET', f'{constants.ORDERS_URL}/{uuid}')
+        return OrderResponse(**response)
 
     def set_barcode(self, barcode):
         """Запрос на формирование ШК-места к заказу"""
-        return EntityResponse(self._api_request('POST', constants.BARCODES_URL, barcode))
+        response = self._api_request('POST', constants.BARCODES_URL, barcode)
+        return EntityResponse(**response)
 
     def get_barcode(self, uuid: str):
         """Получение сущности ШК к заказу"""
-        return PrintResponse(self._api_request('GET', f'{constants.BARCODES_URL}/{uuid}'))
+        response = self._api_request('GET', f'{constants.BARCODES_URL}/{uuid}')
+        return PrintResponse(**response)
 
     def get_barcode_pdf(self, uuid: str):
         """Получение PDF ШК-места к заказу"""
@@ -443,17 +493,19 @@ class CdekClient:
 
     def set_invoice(self, invoice):
         """Запрос на формирование накладной к заказу"""
-        return EntityResponse(self._api_request('POST', constants.INVOICE_URL, invoice))
+        response = self._api_request('POST', constants.INVOICE_URL, invoice)
+        return EntityResponse(**response)
 
     def get_invoice(self, uuid: str):
         """Получение сущности накладной к заказу"""
-        return PrintResponse(self._api_request('GET', f'{constants.INVOICE_URL}/{uuid}'))
+        response = self._api_request('GET', f'{constants.INVOICE_URL}/{uuid}')
+        return PrintResponse(**response)
 
     def get_registries(self, date: str):
         """Запрос на получение информации о реестрах НП"""
         try:
             response = self._api_request('GET', 'registries', {'date': date})
-            return RegistryResponse(response)
+            return RegistryResponse(**response)
         except CdekRequestException as e:
             # Пустой ответ - это нормальная ситуация, когда нет реестров за указанную дату
             if 'пустой ответ' in str(e).lower() or 'пустой ответ' in str(e):
@@ -464,7 +516,7 @@ class CdekClient:
         """Запрос на получение информации о переводе наложенного платежа"""
         try:
             response = self._api_request('GET', 'payment', {'date': date})
-            return PaymentResponse(response)
+            return PaymentResponse(**response)
         except CdekRequestException as e:
             # Пустой ответ - это нормальная ситуация, когда нет переводов за указанную дату
             if 'пустой ответ' in str(e).lower() or 'пустой ответ' in str(e):
@@ -473,20 +525,23 @@ class CdekClient:
 
     def create_agreement(self, agreement):
         """Создание договоренностей для курьера"""
-        return AgreementResponse(self._api_request('POST', constants.COURIER_AGREEMENTS_URL, agreement))
+        response = self._api_request('POST', constants.COURIER_AGREEMENTS_URL, agreement)
+        return AgreementResponse(**response)
 
     def get_agreement(self, uuid: str):
         """Получение договоренностей для курьера"""
-        return AgreementResponse(self._api_request('GET', f'{constants.COURIER_AGREEMENTS_URL}/{uuid}'))
+        response = self._api_request('GET', f'{constants.COURIER_AGREEMENTS_URL}/{uuid}')
+        return AgreementResponse(**response)
 
     def create_intakes(self, intakes):
         """Создание заявки на вызов курьера"""
-        return EntityResponse(self._api_request('POST', constants.INTAKES_URL, intakes))
+        response = self._api_request('POST', constants.INTAKES_URL, intakes)
+        return EntityResponse(**response)
 
     def get_intakes(self, uuid: str):
         """Информация о заявке на вызов курьера"""
         response = self._api_request('GET', f'{constants.INTAKES_URL}/{uuid}')
-        return IntakesResponse.from_dict(response)
+        return IntakesResponse(**response)
 
     def delete_intakes(self, uuid: str) -> bool:
         """Удаление заявки на вызов курьера"""
@@ -502,11 +557,13 @@ class CdekClient:
 
     def get_checks(self, check):
         """Метод используется для получения информации о чеке по заказу или за выбранный день"""
-        return CheckResponse(self._api_request('GET', 'check', check))
+        response = self._api_request('GET', 'check', check)
+        return CheckResponse(**response)
 
     def set_webhooks(self, webhooks):
         """Добавление нового слушателя webhook"""
-        return EntityResponse(self._api_request('POST', constants.WEBHOOKS_URL, webhooks))
+        response = self._api_request('POST', constants.WEBHOOKS_URL, webhooks)
+        return EntityResponse(**response)
 
     def get_webhooks(self):
         """Информация о слушателях webhook"""
@@ -514,16 +571,18 @@ class CdekClient:
 
         # Если это список, возвращаем массив объектов
         if isinstance(response, list):
-            return [WebhookListResponse(item) for item in response]
+            return [WebhookListResponse(**item) for item in response]
 
         # Если это один объект, оборачиваем в список
-        return [WebhookListResponse(response)]
+        return [WebhookListResponse(**response)]
 
     def get_webhook(self, uuid: str):
         """Информация о слушателе webhook"""
-        return EntityResponse(self._api_request('GET', f'{constants.WEBHOOKS_URL}/{uuid}'))
+        response = self._api_request('GET', f'{constants.WEBHOOKS_URL}/{uuid}')
+        return EntityResponse(**response)
 
     def delete_webhooks(self, uuid: str):
         """Удаление слушателя webhook"""
-        return EntityResponse(self._api_request('DELETE', f'{constants.WEBHOOKS_URL}/{uuid}'))
+        response = self._api_request('DELETE', f'{constants.WEBHOOKS_URL}/{uuid}')
+        return EntityResponse(**response)
 

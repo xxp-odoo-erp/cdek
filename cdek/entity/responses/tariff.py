@@ -14,7 +14,17 @@ class TariffResponse(Source):
     total_sum: float | None = None
     currency: str | None = None
     services: list[ServicesResponse] | None = None
+    calendar_min: int | None = None
+    calendar_max: int | None = None
+    delivery_date_range: dict | None = None
 
+    def get_calendar_min(self):
+        """Получить минимальный период доставки"""
+        return self.calendar_min
+
+    def get_calendar_max(self):
+        """Получить максимальный период доставки"""
+        return self.calendar_max
     def get_delivery_sum(self):
         """Получить стоимость доставки"""
         if isinstance(self.delivery_sum, dict):

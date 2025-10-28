@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
+from ..entity.requests.phone import Phone
 
 if TYPE_CHECKING:
     from ..entity.requests.phone import Phone
@@ -19,8 +20,13 @@ class Contact:
     passport_date_of_birth: str | None = None
     tin: str | None = None
 
+    def add_phone(self, number: str, additional: str | None = None):
+        if self.phones is None:
+            self.phones = []
+        self.phones.append(Phone(number=number, additional=additional))
+        return self
+
     def set_phones(self, number: str, additional: str | None = None):
-        from ..entity.requests.phone import Phone
         if self.phones is None:
             self.phones = []
         self.phones.append(Phone(number=number, additional=additional))

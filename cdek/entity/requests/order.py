@@ -2,6 +2,7 @@
 Класс Order для запросов к API
 """
 
+from dataclasses import dataclass
 from .location import Location
 from .contact import Contact
 from .money import Money
@@ -10,7 +11,7 @@ from ...mixin.order import Order as OrderMixin
 from ...mixin.common import Common as CommonMixin
 from ...mixin.tariff import Tariff as TariffMixin
 
-
+@dataclass
 class Order(Source, OrderMixin, CommonMixin, TariffMixin):
     """Класс для создания заказа"""
 

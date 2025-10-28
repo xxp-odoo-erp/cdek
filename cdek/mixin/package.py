@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ..entity.requests.item import Item
 
-
 @dataclass
 class Package:
     number: str | None = None
@@ -32,4 +31,10 @@ class Package:
 
     def set_comment(self, comment: str):
         self.comment = comment
+        return self
+
+    def add_item(self, item: 'Item'):
+        if self.items is None:
+            self.items = []
+        self.items.append(item)
         return self

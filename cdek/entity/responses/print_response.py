@@ -5,9 +5,18 @@
 from .entity import EntityResponse
 from .order import OrderResponse
 from .statuses_response import StatusesResponse
+from dataclasses import dataclass, field
 
+@dataclass
 class PrintResponse(EntityResponse):
     """Класс для печатной формы"""
+    
+    orders: list | None = field(default=None)
+    copy_count: int | None = None
+    url: str | None = None
+    lang: str | None = None
+    format: str | None = None
+    statuses: list | None = field(default=None)
 
     def get_order_uuid(self) -> list | None:
         orders = []

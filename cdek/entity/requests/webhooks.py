@@ -1,10 +1,7 @@
-"""
-Класс Webhooks для запросов к API
-"""
-
+from dataclasses import dataclass
 from .source import Source
 
-
+@dataclass
 class Webhooks(Source):
     """Класс для webhooks"""
 
