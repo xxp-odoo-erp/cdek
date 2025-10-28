@@ -1,8 +1,10 @@
 from dataclasses import dataclass
-from .express import Express
+from .express import ExpressMixin
 
 @dataclass
-class Money(Express):
+class MoneyMixin(ExpressMixin):
+    """Mixin for working with monetary amounts and VAT."""
+    
     value: float | None = None
     vat_sum: float | None = None
     vat_rate: int | None = None

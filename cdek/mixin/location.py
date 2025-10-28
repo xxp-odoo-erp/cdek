@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
 @dataclass
-class Location:
-    """LocationTrait - функционал включён в классы"""
+class LocationMixin:
+    """Mixin for location data."""
 
     code: int | None = None
     postal_code: str | None = None

@@ -1,7 +1,3 @@
-"""
-Исключение ошибки запроса к API CDEK
-"""
-
 from .cdek_exception import CdekException
 
 

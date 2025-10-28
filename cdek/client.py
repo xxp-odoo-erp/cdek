@@ -3,17 +3,17 @@ import requests
 from typing import Optional, Callable, Any, Dict
 from . import constants
 from .exceptions import CdekAuthException, CdekRequestException
-from .entity.responses.tariff import TariffResponse
-from .entity.responses.tariff_list_response import TariffListResponse
-from .entity.responses.entity import EntityResponse
-from .entity.responses.print_response import PrintResponse
-from .entity.responses.order import OrderResponse
-from .entity.responses.registry import RegistryResponse
-from .entity.responses.payment_response import PaymentResponse
-from .entity.responses.agreement_response import AgreementResponse
-from .entity.responses.intakes_response import IntakesResponse
-from .entity.responses.check_response import CheckResponse
-from .entity.responses.webhook_list_response import WebhookListResponse
+from .responses.tariff import TariffResponse
+from .responses.tariff_list_response import TariffListResponse
+from .responses.entity import EntityResponse
+from .responses.print_response import PrintResponse
+from .responses.order import OrderResponse
+from .responses.registry import RegistryResponse
+from .responses.payment_response import PaymentResponse
+from .responses.agreement_response import AgreementResponse
+from .responses.intakes_response import IntakesResponse
+from .responses.check_response import CheckResponse
+from .responses.webhook_list_response import WebhookListResponse
 
 def prepare_json_response(properties: dict | None = None) -> dict:
     if properties is None:
@@ -50,6 +50,19 @@ def prepare_json_response(properties: dict | None = None) -> dict:
             # Используем entity_data для заполнения
             properties = entity_data
     return properties
+
+def prepare_query_params(filter_params: dict | None = None, valid_params: list | None = None) -> dict:
+    params = {}
+    if filter_params is None or valid_params is None:
+        return None
+    if not (filter_params and isinstance(filter_params, dict)):
+        return None
+    for key in filter_params.keys():
+        if key in valid_params:
+            params[key] = filter_params[key]
+        else:
+            raise KeyError(f"Неизвестный параметр: {key}")
+    return params
 
 
 class CdekClient:
@@ -330,21 +343,15 @@ class CdekClient:
             params = filter_params
         else:
             params = None
+        params = prepare_query_params(filter_params, constants.REGIONS_FILTER)
         response = self._api_request('GET', constants.REGIONS_URL, params)
         # Здесь должен быть импорт и создание RegionsResponse объектов
         return response
 
-    def get_cities(self, filter_params=None):
+    def get_cities(self, filter_params: dict | None=None):
         """Получение списка городов"""
         # Обрабатываем filter_params как словарь
-        if filter_params and isinstance(filter_params, dict):
-            params = filter_params
-        elif filter_params and hasattr(filter_params, 'cities'):
-            filter_params.cities()
-            params = filter_params
-        else:
-            params = None
-
+        params = prepare_query_params(filter_params, constants.CITIES_FILTER)
         response = self._api_request('GET', constants.CITIES_URL, params)
 
         # Если это список, возвращаем как есть
@@ -362,7 +369,8 @@ class CdekClient:
 
     def get_delivery_points(self, filter_params=None):
         """Получение списка ПВЗ СДЭК"""
-        response = self._api_request('GET', constants.DELIVERY_POINTS_URL, filter_params)
+        params = prepare_query_params(filter_params, constants.DELIVERY_POINTS_FILTER)
+        response = self._api_request('GET', constants.DELIVERY_POINTS_URL, params)
         # Здесь должен быть импорт и создание DeliveryPointsResponse объектов
         return response
 

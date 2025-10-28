@@ -2,11 +2,13 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..entity.requests.location import Location
-    from ..entity.requests.contact import Contact
+    from ..requests.location import Location
+    from ..requests.contact import Contact
 
 @dataclass
-class Intakes:
+class IntakesMixin:
+    """Mixin for courier pickup requests."""
+    
     intake_date: str | None = None
     intake_time_from: str | None = None
     intake_time_to: str | None = None

@@ -2,10 +2,12 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..entity.requests.item import Item
+    from ..requests.item import Item
 
 @dataclass
-class Package:
+class PackageMixin:
+    """Mixin for package data."""
+    
     number: str | None = None
     weight: int | None = None
     length: int | None = None
@@ -16,24 +18,29 @@ class Package:
     items: 'list[Item] | None' = None
 
     def set_number(self, number: str):
+        """Set package number."""
         self.number = number
         return self
 
     def set_weight(self, weight: int):
+        """Set package weight in grams."""
         self.weight = weight
         return self
 
     def set_dimensions(self, length: int, width: int, height: int):
+        """Set package dimensions in centimeters."""
         self.length = length
         self.width = width
         self.height = height
         return self
 
     def set_comment(self, comment: str):
+        """Set package comment."""
         self.comment = comment
         return self
 
     def add_item(self, item: 'Item'):
+        """Add an item to the package."""
         if self.items is None:
             self.items = []
         self.items.append(item)

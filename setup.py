@@ -20,9 +20,8 @@ setup(
     url="https://github.com/cdek/sdk-python",
     packages=[
         "cdek",
-        "cdek.entity",
-        "cdek.entity.requests",
-        "cdek.entity.responses",
+        "cdek.requests",
+        "cdek.responses",
         "cdek.exceptions",
         "cdek.mixin",
     ],

@@ -2,13 +2,15 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..entity.requests.contact import Contact
-    from ..entity.requests.money import Money
-    from ..entity.requests.seller import Seller
-    from ..entity.requests.threshold import Threshold
+    from ..requests.contact import Contact
+    from ..requests.money import Money
+    from ..requests.seller import Seller
+    from ..requests.threshold import Threshold
 
 @dataclass
-class Order:
+class OrderMixin:
+    """Mixin for order-specific fields."""
+    
     number: str | None = None
     developer_key: str | None = None
     shipment_point: str | None = None
@@ -23,9 +25,11 @@ class Order:
     recipient: 'Contact | None' = None
 
     def set_shipment_point(self, shipment_point: str):
+        """Set shipment pickup point."""
         self.shipment_point = shipment_point
         return self
 
     def set_delivery_point(self, delivery_point: str):
+        """Set delivery point."""
         self.delivery_point = delivery_point
         return self

@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 
 @dataclass
-class DeliveryPoints:
+class DeliveryPointsMixin:
+    """Mixin for delivery point filters."""
+    
     have_cashless: bool | None = None
     have_cash: bool | None = None
     allowed_cod: bool | None = None
