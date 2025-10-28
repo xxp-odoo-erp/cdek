@@ -17,6 +17,7 @@ from .threshold import Threshold
 from .webhooks import Webhooks
 from .phone import Phone
 from .services import Services
+from .currency_enum import CurrencyEnum
 
 __all__ = [
     'Source',
@@ -38,5 +39,6 @@ __all__ = [
     'Webhooks',
     'Phone',
     'Services',
+    'CurrencyEnum',
 ]
 

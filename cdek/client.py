@@ -14,6 +14,7 @@ from .responses.agreement_response import AgreementResponse
 from .responses.intakes_response import IntakesResponse
 from .responses.check_response import CheckResponse
 from .responses.webhook_list_response import WebhookListResponse
+from .requests.currency_enum import CurrencyEnum
 
 def prepare_json_response(properties: dict | None = None) -> dict:
     if properties is None:
@@ -333,6 +334,13 @@ class CdekClient:
                 f"Неверный код ответа от сервера CDEK при вызове метода {method}: {response.status_code}",
                 response.status_code
             )
+
+    def get_currency(self, currency_code: str) -> int:
+        """Get currency code by name"""
+        try:
+            return CurrencyEnum[currency_code].value
+        except ValueError:
+            raise CdekRequestException(f"Неизвестный код валюты: {currency_code}")
 
     # Методы API
 
