@@ -10,18 +10,27 @@ class Source:
         return {f.name for f in fields(self)}
 
     def __setattr__(self, key, value):
-        # Получаем описание поля (если оно есть)
+        # Если поле не объявлено в dataclass — просто установить как есть
         if key not in self.get_dataclass_fields():
+            object.__setattr__(self, key, value)
             return
         flds = {f.name: f.type for f in fields(self)}
 
         # Если поле определено в dataclass, обрабатываем его тип
         if key in flds:
             expected_type = flds[key]
+
+            # Разворачиваем Optional/Union[T, None] → T
+            args = get_args(expected_type)
+            if args and any(a is type(None) for a in args):
+                non_none_args = [a for a in args if a is not type(None)]
+                if len(non_none_args) == 1:
+                    expected_type = non_none_args[0]
+
             origin = get_origin(expected_type)
 
             # ✅ Если это список других dataclass
-            if origin is list or origin is list:
+            if origin is list:
                 inner_type = get_args(expected_type)[0]
                 if isinstance(value, list) and hasattr(
                     inner_type, "__dataclass_fields__"

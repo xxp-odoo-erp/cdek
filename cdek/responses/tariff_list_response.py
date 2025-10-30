@@ -1,11 +1,10 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .source import Source
 
 
 @dataclass
-class TariffListResponse(Source):
-    """Класс для ответа от API с информацией о тарифе"""
+class Tariff(Source):
 
     tariff_code: int | None = None
     tariff_name: str | None = None
@@ -45,3 +44,10 @@ class TariffListResponse(Source):
     def get_delivery_mode(self):
         """Получить режим доставки"""
         return self.delivery_mode
+
+
+@dataclass
+class TariffListResponse(Source):
+    """Класс для ответа от API с информацией о тарифе"""
+
+    tariff_codes: list[Tariff] | None = field(default_factory=list)

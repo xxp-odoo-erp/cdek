@@ -4,6 +4,7 @@ from .tariff import TariffResponse
 from .entity import EntityResponse
 from .registry import RegistryResponse
 from .payment_response import PaymentResponse
+from .tariff_entry import TariffEntryResponse
 
 __all__ = [
     'Source',
@@ -12,4 +13,5 @@ __all__ = [
     'EntityResponse',
     'RegistryResponse',
     'PaymentResponse',
+    'TariffEntryResponse',
 ]

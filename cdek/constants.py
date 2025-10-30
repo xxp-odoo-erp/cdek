@@ -30,6 +30,7 @@ AUTH_KEY_SECRET = 'client_secret'
 DELIVERY_POINTS_URL = 'deliverypoints'
 CALC_TARIFF_URL = 'calculator/tariff'
 CALC_TARIFFLIST_URL = 'calculator/tarifflist'
+CALC_ALLTARIFFS_URL = 'calculator/alltariffs'
 COURIER_AGREEMENTS_URL = 'delivery'
 INTAKES_URL = 'intakes'
 ORDERS_URL = 'orders'
@@ -58,6 +59,26 @@ REGIONS_FILTER = [
     'fias_region_guid', 'size', 'page', 'lang'
 ]
 
+# Режимы доставки CDEK
+# Ключ - код режима доставки (delivery_mode), значение - кортеж (откуда, куда)
+# Где:
+#   "door" - дверь (доставка/забор курьером)
+#   "office" - склад (ПВЗ)
+#   "terminal" - терминал
+#   "postbox" - постамат
+
+DELIVERY_METHODS = {
+    "1": ("door", "door"),
+    "2": ("door", "office"),
+    "3": ("office", "door"),
+    "4": ("office", "office"),
+    "5": ("terminal", "terminal"),
+    "6": ("door", "postbox"),
+    "7": ("office", "postbox"),
+    "8": ("postbox", "door"),
+    "9": ("postbox", "office"),
+    "10": ("postbox", "postbox"),
+}
 # Коды услуг
 SERVICE_CODES = {
     'INSURANCE': 'Страхование',

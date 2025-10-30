@@ -15,6 +15,7 @@ from .responses.intakes_response import IntakesResponse
 from .responses.check_response import CheckResponse
 from .responses.webhook_list_response import WebhookListResponse
 from .requests.currency_enum import CurrencyEnum
+from .responses.tariff_entry_list import TariffEntryListResponse
 
 def prepare_json_response(properties: dict | None = None) -> dict:
     if properties is None:
@@ -382,6 +383,11 @@ class CdekClient:
         # Здесь должен быть импорт и создание DeliveryPointsResponse объектов
         return response
 
+    def get_all_tariffs(self):
+        """Получение списка всех тарифов"""
+        response = self._api_request('GET', constants.CALC_ALLTARIFFS_URL)
+        return TariffEntryListResponse(**response)
+
     def calculate_tariff(self, tariff):
         """Расчёт стоимости и сроков доставки по коду тарифа"""
         if not tariff.get_tariff_code():
@@ -399,23 +405,10 @@ class CdekClient:
             Список объектов TariffListResponse с информацией о доступных тарифах
         """
         response = self._api_request('POST', constants.CALC_TARIFFLIST_URL, tariff)
-
         # API возвращает словарь с ключом "tariff_codes" содержащим список тарифов
-        if isinstance(response, dict) and 'tariff_codes' in response:
-            tariff_codes = response['tariff_codes']
-            if isinstance(tariff_codes, list):
-                return [TariffListResponse(**item) for item in tariff_codes]
+        tariff_list = TariffListResponse(**response)
+        return tariff_list.tariff_codes
 
-        # Если это список тарифов напрямую
-        if isinstance(response, list):
-            return [TariffListResponse(**item) for item in response]
-
-        # Если это словарь с одним тарифом
-        if isinstance(response, dict):
-            return [TariffListResponse(**response)]
-
-        # Если это список с одним элементом или пустой список
-        return []
 
     def create_order(self, order):
         """Создание заказа"""
