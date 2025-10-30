@@ -5,7 +5,7 @@ Python library for working with CDEK API version 2.0
 ## Installation
 
 ```bash
-pip install cdek-sdk-2
+pip install cdek
 ```
 
 ## Quick Start

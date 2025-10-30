@@ -10,7 +10,7 @@ except FileNotFoundError:
     long_description = "Python SDK для работы с API СДЭК версии 2.0"
 
 setup(
-    name="cdek-sdk-2",
+    name="cdek",
     version="2.0.0",
     description="Python SDK для работы с API СДЭК версии 2.0",
     long_description=long_description,
