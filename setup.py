@@ -1,6 +1,13 @@
 """Setup script for cdek package."""
 
-from setuptools import find_packages, setup
+try:
+    from setuptools import find_packages, setup
+except (
+    ModuleNotFoundError
+) as exc:  # pragma: no cover - выполняется только при отсутствии зависимости
+    raise RuntimeError(
+        "Для сборки пакета требуется установить setuptools: pip install setuptools"
+    ) from exc
 
 # Читаем содержимое README
 try:
@@ -42,4 +49,3 @@ setup(
     include_package_data=True,
     zip_safe=False,
 )
-

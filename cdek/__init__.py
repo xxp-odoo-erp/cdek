@@ -35,9 +35,9 @@ __author__ = "CDEK Python SDK"
 __license__ = "MIT"
 
 __all__ = [
-    'CdekClient',
-    'CdekException',
-    'CdekAuthException',
-    'CdekRequestException',
-    'constants',
+    "CdekClient",
+    "CdekException",
+    "CdekAuthException",
+    "CdekRequestException",
+    "constants",
 ]
