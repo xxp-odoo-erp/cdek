@@ -1,7 +1,7 @@
 from ..app import App
 from ..models.entity_response import EntityResponse
 from .requests import OrderRequest, OrderUpdateRequest
-from .responses import OrderEntityResponse, OrderResponse
+from .responses import OrderEntityResponse
 
 
 class OrderApp(App):
@@ -20,7 +20,7 @@ class OrderApp(App):
         response = self._api_request("PATCH", self.constants.ORDERS_URL, order)
         return EntityResponse.model_validate(response)
 
-    def delete(self, uuid: str) -> bool:
+    def delete(self, uuid: str) -> EntityResponse:
         response = self._api_request("DELETE", f"{self.constants.ORDERS_URL}/{uuid}")
         return EntityResponse.model_validate(response)
 

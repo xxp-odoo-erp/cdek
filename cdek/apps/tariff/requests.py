@@ -56,12 +56,12 @@ class TariffListRequest(BaseRequest):
     packages: list[CalcPackage] | None = Field(None, description="Список упаковок")
 
     def set_city_codes(self, from_location: int, to_location: int):
-        self.from_location = CalculatorLocation(code=from_location)
-        self.to_location = CalculatorLocation(code=to_location)
+        self.from_location = CalculatorLocation.init(code=from_location)
+        self.to_location = CalculatorLocation.init(code=to_location)
         return self
 
     def set_package_weight(self, weight: int):
-        self.packages = [CalcPackage(weight=weight)]
+        self.packages = [CalcPackage.init(weight=weight)]
         return self
 
     @field_serializer("date")

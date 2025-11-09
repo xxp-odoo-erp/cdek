@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from pydantic import Field
 
+from ..request import BaseRequest
 from .item import Item
 
 
-class CalcPackage(BaseModel):
+class CalcPackage(BaseRequest):
     weight: int | None = Field(None, description="Вес упаковки в граммах")
     length: int | None = Field(None, description="Длина упаковки в сантиметрах")
     width: int | None = Field(None, description="Ширина упаковки в сантиметрах")
