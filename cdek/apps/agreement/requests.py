@@ -26,10 +26,18 @@ class DeliveryLocation(Zip, Coordinates, Country, Region):
 
 class RegisterDeliveryRequest(OrderInfo, BaseRequest):
     date: Date = Field(..., description="Дата доставки, согласованная с получателем")
-    time_from: str = Field(..., description='Время доставки "С", согласованное с получателем')
-    time_to: str = Field(..., description='Время доставки "По", согласованное с получателем')
-    comment: str | None = Field(None, max_length=255, description="Комментарий к договоренности о доставке")
-    delivery_point: str | None = Field(None, max_length=255, description="Буквенно-цифровой код ПВЗ СДЭК")
+    time_from: str = Field(
+        ..., description='Время доставки "С", согласованное с получателем'
+    )
+    time_to: str = Field(
+        ..., description='Время доставки "По", согласованное с получателем'
+    )
+    comment: str | None = Field(
+        None, max_length=255, description="Комментарий к договоренности о доставке"
+    )
+    delivery_point: str | None = Field(
+        None, max_length=255, description="Буквенно-цифровой код ПВЗ СДЭК"
+    )
     to_location: ScheduleLocation | None = Field(None, description="Населённый пункт")
 
     def to_location_init(self, **kwargs):
@@ -46,11 +54,15 @@ class RegisterDeliveryRequest(OrderInfo, BaseRequest):
 
 class DeliveryIntervalRequest(BaseRequest):
     date_time: datetime = Field(..., description="Дата и время заявки на вызов курьера")
-    from_location: DeliveryLocation | None = Field(None, description="Адрес отправления")
+    from_location: DeliveryLocation | None = Field(
+        None, description="Адрес отправления"
+    )
     shipment_point: str | None = Field(None, description="Код ПВЗ СДЭК")
     to_location: DeliveryLocation = Field(..., description="Адрес доставки")
     tariff_code: int = Field(..., description="Код тарифа")
-    additional_order_types: list[int] | None = Field(None, description="Дополнительные типы заказа")
+    additional_order_types: list[int] | None = Field(
+        None, description="Дополнительные типы заказа"
+    )
 
     @field_serializer("date_time")
     def serialize_date_time(self, date_time: datetime) -> str:

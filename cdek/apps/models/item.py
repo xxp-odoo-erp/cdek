@@ -16,7 +16,9 @@ class Item(BaseModel):
     amount: int = Field(..., description="Количество товара")
     name_i18n: str | None = Field(None, description="Название товара на другом языке")
     brand: str | None = Field(None, description="Бренд на иностранном языке")
-    country_code: str | None = Field(None, description="Код страны производителя товара в формате ISO_3166-1_alpha-2")
+    country_code: str | None = Field(
+        None, description="Код страны производителя товара в формате ISO_3166-1_alpha-2"
+    )
     material: int | None = Field(None, description="Материал товара")
     wifi_gsm: bool | None = Field(None, description="Признак наличия WiFi и GSM модема")
     url: str | None = Field(None, description="URL товара")
@@ -24,4 +26,6 @@ class Item(BaseModel):
     cost: float = Field(..., description="Стоимость товара")
     feacn_code: str | None = Field(None, description="Код ТН ВЭД")
     jewel_uin: str | None = Field(None, description="УИН ювелирного изделия")
-    used_goods: bool | None = Field(None, description="Признак товара б/у, применим для c2c заказов")
+    used_goods: bool | None = Field(
+        None, description="Признак товара б/у, применим для c2c заказов"
+    )

@@ -26,11 +26,11 @@ Usage example:
     result = client.calculate_tariff(tariff)
 """
 
-from .client import CdekClient
-from .exceptions import CdekException, CdekAuthException, CdekRequestException
 from . import constants
+from .client import CdekClient
+from .exceptions import CdekAuthException, CdekException, CdekRequestException
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 __author__ = "CDEK Python SDK"
 __license__ = "MIT"
 

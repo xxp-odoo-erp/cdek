@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, field_serializer
 
 from ..models.error import Error
 from ..models.payment_info import PaymentInfo
-from ..models.warning import Warning
+from ..models.warning import WarningModel
 
 
 class CheckInfo(BaseModel):
@@ -14,7 +14,9 @@ class CheckInfo(BaseModel):
     date: DateTime = Field(..., description="Дата создания чека в формате YYYY-MM-DD")
     document_number: str = Field(..., description="Номер документа")
     fiscal_sign: int = Field(..., description="Фискальный признак")
-    type: Literal["CASH_RECEIPT_IN", "CASH_RECEIPT_REFUND"] = Field(..., description="Тип чека")
+    type: Literal["CASH_RECEIPT_IN", "CASH_RECEIPT_REFUND"] = Field(
+        ..., description="Тип чека"
+    )
     payment_info: list[PaymentInfo] = Field(..., description="Информация о платеже")
     shift_no: int | None = Field(None, description="Номер смены")
 
@@ -26,4 +28,6 @@ class CheckInfo(BaseModel):
 class CheckResponse(BaseModel):
     check_info: list[CheckInfo] = Field(..., description="Информация о чеке")
     errors: list[Error] | None = Field(None, description="Список ошибок")
-    warnings: list[Warning] | None = Field(None, description="Список предупреждений")
+    warnings: list[WarningModel] | None = Field(
+        None, description="Список предупреждений"
+    )

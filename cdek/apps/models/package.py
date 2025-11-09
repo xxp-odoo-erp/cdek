@@ -18,7 +18,9 @@ class Package(CalcPackage):
     weight: int = Field(..., description="Вес упаковки в граммах")
     commnet: str | None = Field(None, description="Комментарий к упаковке")
     items: list[Item] | None = Field(None, description="Позиции товаров в упаковке")
-    package_id: str | None = Field(None, description="Уникальный номер упаковки в ИС СДЭК")
+    package_id: str | None = Field(
+        None, description="Уникальный номер упаковки в ИС СДЭК"
+    )
 
     def add_item(self, **kwargs):
         item = Item(**kwargs)

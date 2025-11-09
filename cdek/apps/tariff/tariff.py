@@ -13,7 +13,8 @@ class TariffApp(App):
         """Расчёт стоимости и сроков доставки по всем доступным тарифам
 
         Args:
-            tariff: объект Tariff с параметрами запроса (type, from_location, to_location, packages)
+            tariff: объект Tariff с параметрами запроса 
+            (type, from_location, to_location, packages)
 
         Returns:
             Список объектов TariffListResponse с информацией о доступных тарифах

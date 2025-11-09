@@ -36,7 +36,9 @@ class CurrencyApp(App):
         try:
             return Currency[currency_code].value
         except ValueError as e:
-            raise CdekRequestException(f"Неизвестный код валюты: {currency_code}") from e
+            raise CdekRequestException(
+                f"Неизвестный код валюты: {currency_code}"
+            ) from e
 
     def all(self):
         """Get all currency codes"""

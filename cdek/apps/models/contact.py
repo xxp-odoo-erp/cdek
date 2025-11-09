@@ -17,10 +17,18 @@ class Tin(BaseModel):
 
 
 class Passport(BaseModel):
-    passport_series: str | None = Field(None, max_length=255, description="Серия паспорта")
-    passport_number: str | None = Field(None, max_length=255, description="Номер паспорта")
-    passport_date_of_issue: Date | None = Field(None, description="Дата выдачи паспорта")
-    passport_organization: str | None = Field(None, max_length=255, description="Организация выдавшая паспорт")
+    passport_series: str | None = Field(
+        None, max_length=255, description="Серия паспорта"
+    )
+    passport_number: str | None = Field(
+        None, max_length=255, description="Номер паспорта"
+    )
+    passport_date_of_issue: Date | None = Field(
+        None, description="Дата выдачи паспорта"
+    )
+    passport_organization: str | None = Field(
+        None, max_length=255, description="Организация выдавшая паспорт"
+    )
     passport_date_of_birth: Date | None = Field(None, description="Дата рождения")
 
     @field_serializer("passport_date_of_issue")
@@ -30,6 +38,7 @@ class Passport(BaseModel):
     @field_serializer("passport_date_of_birth")
     def serialize_passport_date_of_birth(self, passport_date_of_birth: Date) -> str:
         return passport_date_of_birth.strftime("%Y-%m-%d")
+
 
 class Contact(BaseRequest, Passport, Tin):
     company: str | None = Field(None, description="Название компании")

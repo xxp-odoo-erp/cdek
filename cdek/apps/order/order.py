@@ -27,18 +27,24 @@ class OrderApp(App):
     def client_return(self, uuid: str, tariff_code: int) -> "EntityResponse":
         """Регистрация клиентского возврата"""
         response = self._api_request(
-            "POST", f"{self.constants.ORDERS_URL}/{uuid}/clientReturn", {"tariff_code": tariff_code}
+            "POST",
+            f"{self.constants.ORDERS_URL}/{uuid}/clientReturn",
+            {"tariff_code": tariff_code},
         )
         return EntityResponse.model_validate(response)
 
     def get_by_cdek_number(self, cdek_number: str) -> "OrderEntityResponse":
         """Полная информация о заказе по трек номеру"""
-        response = self._api_request("GET", self.constants.ORDERS_URL, {"cdek_number": cdek_number})
+        response = self._api_request(
+            "GET", self.constants.ORDERS_URL, {"cdek_number": cdek_number}
+        )
         return OrderEntityResponse.model_validate(response)
 
     def get_by_im_number(self, im_number: str):
         """Полная информация о заказе по ID заказа в магазине"""
-        response = self._api_request("GET", self.constants.ORDERS_URL, {"im_number": im_number})
+        response = self._api_request(
+            "GET", self.constants.ORDERS_URL, {"im_number": im_number}
+        )
         return OrderEntityResponse.model_validate(response)
 
     def get_by_uuid(self, uuid: str):

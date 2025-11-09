@@ -16,7 +16,7 @@ install:
 	pip install -e .
 
 test: clean build
-	python3 -m pip install dist/cdek_sdk_2-*.whl --force-reinstall
+	python3 -m pip install dist/cdek-*.whl --force-reinstall
 	python3 -c "import cdek; print(cdek.__version__)"
 	python3 -c "from cdek import CdekClient; print('✓ Import successful')"
 

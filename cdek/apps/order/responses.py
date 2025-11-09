@@ -25,14 +25,24 @@ class OrderResponse(Order):
     accompanying_waybill: AccompanyingWaybill | None = Field(
         None, description="Информация для сопроводительной накладной"
     )
-    keep_free_until: datetime | None = Field(None, description="Дата окончания бесплатного хранения")
+    keep_free_until: datetime | None = Field(
+        None, description="Дата окончания бесплатного хранения"
+    )
     statuses: list[OrderStatus] = Field(..., description="Статусы заказа")
     is_client_return: bool = Field(..., description="Признак клиентского возврата")
     delivery_mode: str | None = Field(None, description="Режим доставки")
-    planned_delivery_date: Date | None = Field(None, description="Планируемая дата доставки")
-    delivery_detail: DeliveryDetail | None = Field(None, description="Детальная информация о доставке")
-    transacted_payment: bool | None = Field(None, description="Признак проведенного платежа")
-    delivery_problem: DeliveryProblem | None = Field(None, description="Проблема с доставкой")
+    planned_delivery_date: Date | None = Field(
+        None, description="Планируемая дата доставки"
+    )
+    delivery_detail: DeliveryDetail | None = Field(
+        None, description="Детальная информация о доставке"
+    )
+    transacted_payment: bool | None = Field(
+        None, description="Признак проведенного платежа"
+    )
+    delivery_problem: DeliveryProblem | None = Field(
+        None, description="Проблема с доставкой"
+    )
     developer_key: str | None = Field(None, description="Ключ разработчика")
     calls: Call | None = Field(None, description="Информация о прозвонах")
 
@@ -48,4 +58,6 @@ class OrderResponse(Order):
 class OrderEntityResponse(EntityResponse):
     """Модель ответа о заказе."""
 
-    entity: OrderResponse | None = Field(default=None, description="Информация о заказе в рамках протокола")
+    entity: OrderResponse | None = Field(
+        default=None, description="Информация о заказе в рамках протокола"
+    )

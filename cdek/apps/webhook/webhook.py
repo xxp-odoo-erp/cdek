@@ -1,6 +1,11 @@
 from ..app import App
 from .requests import WebhookRequest
-from .responses import WebhookDeleteEntityResponse, WebhookResponse, WebhookUUIDEntityResponse, WebookSetEntityResponse
+from .responses import (
+    WebhookDeleteEntityResponse,
+    WebhookResponse,
+    WebhookUUIDEntityResponse,
+    WebookSetEntityResponse,
+)
 
 
 class WebhookApp(App):
@@ -23,5 +28,7 @@ class WebhookApp(App):
 
     def set(self, webhook: "WebhookRequest"):
         """Добавление нового слушателя webhook"""
-        response = self._api_request("POST", self.constants.WEBHOOKS_URL, webhook.model_dump())
+        response = self._api_request(
+            "POST", self.constants.WEBHOOKS_URL, webhook.model_dump()
+            )
         return WebookSetEntityResponse.model_validate(response)

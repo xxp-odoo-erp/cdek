@@ -22,8 +22,8 @@
 
 ### Собранные пакеты
 В директории `dist/` находятся готовые к публикации файлы:
-- `cdek_sdk_2-2.0.0.tar.gz` - исходный дистрибутив
-- `cdek_sdk_2-2.0.0-py3-none-any.whl` - wheel дистрибутив
+- `cdek-2.1.0.tar.gz` - исходный дистрибутив
+- `cdek-2.1.0-py3-none-any.whl` - wheel дистрибутив
 
 ## Быстрая публикация
 
@@ -94,8 +94,8 @@ make clean
 
 ```python
 from cdek import CdekClient
-from cdek.exceptions import CdekException
-from cdek.entity.requests.tariff import Tariff
+from cdek.exceptions import CdekRequestException
+from cdek.apps.order import OrderRequest
 # и т.д.
 ```
 

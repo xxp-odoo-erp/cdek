@@ -11,7 +11,7 @@ class OrderRequest(BaseRequest, Order):
 
     print: str | None = Field(None, description="Тип печатной формы")
     widget_token: str | None = Field(
-        None, description="Токен CMS, содержащий дополнительные данные для заполнения данных о заказе"
+        None, description="Токен CMS"
     )
 
 

@@ -22,15 +22,21 @@ class IntakeFilter(BaseRequest):
 class IntakeLocation(BaseRequest, Region, Coordinates, Zip):
     code: int | None = Field(None, description="Код населенного пункта СДЭК")
     city: str | None = Field(None, description="Название населенного пункта")
-    fias_guid: UUID | None = Field(None, description="Уникальный идентификатор ФИАС населенного пункта")
+    fias_guid: UUID | None = Field(
+        None, description="Уникальный идентификатор ФИАС населенного пункта"
+    )
     address: str | None = Field(None, description="Строка адреса")
     region: str | None = Field(None, description="Название региона")
-    city_uuid: str | None = Field(None, description="Уникальный идентификатор населенного пункта")
+    city_uuid: str | None = Field(
+        None, description="Уникальный идентификатор населенного пункта"
+    )
 
 
 class IntakeDateFilter(BaseRequest):
     from_location: IntakeLocation = Field(..., description="Адрес отправления")
-    date: Date = Field(..., description="До какого числа включительно получить доступные дни")
+    date: Date = Field(
+        ..., description="До какого числа включительно получить доступные дни"
+    )
 
     @field_serializer("date")
     def serialize_date(self, date: Date) -> str:

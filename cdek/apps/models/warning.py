@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
 
-class Warning(BaseModel):
+class WarningModel(BaseModel):
     """Предупреждения"""
 
     code: str | None = Field(None, description="Код предупреждения")

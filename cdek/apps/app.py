@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import time
-from typing import TYPE_CHECKING, Any, Callable, Dict
+from collections.abc import Callable
+from typing import TYPE_CHECKING, Any
 
 import requests
 
@@ -13,12 +14,14 @@ if TYPE_CHECKING:
 
 
 class App:
-    def __init__(self, client: "CdekClient"):
+    def __init__(self, client: CdekClient):
         self.client = client
         self.constants = constants
         self._session = requests.Session()
 
-    def _api_request(self, method: str, url: str, params: Any | None = None) -> Dict | bytes:
+    def _api_request(
+        self, method: str, url: str, params: Any | None = None
+    ) -> dict | bytes:
         """
         Выполнить запрос к API
 
@@ -64,19 +67,30 @@ class App:
         try:
             if method == "GET":
                 response = self._session.get(
-                    f"{self.client.base_url}{url}", params=request_params, headers=headers, timeout=self.client.timeout
+                    f"{self.client.base_url}{url}",
+                    params=request_params,
+                    headers=headers,
+                    timeout=self.client.timeout,
                 )
             elif method == "POST":
                 response = self._session.post(
-                    f"{self.client.base_url}{url}", json=request_params, headers=headers, timeout=self.client.timeout
+                    f"{self.client.base_url}{url}",
+                    json=request_params,
+                    headers=headers,
+                    timeout=self.client.timeout,
                 )
             elif method == "PATCH":
                 response = self._session.patch(
-                    f"{self.client.base_url}{url}", json=request_params, headers=headers, timeout=self.client.timeout
+                    f"{self.client.base_url}{url}",
+                    json=request_params,
+                    headers=headers,
+                    timeout=self.client.timeout,
                 )
             elif method == "DELETE":
                 response = self._session.delete(
-                    f"{self.client.base_url}{url}", headers=headers, timeout=self.client.timeout
+                    f"{self.client.base_url}{url}",
+                    headers=headers,
+                    timeout=self.client.timeout,
                 )
             else:
                 raise ValueError(f"Неподдерживаемый метод: {method}")
@@ -102,7 +116,9 @@ class App:
             return api_response
 
         except requests.exceptions.RequestException as e:
-            raise CdekRequestException(f"Ошибка сети при вызове метода {url}: {str(e)}") from e
+            raise CdekRequestException(
+                f"Ошибка сети при вызове метода {url}: {str(e)}"
+            ) from e
 
     def _authorize(self) -> bool:
         """
@@ -161,7 +177,9 @@ class App:
             return False
 
         # Проверяем срок действия токена
-        if check_memory["expires_in"] > time.time() and check_memory.get("access_token"):
+        if check_memory["expires_in"] > time.time() and check_memory.get(
+            "access_token"
+        ):
             self.token = check_memory["access_token"]
             return True
 
@@ -179,7 +197,9 @@ class App:
             }
         )
 
-    def _check_errors(self, method: str, response: requests.Response, api_response: Dict):
+    def _check_errors(
+        self, method: str, response: requests.Response, api_response: dict
+    ):
         """
         Проверить ответ на ошибки
 
@@ -193,16 +213,24 @@ class App:
         """
         if not api_response:
             raise CdekRequestException(
-                f"От API CDEK при вызове метода {method} пришел пустой ответ", response.status_code
+                f"От API CDEK при вызове метода {method} пришел пустой ответ",
+                response.status_code,
             )
 
         # Обработка ошибок с requests
         if response.status_code > 202 and "requests" in api_response:
-            if "errors" in api_response["requests"][0] or api_response["requests"][0].get("state") == "INVALID":
+            if (
+                "errors" in api_response["requests"][0]
+                or api_response["requests"][0].get("state") == "INVALID"
+            ):
                 error_data = api_response["requests"][0]["errors"][0]
-                message = CdekRequestException.get_translation(error_data["code"], error_data["message"])
+                message = CdekRequestException.get_translation(
+                    error_data["code"], error_data["message"]
+                )
                 raise CdekRequestException(
-                    f"От API CDEK при вызове метода {method} получена ошибка: {message}", response.status_code
+                    f"От API CDEK при вызове метода {method} "
+                    f"получена ошибка: {message}",
+                    response.status_code,
                 )
 
         # Обработка общих ошибок
@@ -212,14 +240,18 @@ class App:
             or ("errors" in api_response and response.status_code != 200)
         ):
             error_data = api_response["errors"][0]
-            message = CdekRequestException.get_translation(error_data["code"], error_data["message"])
+            message = CdekRequestException.get_translation(
+                error_data["code"], error_data["message"]
+            )
             raise CdekRequestException(
-                f"От API CDEK при вызове метода {method} получена ошибка: {message}", response.status_code
+                f"От API CDEK при вызове метода {method} получена ошибка: {message}",
+                response.status_code,
             )
 
         # Общая ошибка при неверном статусе
         if response.status_code > 202 and "requests" not in api_response:
             raise CdekRequestException(
-                f"Неверный код ответа от сервера CDEK при вызове метода {method}: {response.status_code}",
+                f"Неверный код ответа от сервера CDEK при вызове метода "
+                f"{method}: {response.status_code}",
                 response.status_code,
             )

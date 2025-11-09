@@ -1,4 +1,15 @@
-from . import agreement, check, form, intake, location, office, order, payment, tariff, webhook
+from . import (
+    agreement,
+    check,
+    form,
+    intake,
+    location,
+    office,
+    order,
+    payment,
+    tariff,
+    webhook,
+)
 
 __all__ = [
     "location",

@@ -13,8 +13,12 @@ class AvailableDeliveryInterval(BaseModel):
 
 
 class AvailableDeliveryIntervalsInfo(BaseModel):
-    date: Date = Field(..., description="Дата доступного интервала для доставки (формат yyyy-MM-dd)")
-    time_intervals: list[AvailableDeliveryInterval] = Field(..., description="Временные интервалы для доставки")
+    date: Date = Field(
+        ..., description="Дата доступного интервала для доставки (формат yyyy-MM-dd)"
+    )
+    time_intervals: list[AvailableDeliveryInterval] = Field(
+        ..., description="Временные интервалы для доставки"
+    )
 
     @field_serializer("date")
     def serialize_date(self, date: Date) -> str:
@@ -22,16 +26,21 @@ class AvailableDeliveryIntervalsInfo(BaseModel):
 
 
 class AvailableDeliveryIntervalsResponse(BaseModel):
-    date_intervals: list[AvailableDeliveryIntervalsInfo] = Field(..., description="Доступные интервалы доставки")
+    date_intervals: list[AvailableDeliveryIntervalsInfo] = Field(
+        ..., description="Доступные интервалы доставки"
+    )
 
 
 class ScheduleInfoEntity(RegisterDeliveryRequest):
     uuid: UUID = Field(..., description="Идентификатор договоренности о доставке")
     statuses: list[Status] = Field(..., description="Статусы договоренности о доставке")
     source: str | None = Field(
-        None, description="Источник согласования (модуль, внешняя система, передающая данные о согласовании)"
+        None,
+        description="Источник согласования",
     )
 
 
 class AgreementInfoResponse(BaseModel):
-    entity: ScheduleInfoEntity | None = Field(default=None, description="Договорённость о доставке")
+    entity: ScheduleInfoEntity | None = Field(
+        default=None, description="Договорённость о доставке"
+    )

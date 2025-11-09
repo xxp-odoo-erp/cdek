@@ -13,7 +13,9 @@ class RootEntity(BaseModel):
 class EntityResponse(BaseModel):
     """Модель ответа о сущности."""
 
-    entity: RootEntity | None = Field(default=None, description="Идентификатор сущности в ИС СДЭК")
+    entity: RootEntity | None = Field(
+        default=None, description="Идентификатор сущности в ИС СДЭК"
+    )
     requests: list[Request] | None = None
     related_entities: list[RelatedEntity] | None = None
 

@@ -24,10 +24,18 @@ class RelatedEntity(BaseModel):
 
     uuid: UUID | None = Field(None, description="Идентификатор сущности в ИС СДЭК")
     type: RelatedEntityType = Field(..., description="Тип связанной сущности")
-    url: str | None = Field(None, max_length=255, description="Ссылка на скачивание печатной формы")
-    create_time: datetime | None = Field(None, description="Время создания связанной сущности")
-    cdek_number: str | None = Field(None, max_length=255, description="Номер заказа СДЭК")
-    date: Date | None = Field(None, description="Дата доставки, согласованная с получателем")
+    url: str | None = Field(
+        None, max_length=255, description="Ссылка на скачивание печатной формы"
+    )
+    create_time: datetime | None = Field(
+        None, description="Время создания связанной сущности"
+    )
+    cdek_number: str | None = Field(
+        None, max_length=255, description="Номер заказа СДЭК"
+    )
+    date: Date | None = Field(
+        None, description="Дата доставки, согласованная с получателем"
+    )
     time_from: str | None = Field(None, description="Время начала ожидания курьера")
     time_to: str | None = Field(None, description="Время окончания ожидания курьера")
 

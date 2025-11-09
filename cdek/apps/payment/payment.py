@@ -18,5 +18,7 @@ class PaymentApp(App):
         if not isinstance(date, Date):
             raise ValueError("date must be a Date")
         formatted_date_string = date.strftime("%Y-%m-%d")
-        response = self._api_request("GET", "registries", {"date": formatted_date_string})
+        response = self._api_request(
+            "GET", "registries", {"date": formatted_date_string}
+        )
         return PaymentResponse.model_validate(response)

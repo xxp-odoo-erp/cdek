@@ -10,7 +10,9 @@ from ..request import BaseRequest
 
 class CalculatorLocation(BaseRequest, Zip, Coordinates):
     code: int | None = Field(None, description="Код населенного пункта СДЭК")
-    country_code: str | None = Field(None, max_length=2, description="Код страны в формате ISO_3166-1_alpha-2")
+    country_code: str | None = Field(
+        None, max_length=2, description="Код страны в формате ISO_3166-1_alpha-2"
+    )
     city: str | None = Field(None, description="Название населенного пункта")
     address: str | None = Field(None, description="Адрес населенного пункта")
     contragent_type: ContragentType | None = Field(None, description="Тип контрагента")
@@ -19,10 +21,7 @@ class CalculatorLocation(BaseRequest, Zip, Coordinates):
 class TariffListRequest(BaseRequest):
     date: datetime | None = Field(
         None,
-        description=(
-            "Дата и время планируемой передачи заказа (формат yyyy-MM-dd'T'HH:mm:ssZ). "
-            'По умолчанию используется текущее значение. Пример: "2025-03-24T14:15:22+0700".'
-        ),
+        description="Дата и время планируемой передачи заказа",
     )
     type: int = Field(
         1,
@@ -30,28 +29,21 @@ class TariffListRequest(BaseRequest):
     )
     additional_order_types: list[int] | None = Field(
         None,
-        description=(
-            "Дополнительные типы заказа: 2 — сборный груз (LTL); 4 — Форвард (Forward); "
-            "6 — Фулфилмент. Приход; 7 — Фулфилмент. Отгрузка; 9 — Форвард. Экспресс; "
-            "10 — доставка шин по тарифу «Экономичный экспресс»; "
-            "11 — «Один офис» (офис отправителя и получателя совпадают); "
-            "14 — CDEK.Shopping; 15 — «ТО для последней мили». "
-            "Совместимость указана в документации СДЭК."
-        ),
+        description="Дополнительные типы заказа",
     )
     currency: int | None = Field(
         None,
-        description=(
-            "Валюта расчета (числовой код из «Приложение 14. Код валюты для методов расчета стоимости»). "
-            "По умолчанию — валюта договора."
-        ),
+        description=("Валюта расчетаПо умолчанию — валюта договора."),
     )
     lang: str = Field(
         "rus",
         max_length=3,
-        description="Язык вывода информации о тарифах. Возможные значения: rus, eng, zho. По умолчанию — rus.",
+        description="Язык вывода информации о тарифах. "
+        "Возможные значения: rus, eng, zho",
     )
-    from_location: CalculatorLocation | None = Field(None, description="Отправляющий адрес")
+    from_location: CalculatorLocation | None = Field(
+        None, description="Отправляющий адрес"
+    )
     to_location: CalculatorLocation | None = Field(None, description="Получающий адрес")
     packages: list[CalcPackage] | None = Field(None, description="Список упаковок")
 
@@ -76,4 +68,6 @@ class CalcAdditionalService(BaseRequest):
 
 class TariffCodeRequest(TariffListRequest):
     tariff_code: int = Field(..., description="Код тарифа")
-    services: list[CalcAdditionalService] | None = Field(None, description="Список дополнительных услуг")
+    services: list[CalcAdditionalService] | None = Field(
+        None, description="Список дополнительных услуг"
+    )

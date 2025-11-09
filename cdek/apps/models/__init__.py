@@ -7,7 +7,7 @@ from .location import Address, City, Coordinates, Country, FullLocation, Region,
 from .package import CalcPackage, Package
 from .phone import Phone
 from .seller import Seller
-from .warning import Warning
+from .warning import WarningModel
 from .work_time import WorkTime, WorkTimeException
 
 __all__ = [
@@ -22,7 +22,7 @@ __all__ = [
     "WorkTimeException",
     "Dimensions",
     "Error",
-    "Warning",
+    "WarningModel",
     "Address",
     "City",
     "Coordinates",

@@ -18,17 +18,20 @@ class PrintStatus(BaseModel):
     def serialize_date_time(self, date_time: datetime) -> str:
         return date_time.strftime("%Y-%m-%dT%H:%M:%S")
 
+
 class PrintBarcodeEntity(PrintBarcodeRequest):
     uuid: UUID = Field(..., description="Идентификатор ШК места к заказу")
     url: str | None = Field(None, description="Ссылка на скачивание файла")
-    lang: Literal["RUS", "ENG", "DEU", "ITA", "TUR", "CES", "KOR", "LIT", "LAV"] = Field(
-        "RUS", description="Язык печати"
+    lang: Literal["RUS", "ENG", "DEU", "ITA", "TUR", "CES", "KOR", "LIT", "LAV"] = (
+        Field("RUS", description="Язык печати")
     )
     statuses: list[PrintStatus] = Field(..., description="Статус файла")
 
 
 class PrintBarcodeResponse(EntityResponse):
-    entity: PrintBarcodeEntity | None = Field(default=None, description="ШК места к заказу")
+    entity: PrintBarcodeEntity | None = Field(
+        default=None, description="ШК места к заказу"
+    )
 
 
 class WaybillResponse(PrintForm):
@@ -39,4 +42,6 @@ class WaybillResponse(PrintForm):
 
 
 class WaybillEntityResponse(EntityResponse):
-    entity: WaybillResponse | None = Field(default=None, description="Квитанция к заказу")
+    entity: WaybillResponse | None = Field(
+        default=None, description="Квитанция к заказу"
+    )

@@ -1,4 +1,4 @@
-from typing import Callable, Dict, Optional
+from collections.abc import Callable
 
 from . import constants
 from .apps.agreement import AgreementApp
@@ -17,7 +17,7 @@ from .apps.webhook import WebhookApp
 class CdekClient:
     """Клиент взаимодействия с API CDEK 2.0"""
 
-    def __init__(self, account: str, secure: Optional[str] = None, timeout: float = 5.0):
+    def __init__(self, account: str, secure: str | None = None, timeout: float = 5.0):
         """
         Конструктор клиента
 
@@ -43,7 +43,7 @@ class CdekClient:
         self.memory = None
         self.memory_save_callback = None
 
-    def set_memory(self, memory: Optional[Dict], save_callback: Callable) -> "CdekClient":
+    def set_memory(self, memory: dict | None, save_callback: Callable) -> "CdekClient":
         """
         Установить параметры сохранения токена
 

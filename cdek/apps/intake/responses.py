@@ -7,7 +7,7 @@ from ..models.entity_response import EntityResponse
 from ..models.error import Error
 from ..models.intakes import IntakeLocation, Intakes
 from ..models.status import Status
-from ..models.warning import Warning
+from ..models.warning import WarningModel
 
 
 class IntakesResponse(Intakes):
@@ -39,10 +39,14 @@ class IntakePackage(BaseModel):
 
 class IntakesEntity(BaseModel):
     order_uuid: UUID = Field(..., alias="uuid")
-    intake_number: str | None = Field(None, max_length=255, description="Номер заявки в системе СДЭК")
+    intake_number: str | None = Field(
+        None, max_length=255, description="Номер заявки в системе СДЭК"
+    )
     to_location: IntakeLocation | None = Field(None, description="Место доставки")
     statuses: list[Status] | None = Field(None, description="Статусы заявки")
-    packages: list[IntakePackage] | None = Field(None, description="Список упаковок заявки")
+    packages: list[IntakePackage] | None = Field(
+        None, description="Список упаковок заявки"
+    )
     contragent_uuid: UUID | None = Field(None, description="Идентификатор контрагента")
 
 
@@ -54,4 +58,4 @@ class IntakeDateResponse(BaseModel):
     date: list[Date] = Field(..., description="Доступные даты для забора курьером")
     all_days: bool | None = Field(None, description="Все дни")
     errors: list[Error] | None = Field(None, description="Ошибки")
-    warnings: list[Warning] | None = Field(None, description="Предупреждения")
+    warnings: list[WarningModel] | None = Field(None, description="Предупреждения")
