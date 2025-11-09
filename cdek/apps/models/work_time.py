@@ -1,0 +1,26 @@
+from datetime import date as Date
+
+from pydantic import BaseModel, Field, field_serializer
+
+
+class WorkTime(BaseModel):
+    day: int = Field(..., description="Порядковый номер дня начиная с единицы. Понедельник = 1, воскресенье = 7.")
+    time: str = Field(
+        ..., max_length=255, description="Период работы в эти дни. Если в этот день не работают, то не отображается."
+    )
+
+
+class WorkTimeException(BaseModel):
+    date_start: Date = Field(..., description="Дата начала исключения в работе офиса")
+    date_end: Date = Field(..., description="Дата окончания исключения в работе офиса")
+    time_start: str | None = Field(None, description="Время начала работы в указанную дату")
+    time_end: str | None = Field(None, description="Время окончания работы в указанную дату")
+    is_working: bool = Field(..., description="Признак рабочего/нерабочего дня в указанную дату")
+
+    @field_serializer("date_start")
+    def serialize_date_start(self, date_start: Date) -> str:
+        return date_start.strftime("%Y-%m-%d")
+
+    @field_serializer("date_end")
+    def serialize_date_end(self, date_end: Date) -> str:
+        return date_end.strftime("%Y-%m-%d")

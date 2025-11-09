@@ -1,0 +1,22 @@
+from datetime import date as Date
+
+from ..app import App
+from .responses import PaymentInfoResponse, PaymentResponse
+
+
+class PaymentApp(App):
+    def get(self, date: Date):
+        """Запрос на получение информации о переводе наложенного платежа"""
+        if not isinstance(date, Date):
+            raise ValueError("date must be a Date")
+        formatted_date_string = date.strftime("%Y-%m-%d")
+        response = self._api_request("GET", "payment", {"date": formatted_date_string})
+        return PaymentInfoResponse.model_validate(response)
+
+    def get_registries(self, date: Date):
+        """Получение информации о реестрах НП"""
+        if not isinstance(date, Date):
+            raise ValueError("date must be a Date")
+        formatted_date_string = date.strftime("%Y-%m-%d")
+        response = self._api_request("GET", "registries", {"date": formatted_date_string})
+        return PaymentResponse.model_validate(response)
