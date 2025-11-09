@@ -34,10 +34,10 @@ class CurrencyApp(App):
     def get(self, currency_code: str):
         """Get currency code by name"""
         try:
-            return CurrencyEnum[currency_code].value
+            return Currency[currency_code].value
         except ValueError as e:
             raise CdekRequestException(f"Неизвестный код валюты: {currency_code}") from e
 
     def all(self):
         """Get all currency codes"""
-        return [currency.value for currency in CurrencyEnum]
+        return [currency.value for currency in Currency]
