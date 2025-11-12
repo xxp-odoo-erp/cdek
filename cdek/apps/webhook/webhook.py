@@ -9,26 +9,23 @@ from .responses import (
 
 
 class WebhookApp(App):
-    webhook = WebhookRequest
 
     def all(self):
         """Информация о слушателях webhook"""
-        response = self._api_request("GET", self.constants.WEBHOOKS_URL)
+        response = self._get(self.constants.WEBHOOKS_URL)
         return [WebhookResponse.model_validate(item) for item in response]
 
     def get(self, uuid: str):
         """Информация о слушателе webhook"""
-        response = self._api_request("GET", f"{self.constants.WEBHOOKS_URL}/{uuid}")
+        response = self._get(f"{self.constants.WEBHOOKS_URL}/{uuid}")
         return WebhookUUIDEntityResponse.model_validate(response)
 
     def delete(self, uuid: str):
         """Удаление слушателя webhook"""
-        response = self._api_request("DELETE", f"{self.constants.WEBHOOKS_URL}/{uuid}")
+        response = self._delete(f"{self.constants.WEBHOOKS_URL}/{uuid}")
         return WebhookDeleteEntityResponse.model_validate(response)
 
     def set(self, webhook: "WebhookRequest"):
         """Добавление нового слушателя webhook"""
-        response = self._api_request(
-            "POST", self.constants.WEBHOOKS_URL, webhook.model_dump()
-            )
+        response = self._post(self.constants.WEBHOOKS_URL, json=webhook)
         return WebookSetEntityResponse.model_validate(response)

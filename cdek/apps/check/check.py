@@ -4,7 +4,6 @@ from .responses import CheckResponse
 
 
 class CheckApp(App):
-    filter = CheckFilter
 
     def get(self, filter_params: CheckFilter):
         """
@@ -13,7 +12,5 @@ class CheckApp(App):
         """
         if not isinstance(filter_params, CheckFilter):
             raise ValueError("filter_params must be a CheckFilter")
-        response = self._api_request(
-            "GET", "check", filter_params.model_dump(exclude_none=True)
-        )
+        response = self._get("check", params=filter_params)
         return CheckResponse.model_validate(response)

@@ -5,20 +5,18 @@ from .responses import PrintBarcodeResponse
 
 
 class BarcodeApp(App):
-
-
     barcode = PrintBarcodeRequest
 
     def set(self, barcode: PrintBarcodeRequest):
         """Запрос на формирование ШК-места к заказу"""
-        response = self._api_request("POST", self.constants.BARCODES_URL, barcode)
+        response = self._post(self.constants.BARCODES_URL, json=barcode)
         return EntityResponse.model_validate(response)
 
     def get(self, uuid: str) -> PrintBarcodeResponse:
         """Получение сущности ШК к заказу"""
-        response = self._api_request("GET", f"{self.constants.BARCODES_URL}/{uuid}")
+        response = self._get(f"{self.constants.BARCODES_URL}/{uuid}")
         return PrintBarcodeResponse.model_validate(response)
 
     def get_pdf(self, uuid: str):
         """Скачивание готового ШК"""
-        return self._api_request("GET", f"{self.constants.BARCODES_URL}/{uuid}.pdf")
+        return self._get(f"{self.constants.BARCODES_URL}/{uuid}.pdf")

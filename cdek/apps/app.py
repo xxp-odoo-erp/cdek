@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import time
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 import requests
 
@@ -19,106 +19,86 @@ class App:
         self.constants = constants
         self._session = requests.Session()
 
-    def _api_request(
-        self, method: str, url: str, params: Any | None = None
-    ) -> dict | bytes:
-        """
-        Выполнить запрос к API
+    def _prepare_data(self, params: Any) -> dict | None:
+        if params is None:
+            return None
+        return (
+            params.model_dump(exclude_none=True)
+            if hasattr(params, "model_dump")
+            else params
+        )
 
-        Args:
-            method: Метод запроса (GET, POST, PATCH, DELETE)
-            url: URL path запроса
-            params: параметры запроса
-
-        Returns:
-            ответ от API
-
-        Raises:
-            CdekRequestException: в случае ошибки запроса
-        """
-        # Авторизуемся или получаем данные из кэша
-        if not self._check_saved_token():
-            self._authorize()
-
+    def _prepare_header(self, url: str) -> dict:
         # Проверяем является ли запрос на файл pdf
-        is_pdf_file_request = ".pdf" in url
 
         headers = {"Authorization": f"Bearer {self.token}"}
 
-        if is_pdf_file_request:
+        if ".pdf" in url:
             headers["Accept"] = "application/pdf"
         else:
             headers["Accept"] = "application/json"
 
-        # Подготовка параметров
-        if params is not None:
-            if hasattr(params, "prepare_request"):
-                request_params = params.prepare_request()
-            elif isinstance(params, dict):
-                request_params = params
-            elif hasattr(params, "model_dump"):
-                # Pydantic model - convert to dict
-                request_params = params.model_dump(exclude_none=True)
-            else:
-                request_params = params
-        else:
-            request_params = None
+        return headers
 
+    def _request(
+        self,
+        method: Literal["GET", "POST", "PATCH", "DELETE"],
+        url: str,
+        params: dict | None = None,
+        json: dict | None = None,
+        **kwargs,
+    ):
+        headers = self._prepare_header(url)
         try:
-            if method == "GET":
-                response = self._session.get(
-                    f"{self.client.base_url}{url}",
-                    params=request_params,
-                    headers=headers,
-                    timeout=self.client.timeout,
-                )
-            elif method == "POST":
-                response = self._session.post(
-                    f"{self.client.base_url}{url}",
-                    json=request_params,
-                    headers=headers,
-                    timeout=self.client.timeout,
-                )
-            elif method == "PATCH":
-                response = self._session.patch(
-                    f"{self.client.base_url}{url}",
-                    json=request_params,
-                    headers=headers,
-                    timeout=self.client.timeout,
-                )
-            elif method == "DELETE":
-                response = self._session.delete(
-                    f"{self.client.base_url}{url}",
-                    headers=headers,
-                    timeout=self.client.timeout,
-                )
-            else:
-                raise ValueError(f"Неподдерживаемый метод: {method}")
-
-            # Если запрос на PDF
-            if is_pdf_file_request:
-                if response.status_code == 200:
-                    content_type = response.headers.get("Content-Type", "")
-                    if "application/pdf" in content_type:
-                        return response.content
-                # Если не PDF, продолжаем обработку как обычный ответ
-
-            # Парсим JSON ответ
-            api_response = response.json()
-
-            # Проверяем ошибки
-            self._check_errors(url, response, api_response)
-
-            # Возвращаем PDF если это PDF запрос
-            if is_pdf_file_request and response.status_code == 200:
+            response = self._session.request(
+                method,
+                url=f"{self.client.base_url}{url}",
+                params=params,
+                json=json,
+                headers=headers,
+                timeout=self.client.timeout,
+                **kwargs,
+            )
+            if ".pdf" in url and response.status_code == 200:
                 return response.content
 
-            return api_response
+            response_json = response.json()
+            self._check_errors(url, response, response_json)
+            return response_json
 
         except requests.exceptions.RequestException as e:
             raise CdekRequestException(
                 f"Ошибка сети при вызове метода {url}: {str(e)}"
             ) from e
+
+    def _http_method(
+        self,
+        method: Literal["GET", "POST", "PATCH", "DELETE"],
+        url: str,
+        params: Any | None = None,
+        json: Any | None = None,
+        **kwargs,
+    ):
+        params = self._prepare_data(params)
+        json = self._prepare_data(json)
+
+        # Авторизуемся или получаем данные из кэша
+        if not self._check_saved_token():
+            self._authorize()
+
+        return self._request(method, url, params, json, **kwargs)
+
+    def _get(self, url: str, params=None, json=None, **kwargs) -> Any:
+        return self._http_method("GET", url, params, json, **kwargs)
+
+    def _post(self, url: str, params=None, json=None, **kwargs) -> Any:
+        return self._http_method("POST", url, params, json, **kwargs)
+
+    def _patch(self, url: str, params=None, json=None, **kwargs) -> Any:
+        return self._http_method("PATCH", url, params, json, **kwargs)
+
+    def _delete(self, url: str, params=None, json=None, **kwargs) -> Any:
+        return self._http_method("DELETE", url, params, json, **kwargs)
 
     def _authorize(self) -> bool:
         """
@@ -211,11 +191,6 @@ class App:
         Raises:
             CdekRequestException: в случае ошибки
         """
-        if not api_response:
-            raise CdekRequestException(
-                f"От API CDEK при вызове метода {method} пришел пустой ответ",
-                response.status_code,
-            )
 
         # Обработка ошибок с requests
         if response.status_code > 202 and "requests" in api_response:

@@ -18,12 +18,6 @@ from .responses import (
 class LocationApp(App):
     """Получение списка локаций"""
 
-    city_filter = CityFilter
-    region_filter = RegionFilter
-    zip_filter = ZipFilter
-    coordinates_filter = CoordinatesFilter
-    city_list_filter = CityListFilter
-
     def city(self, filter_params: CityFilter) -> CityResponse | None:
         """
         Подбор локации по названию города
@@ -44,7 +38,7 @@ class LocationApp(App):
         if not isinstance(filter_params, CityFilter | None):
             raise ValueError("filter_params must be a CityFilter instance")
         params = filter_params.model_dump(exclude_none=True)
-        response = self._api_request("GET", self.constants.CITY_URL, params)
+        response = self._get(self.constants.CITY_URL, params=filter_params)
         return CityResponse.model_validate(response) if response else None
 
     def regions(
@@ -66,8 +60,7 @@ class LocationApp(App):
         """
         if not isinstance(filter_params, RegionFilter | None):
             raise ValueError("filter_params must be a RegionFilter instance")
-        params = filter_params and filter_params.model_dump(exclude_none=True) or None
-        response = self._api_request("GET", self.constants.REGIONS_URL, params)
+        response = self._get(self.constants.REGIONS_URL, params=filter_params)
         # Здесь должен быть импорт и создание RegionsResponse объектов
         return [RegionResponse.model_validate(region) for region in response]
 
@@ -88,8 +81,7 @@ class LocationApp(App):
         """
         if not isinstance(filter_params, ZipFilter | None):
             raise ValueError("filter_params must be a ZipFilter instance")
-        params = filter_params and filter_params.model_dump(exclude_none=True) or None
-        response = self._api_request("GET", self.constants.ZIP_URL, params)
+        response = self._get(self.constants.ZIP_URL, params=filter_params)
         return [ZipResponse.model_validate(zip_code) for zip_code in response]
 
     def coordinates(self, filter_params: CoordinatesFilter | None = None):
@@ -110,8 +102,7 @@ class LocationApp(App):
         """
         if not isinstance(filter_params, CoordinatesFilter | None):
             raise ValueError("filter_params must be a CoordinatesFilter instance")
-        params = filter_params and filter_params.model_dump(exclude_none=True) or None
-        response = self._api_request("GET", self.constants.COORDINATES_URL, params)
+        response = self._get(self.constants.COORDINATES_URL, params=filter_params)
         return [
             CoordinatesResponse.model_validate(coordinates) for coordinates in response
         ]
@@ -132,6 +123,5 @@ class LocationApp(App):
         """
         if not isinstance(filter_params, CityListFilter | None):
             raise ValueError("filter_params must be a CityListFilter instance")
-        params = filter_params and filter_params.model_dump(exclude_none=True) or None
-        response = self._api_request("GET", self.constants.CITIES_URL, params)
+        response = self._get(self.constants.CITIES_URL, params=filter_params)
         return [CitiesResponse.model_validate(city) for city in response]
