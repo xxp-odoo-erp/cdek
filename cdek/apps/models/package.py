@@ -23,6 +23,7 @@ class Package(CalcPackage):
     )
 
     def add_item(self, **kwargs):
+        """Добавить товар в упаковку и вернуть созданный объект"""
         item = Item(**kwargs)
         if self.items is None:
             self.items = []

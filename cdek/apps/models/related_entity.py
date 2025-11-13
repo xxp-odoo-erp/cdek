@@ -41,8 +41,10 @@ class RelatedEntity(BaseModel):
 
     @field_serializer("create_time")
     def serialize_create_time(self, create_time: datetime) -> str:
+        """Конвертировать время создания в строку ISO"""
         return create_time.strftime("%Y-%m-%dT%H:%M:%S")
 
     @field_serializer("date")
     def serialize_date(self, date: Date) -> str:
+        """Конвертировать дату доставки в формат YYYY-MM-DD"""
         return date.strftime("%Y-%m-%d")

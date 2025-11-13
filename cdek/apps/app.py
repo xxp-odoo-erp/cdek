@@ -15,11 +15,13 @@ if TYPE_CHECKING:
 
 class App:
     def __init__(self, client: CdekClient):
+        """Сохранить клиент и подготовить HTTP-сессию"""
         self.client = client
         self.constants = constants
         self._session = requests.Session()
 
     def _prepare_data(self, params: Any) -> dict | None:
+        """Подготовка параметра для запроса"""
         if params is None:
             return None
         return (
@@ -29,8 +31,7 @@ class App:
         )
 
     def _prepare_header(self, url: str) -> dict:
-        # Проверяем является ли запрос на файл pdf
-
+        """Сформировать заголовки запроса с учётом типа ответа"""
         headers = {"Authorization": f"Bearer {self.token}"}
 
         if ".pdf" in url:
@@ -48,6 +49,22 @@ class App:
         json: dict | None = None,
         **kwargs,
     ):
+        """
+        Выполнить HTTP-запрос к API CDEK
+
+        Args:
+            method: HTTP-метод запроса
+            url: относительный путь до ресурса API
+            params: параметры строки запроса
+            json: тело запроса в формате JSON
+            **kwargs: дополнительные параметры `requests.Session.request`
+
+        Returns:
+            dict | bytes: JSON-ответ API либо содержимое файла
+
+        Raises:
+            CdekRequestException: при сетевых ошибках или ошибках API
+        """
         headers = self._prepare_header(url)
         try:
             response = self._session.request(
@@ -79,6 +96,19 @@ class App:
         json: Any | None = None,
         **kwargs,
     ):
+        """
+        Преобразовать данные и выполнить запрос с авторизацией
+
+        Args:
+            method: используемый HTTP-метод
+            url: относительный путь до ресурса API
+            params: объект с параметрами запроса
+            json: объект, представляющий тело запроса
+            **kwargs: дополнительные параметры передачи в `_request`
+
+        Returns:
+            dict | bytes: ответ API в зависимости от вызываемого метода
+        """
         params = self._prepare_data(params)
         json = self._prepare_data(json)
 
@@ -89,15 +119,19 @@ class App:
         return self._request(method, url, params, json, **kwargs)
 
     def _get(self, url: str, params=None, json=None, **kwargs) -> Any:
+        """Обёртка над `_http_method` для выполнения GET-запроса"""
         return self._http_method("GET", url, params, json, **kwargs)
 
     def _post(self, url: str, params=None, json=None, **kwargs) -> Any:
+        """Обёртка над `_http_method` для выполнения POST-запроса"""
         return self._http_method("POST", url, params, json, **kwargs)
 
     def _patch(self, url: str, params=None, json=None, **kwargs) -> Any:
+        """Обёртка над `_http_method` для выполнения PATCH-запроса"""
         return self._http_method("PATCH", url, params, json, **kwargs)
 
     def _delete(self, url: str, params=None, json=None, **kwargs) -> Any:
+        """Обёртка над `_http_method` для выполнения DELETE-запроса"""
         return self._http_method("DELETE", url, params, json, **kwargs)
 
     def _authorize(self) -> bool:

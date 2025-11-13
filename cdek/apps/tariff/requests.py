@@ -48,16 +48,19 @@ class TariffListRequest(BaseRequest):
     packages: list[CalcPackage] | None = Field(None, description="Список упаковок")
 
     def set_city_codes(self, from_location: int, to_location: int):
+        """Задать коды населённых пунктов отправителя и получателя"""
         self.from_location = CalculatorLocation.init(code=from_location)
         self.to_location = CalculatorLocation.init(code=to_location)
         return self
 
     def set_package_weight(self, weight: int):
+        """Определить вес единственной упаковки в граммах"""
         self.packages = [CalcPackage.init(weight=weight)]
         return self
 
     @field_serializer("date")
     def serialize_date(self, date: datetime) -> str:
+        """Сериализовать дату в формат, поддерживаемый API"""
         return date.strftime("%Y-%m-%dT%H:%M:%S")
 
 

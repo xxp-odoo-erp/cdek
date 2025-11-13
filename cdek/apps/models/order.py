@@ -31,6 +31,7 @@ class AccompanyingWaybill(BaseModel):
     def serialize_planned_departure_date_time(
         self, planned_departure_date_time: datetime
     ) -> str:
+        """Преобразовать дату отправления СНТ в строку ISO 8601"""
         return planned_departure_date_time.strftime("%Y-%m-%dT%H:%M:%S")
 
 
@@ -53,6 +54,7 @@ class OrderStatus(BaseModel):
 
     @field_serializer("date_time")
     def serialize_date_time(self, date_time: datetime) -> str:
+        """Вернуть время установки статуса в формате ISO 8601"""
         return date_time.strftime("%Y-%m-%dT%H:%M:%S")
 
 
@@ -76,6 +78,7 @@ class DeliveryDetail(BaseModel):
 
     @field_serializer("date")
     def serialize_date(self, date: Date) -> str:
+        """Представить дату доставки в формате YYYY-MM-DD"""
         return date.strftime("%Y-%m-%d")
 
 
@@ -85,6 +88,7 @@ class DeliveryProblem(BaseModel):
 
     @field_serializer("create_date")
     def serialize_create_date(self, create_date: datetime) -> str:
+        """Вернуть дату создания проблемы в формате ISO 8601"""
         return create_date.strftime("%Y-%m-%dT%H:%M:%S")
 
 
@@ -94,6 +98,7 @@ class FailedCall(BaseModel):
 
     @field_serializer("date_time")
     def serialize_date_time(self, date_time: datetime) -> str:
+        """Представить дату и время недозвона в формате ISO 8601"""
         return date_time.strftime("%Y-%m-%dT%H:%M:%S")
 
 
@@ -107,10 +112,12 @@ class RescheduledCall(BaseModel):
 
     @field_serializer("date_time")
     def serialize_date_time(self, date_time: datetime) -> str:
+        """Представить дату создания переноса прозвона в формате ISO 8601"""
         return date_time.strftime("%Y-%m-%dT%H:%M:%S")
 
     @field_serializer("date_next")
     def serialize_date_next(self, date_next: Date) -> str:
+        """Вернуть дату следующего прозвона в формате YYYY-MM-DD"""
         return date_next.strftime("%Y-%m-%d")
 
 
@@ -188,45 +195,56 @@ class Order(UpdateOrder):
 
     @field_serializer("date_invoice")
     def serialize_date_invoice(self, date_invoice: Date) -> str:
+        """Вернуть дату инвойса в формате YYYY-MM-DD"""
         return date_invoice.strftime("%Y-%m-%d")
 
     @classmethod
     def location_init(cls, **kwargs) -> OrderLocation:
+        """Создать объект адреса заказа с указанными полями"""
         return OrderLocation(**kwargs)
 
     @classmethod
     def seller_init(cls, **kwargs) -> Seller:
+        """Создать объект продавца по переданным параметрам"""
         return Seller(**kwargs)
 
     @classmethod
     def contact_init(cls, **kwargs) -> Contact:
+        """Создать объект контакта отправителя или получателя"""
         return Contact(**kwargs)
 
     def set_seller(self, seller: Seller):
+        """Установить продавца для текущего заказа"""
         self.seller = seller
         return self
 
     def set_from_location(self, location: OrderLocation):
+        """Задать адрес отправления"""
         self.from_location = location
         return self
 
     def set_to_location(self, location: OrderLocation):
+        """Задать адрес доставки"""
         self.to_location = location
         return self
 
     def set_contact(self, sender: Contact):
+        """Сохранить контактные данные отправителя"""
         self.sender = sender
         return self
 
     def set_recipient(self, recipient: Contact):
+        """Сохранить контактные данные получателя"""
         self.recipient = recipient
         return self
 
     @classmethod
     def package_init(cls, **kwargs):
+        """Создать объект упаковки по переданным параметрам"""
         return Package(**kwargs)
 
     def add_package(self, package):
+        """Добавить упаковку в список пакетов заказа"""
         if self.packages is None:
             self.packages = []
         self.packages.append(package)

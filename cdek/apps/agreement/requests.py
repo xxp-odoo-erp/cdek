@@ -41,14 +41,17 @@ class RegisterDeliveryRequest(OrderInfo, BaseRequest):
     to_location: ScheduleLocation | None = Field(None, description="Населённый пункт")
 
     def to_location_init(self, **kwargs):
+        """Создать объект локации для договорённости о доставке"""
         return ScheduleLocation(**kwargs)
 
     def set_to_location(self, location: ScheduleLocation):
+        """Установить локацию доставки"""
         self.to_location = location
         return self
 
     @field_serializer("date")
     def serialize_date(self, date: Date) -> str:
+        """Вернуть дату доставки в формате YYYY-MM-DD"""
         return date.strftime("%Y-%m-%d")
 
 
@@ -66,4 +69,5 @@ class DeliveryIntervalRequest(BaseRequest):
 
     @field_serializer("date_time")
     def serialize_date_time(self, date_time: datetime) -> str:
+        """Вернуть дату запроса интервалов в формате ISO 8601"""
         return date_time.strftime("%Y-%m-%dT%H:%M:%S")

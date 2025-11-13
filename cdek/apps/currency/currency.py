@@ -32,7 +32,7 @@ class Currency(IntEnum):
 
 class CurrencyApp(App):
     def get(self, currency_code: str):
-        """Get currency code by name"""
+        """Получить числовой код валюты по её символьному обозначению"""
         try:
             return Currency[currency_code].value
         except ValueError as e:
@@ -41,5 +41,5 @@ class CurrencyApp(App):
             ) from e
 
     def all(self):
-        """Get all currency codes"""
+        """Получить список всех поддерживаемых кодов валют"""
         return [currency.value for currency in Currency]

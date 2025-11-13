@@ -16,6 +16,7 @@ class PrintStatus(BaseModel):
 
     @field_serializer("date_time")
     def serialize_date_time(self, date_time: datetime) -> str:
+        """Вернуть дату статуса печатной формы в формате ISO 8601"""
         return date_time.strftime("%Y-%m-%dT%H:%M:%S")
 
 

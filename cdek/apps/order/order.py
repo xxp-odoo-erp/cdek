@@ -5,20 +5,22 @@ from .responses import OrderEntityResponse
 
 
 class OrderApp(App):
-
     def create(self, order: "OrderRequest") -> "EntityResponse":
+        """Создать заказ в системе CDEK"""
         if not isinstance(order, OrderRequest):
             raise ValueError("order must be a OrderRequest")
         response = self._post(self.constants.ORDERS_URL, json=order)
         return EntityResponse.model_validate(response)
 
     def update(self, order: "OrderUpdateRequest") -> "EntityResponse":
+        """Обновить сведения по ранее созданному заказу"""
         if not isinstance(order, OrderUpdateRequest):
             raise ValueError("order must be a OrderUpdateRequest")
         response = self._patch(self.constants.ORDERS_URL, json=order)
         return EntityResponse.model_validate(response)
 
     def delete(self, uuid: str) -> EntityResponse:
+        """Удалить заказ по его UUID"""
         response = self._delete(f"{self.constants.ORDERS_URL}/{uuid}")
         return EntityResponse.model_validate(response)
 

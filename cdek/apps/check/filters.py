@@ -16,4 +16,5 @@ class CheckFilter(BaseRequest):
 
     @field_serializer("date")
     def serialize_date(self, date: Date) -> str:
+        """Преобразовать дату фильтра в строку YYYY-MM-DD"""
         return date.strftime("%Y-%m-%d")

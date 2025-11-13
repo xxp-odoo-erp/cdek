@@ -36,4 +36,5 @@ class Request(BaseModel):
 
     @field_serializer("date_time")
     def serialize_date_time(self, date_time: datetime) -> str:
+        """Представить дату последнего изменения запроса в формате ISO"""
         return date_time.strftime("%Y-%m-%dT%H:%M:%S")

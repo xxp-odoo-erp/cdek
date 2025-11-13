@@ -76,10 +76,12 @@ class Registry(BaseModel):
 
     @field_serializer("date_created")
     def serialize_date_created(self, date_created: DateTime) -> str:
+        """Вернуть дату создания реестра в формате ISO 8601"""
         return date_created.strftime("%Y-%m-%dT%H:%M:%S")
 
     @field_serializer("payment_date")
     def serialize_payment_date(self, payment_date: Date) -> str:
+        """Представить дату оплаты реестра в формате YYYY-MM-DD"""
         return payment_date.strftime("%Y-%m-%d")
 
 

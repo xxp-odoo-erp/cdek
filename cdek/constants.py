@@ -46,14 +46,6 @@ BARCODES_URL = "print/barcodes"
 INVOICE_URL = "print/orders"
 WEBHOOKS_URL = "webhooks"
 
-# Режимы доставки CDEK
-# Ключ - код режима доставки (delivery_mode), значение - кортеж (откуда, куда)
-# Где:
-#   "door" - дверь (доставка/забор курьером)
-#   "office" - склад (ПВЗ)
-#   "terminal" - терминал
-#   "postbox" - постамат
-
 DELIVERY_METHODS = {
     "1": ("door", "door"),
     "2": ("door", "office"),

@@ -22,6 +22,7 @@ class CheckInfo(BaseModel):
 
     @field_serializer("date")
     def serialize_date(self, date: DateTime) -> str:
+        """Вернуть дату формирования чека в формате YYYY-MM-DD"""
         return date.strftime("%Y-%m-%d")
 
 

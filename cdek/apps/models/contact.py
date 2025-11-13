@@ -33,10 +33,12 @@ class Passport(BaseModel):
 
     @field_serializer("passport_date_of_issue")
     def serialize_passport_date_of_issue(self, passport_date_of_issue: Date) -> str:
+        """Вернуть дату выдачи паспорта в формате YYYY-MM-DD"""
         return passport_date_of_issue.strftime("%Y-%m-%d")
 
     @field_serializer("passport_date_of_birth")
     def serialize_passport_date_of_birth(self, passport_date_of_birth: Date) -> str:
+        """Вернуть дату рождения в формате YYYY-MM-DD"""
         return passport_date_of_birth.strftime("%Y-%m-%d")
 
 
@@ -48,6 +50,7 @@ class Contact(BaseRequest, Passport, Tin):
     phones: list[Phone] = Field(default_factory=list, description="Телефоны")
 
     def add_phone(self, number: str, additional: str | None = None):
+        """Добавить новый номер телефона в контакт"""
         phone = Phone(number=number, additional=additional)
         if self.phones is None:
             self.phones = []

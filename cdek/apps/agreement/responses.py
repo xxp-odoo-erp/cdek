@@ -22,6 +22,7 @@ class AvailableDeliveryIntervalsInfo(BaseModel):
 
     @field_serializer("date")
     def serialize_date(self, date: Date) -> str:
+        """Представить дату интервала доставки в формате YYYY-MM-DD"""
         return date.strftime("%Y-%m-%d")
 
 

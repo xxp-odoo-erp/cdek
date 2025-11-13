@@ -10,4 +10,5 @@ class Status(BaseModel):
 
     @field_serializer("date_time")
     def serialize_date_time(self, date_time: datetime) -> str:
+        """Преобразовать дату статуса в строку формата ISO"""
         return date_time.strftime("%Y-%m-%dT%H:%M:%S")

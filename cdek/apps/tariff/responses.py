@@ -50,6 +50,7 @@ class TariffListResponse(BaseModel):
     )
 
     def get_codes(self) -> list[TariffListItem]:
+        """Вернуть список тарифов, гарантируя, что результат не None"""
         return self.tariff_codes or []
 
 
@@ -174,4 +175,5 @@ class TariffAvailableResponse(BaseModel):
     )
 
     def get_codes(self) -> list[AvailableTariff]:
+        """Вернуть список доступных тарифов без значений None"""
         return self.tariff_codes or []

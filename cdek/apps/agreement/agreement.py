@@ -7,7 +7,6 @@ from .responses import AgreementInfoResponse, AvailableDeliveryIntervalsResponse
 
 
 class AgreementApp(App):
-
     def _get_interval(self, params: Any = None):
         """Получение интервалов доставки"""
         response = self._get(self.constants.COURIER_AGREEMENTS_INTERVALS_URL, params)
@@ -16,8 +15,7 @@ class AgreementApp(App):
     def get_interval_number(
         self, cdek_number: str
     ) -> AvailableDeliveryIntervalsResponse:
-        """Получение интервалов доставки по номеру заказа"""
-        """Получение интервалов доставки"""
+        """Получить интервалы доставки по номеру заказа"""
         return self._get_interval({"cdek_number": cdek_number})
 
     def get_interval_uuid(self, uuid: str) -> AvailableDeliveryIntervalsResponse:

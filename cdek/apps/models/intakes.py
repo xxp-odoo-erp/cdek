@@ -46,18 +46,23 @@ class Intakes(BaseModel):
 
     @field_serializer("intake_date")
     def serialize_intake_date(self, intake_date: Date) -> str:
+        """Представить дату забора в формате YYYY-MM-DD"""
         return intake_date.strftime("%Y-%m-%d")
 
     def from_location_init(self, **kwargs):
+        """Создать объект адреса забора по переданным параметрам"""
         return IntakeLocation(**kwargs)
 
     def sender_init(self, **kwargs):
+        """Создать объект контакта заказчика"""
         return Contact(**kwargs)
 
     def set_sender(self, sender: Contact):
+        """Установить контактные данные заказчика"""
         self.sender = sender
         return self
 
     def set_from_location(self, location: IntakeLocation):
+        """Указать место забора"""
         self.from_location = location
         return self

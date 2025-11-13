@@ -5,6 +5,7 @@ class CdekRequestException(CdekException):
     """Ошибка запроса к API CDEK"""
 
     def __init__(self, message, status_code=None):
+        """Инициализировать исключение с сообщением и HTTP-статусом"""
         super().__init__(message)
         self.status_code = status_code
 

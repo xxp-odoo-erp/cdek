@@ -48,10 +48,12 @@ class OrderResponse(Order):
 
     @field_serializer("planned_delivery_date")
     def serialize_planned_delivery_date(self, planned_delivery_date: Date) -> str:
+        """Вернуть плановую дату доставки в формате YYYY-MM-DD"""
         return planned_delivery_date.strftime("%Y-%m-%d")
 
     @field_serializer("keep_free_until")
     def serialize_keep_free_until(self, keep_free_until: datetime) -> str:
+        """Представить дату окончания бесплатного хранения в формате ISO 8601"""
         return keep_free_until.strftime("%Y-%m-%dT%H:%M:%S")
 
 

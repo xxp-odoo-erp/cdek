@@ -6,14 +6,15 @@ from .responses import IntakeDateResponse, IntakeEntityResponse
 
 
 class IntakeApp(App):
-
     def get_call_dates(self, date_request: IntakeDateFilter):
+        """Получить доступные даты вызова курьера"""
         if not isinstance(date_request, IntakeDateFilter):
             raise ValueError("date_request must be a IntakeDateRequest")
         response = self._get(self.constants.INTAKES_DAYS_URL, params=date_request)
         return IntakeDateResponse.model_validate(response)
 
     def update(self, intake: IntakeFilter):
+        """Изменить параметры существующей заявки"""
         if not isinstance(intake, IntakeFilter):
             raise ValueError("intake must be a IntakeFilter")
         response = self._patch(self.constants.INTAKES_URL, json=intake)
