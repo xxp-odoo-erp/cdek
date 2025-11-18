@@ -14,10 +14,14 @@ if TYPE_CHECKING:
 
 
 class App:
+    """Базовый класс для всех приложений API CDEK"""
+
     def __init__(self, client: CdekClient):
         """Сохранить клиент и подготовить HTTP-сессию"""
         self.client = client
         self.constants = constants
+        self.token = None
+        self.expire = 0
         self._session = requests.Session()
 
     def _prepare_data(self, params: Any) -> dict | None:
@@ -142,16 +146,16 @@ class App:
             CdekAuthException: в случае ошибки авторизации
         """
         params = {
-            constants.AUTH_KEY_TYPE: constants.AUTH_PARAM_CREDENTIAL,
-            constants.AUTH_KEY_CLIENT_ID: self.client.account,
-            constants.AUTH_KEY_SECRET: self.client.secure,
+            "grant_type": "client_credentials",
+            "client_id": self.client.account,
+            "client_secret": self.client.secure,
         }
 
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
 
         try:
             response = self._session.post(
-                f"{self.client.base_url}{constants.OAUTH_URL}",
+                f"{self.client.base_url}oauth/token",
                 data=params,
                 headers=headers,
                 timeout=self.client.timeout,

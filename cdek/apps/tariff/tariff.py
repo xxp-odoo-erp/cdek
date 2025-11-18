@@ -15,17 +15,32 @@ class TariffApp(App):
 
         Returns:
             Список объектов TariffListResponse с информацией о доступных тарифах
+
+        Raises:
+            ValueError: если tariff не является объектом TariffListRequest
         """
         if not isinstance(tariff, TariffListRequest):
-            raise ValueError("tariff должен быть объектом TariffListRequest")
-        response = self._post(self.constants.CALC_TARIFFLIST_URL, json=tariff)
+            raise ValueError("tariff must be a TariffListRequest")
+        response = self._post("calculator/tarifflist", json=tariff)
         return TariffListResponse.model_validate(response)
 
     def calc(self, tariff: "TariffCodeRequest") -> "TariffResponse":
-        """Расчёт стоимости и сроков доставки по коду тарифа"""
+        """
+        Расчёт стоимости и сроков доставки по коду тарифа
+
+        Args:
+            tariff: объект TariffCodeRequest с параметрами запроса
+            (tariff_code, from_location, to_location, packages)
+
+        Returns:
+            TariffResponse: объект с информацией о расчёте стоимости и сроков доставки
+
+        Raises:
+            ValueError: если tariff не является объектом TariffCodeRequest
+        """
         if not isinstance(tariff, TariffCodeRequest):
-            raise ValueError("tariff должен быть объектом TariffCodeRequest")
-        response = self._post(self.constants.CALC_TARIFF_URL, json=tariff)
+            raise ValueError("tariff must be a TariffCodeRequest")
+        response = self._post("calculator/tariff", json=tariff)
         return TariffResponse.model_validate(response)
 
     def all(self) -> "TariffAvailableResponse":
@@ -36,5 +51,5 @@ class TariffApp(App):
         Returns:
             Список объектов TariffAvailableResponse с информацией о доступных тарифах
         """
-        response = self._get(self.constants.CALC_ALLTARIFFS_URL)
+        response = self._get("calculator/alltariffs")
         return TariffAvailableResponse.model_validate(response)

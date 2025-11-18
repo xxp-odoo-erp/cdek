@@ -1,50 +1,5 @@
-# Адрес сервиса интеграции
-API_URL = "https://api.cdek.ru/v2/"
-
-# Адрес сервиса интеграции для тестов
-API_URL_TEST = "https://api.edu.cdek.ru/v2/"
-
-# Адрес для OAuth авторизации
-OAUTH_URL = "oauth/token"
-
-# Аккаунт для тестовой среды
-TEST_ACCOUNT = "wqGwiQx0gg8mLtiEKsUinjVSICCjtTEP"
-
-# Секретный ключ для тестовой среды
-TEST_SECURE = "RmAmgvSgSl1yirlz9QupbzOJVqhCxcP5"
-
-# Типы webhook'ов
-HOOK_TYPE_STATUS = "ORDER_STATUS"
-HOOK_TYPE_OTHER = "ANYTHING_OTHER"
-
 # Ошибка авторизации
 AUTH_FAIL = "Аутентификация не удалась, пожалуйста, проверьте переданные логин и пароль"
-
-# Параметры авторизации
-AUTH_PARAM_CREDENTIAL = "client_credentials"
-AUTH_KEY_TYPE = "grant_type"
-AUTH_KEY_CLIENT_ID = "client_id"
-AUTH_KEY_SECRET = "client_secret"
-
-# URL'ы API
-DELIVERY_POINTS_URL = "deliverypoints"
-CALC_TARIFF_URL = "calculator/tariff"
-CALC_TARIFFLIST_URL = "calculator/tarifflist"
-CALC_ALLTARIFFS_URL = "calculator/alltariffs"
-COURIER_AGREEMENTS_URL = "delivery"
-COURIER_AGREEMENTS_INTERVALS_URL = "delivery/intervals"
-COURIER_AGREEMENTS_ESTIMATE_URL = "delivery/estimatedIntervals"
-INTAKES_URL = "intakes"
-INTAKES_DAYS_URL = "intakes/availableDays"
-ORDERS_URL = "orders"
-COORDINATES_URL = "location/coordinates"
-ZIP_URL = "location/postalcodes"
-CITY_URL = "location/suggest/cities"
-CITIES_URL = "location/cities"
-REGIONS_URL = "location/regions"
-BARCODES_URL = "print/barcodes"
-INVOICE_URL = "print/orders"
-WEBHOOKS_URL = "webhooks"
 
 DELIVERY_METHODS = {
     "1": ("door", "door"),

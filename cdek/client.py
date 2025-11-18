@@ -27,12 +27,12 @@ class CdekClient:
             timeout: Настройка клиента задающая общий тайм-аут запроса в секундах
         """
         if account == "TEST":
-            self.base_url = constants.API_URL_TEST
-            self.account = constants.TEST_ACCOUNT
-            self.secure = constants.TEST_SECURE
+            self.base_url = "https://api.edu.cdek.ru/v2/"
+            self.account = "wqGwiQx0gg8mLtiEKsUinjVSICCjtTEP"
+            self.secure = "RmAmgvSgSl1yirlz9QupbzOJVqhCxcP5"
             self.account_type = "TEST"
         else:
-            self.base_url = constants.API_URL
+            self.base_url = "https://api.cdek.ru/v2/"
             self.account = account
             self.secure = secure
             self.account_type = "COMBAT"
