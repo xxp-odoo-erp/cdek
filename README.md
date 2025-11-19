@@ -128,7 +128,7 @@ else:
 ## Полезные ссылки
 
 - Официальная документация API: <https://apidoc.cdek.ru>
-- Поддержка и вопросы: создавайте issue в репозитории <https://github.com/cdek/sdk-python>
+- Поддержка и вопросы: создавайте issue в репозитории <https://github.com/xxp-odoo-erp/cdek/issues>
 
 ## Лицензия
 

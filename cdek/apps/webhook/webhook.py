@@ -11,12 +11,12 @@ from .responses import (
 class WebhookApp(App):
     """Класс для работы с webhook"""
 
-    def all(self):
+    def all(self) -> list[WebhookResponse]:
         """Информация о слушателях webhook"""
         response = self._get("webhooks")
         return [WebhookResponse.model_validate(item) for item in response]
 
-    def get(self, uuid: str):
+    def get(self, uuid: str) -> WebhookUUIDEntityResponse:
         """
         Информация о слушателе webhook
 
@@ -29,7 +29,7 @@ class WebhookApp(App):
         response = self._get(f"webhooks/{uuid}")
         return WebhookUUIDEntityResponse.model_validate(response)
 
-    def delete(self, uuid: str):
+    def delete(self, uuid: str) -> WebhookDeleteEntityResponse:
         """
         Удаление слушателя webhook
 
@@ -45,7 +45,7 @@ class WebhookApp(App):
         response = self._delete(f"webhooks/{uuid}")
         return WebhookDeleteEntityResponse.model_validate(response)
 
-    def set(self, webhook: "WebhookRequest"):
+    def set(self, webhook: "WebhookRequest") -> WebookSetEntityResponse:
         """
         Добавление нового слушателя webhook
 
