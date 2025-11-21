@@ -24,7 +24,7 @@ setup(
     long_description_content_type="text/markdown",
     author="CDEK Python SDK",
     author_email="support@cdek.ru",
-    url="https://github.com/cdek/sdk-python",
+    url="https://github.com/xxp-odoo-erp/cdek",
     packages=find_packages(where=".", include=("cdek*",)),
     package_dir={"": "."},
     classifiers=[

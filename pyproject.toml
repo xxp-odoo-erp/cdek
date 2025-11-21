@@ -36,10 +36,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/cdek/sdk-python"
-Documentation = "https://github.com/cdek/sdk-python/blob/main/README.md"
-Repository = "https://github.com/cdek/sdk-python"
-Issues = "https://github.com/cdek/sdk-python/issues"
+Homepage = "https://github.com/xxp-odoo-erp/cdek"
+Documentation = "https://github.com/xxp-odoo-erp/cdek/blob/cdek-pydantic/README.md"
+Repository = "https://github.com/xxp-odoo-erp/cdek"
+Issues = "https://github.com/xxp-odoo-erp/cdek/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
