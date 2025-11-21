@@ -7,13 +7,13 @@ name = "cdek"
 version = "2.0.0"
 description = "Python SDK для работы с API СДЭК версии 2.0"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "CDEK Python SDK", email = "support@cdek.ru"}
+    {name = "CDEK Python SDK", email = "geomer198@gmail.com"}
 ]
 maintainers = [
-    {name = "CDEK Python SDK", email = "support@cdek.ru"}
+    {name = "CDEK Python SDK", email = "geomer198@gmail.com"}
 ]
 keywords = ["cdek", "sdk", "api", "delivery", "shipping", "logistics"]
 classifiers = [
@@ -22,7 +22,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -32,14 +31,15 @@ classifiers = [
     "Topic :: Software Development :: Libraries",
 ]
 dependencies = [
+    "pydantic>=2.6,<3.0",
     "requests>=2.25.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/cdek/sdk-python"
-Documentation = "https://github.com/cdek/sdk-python/blob/main/README.md"
-Repository = "https://github.com/cdek/sdk-python"
-Issues = "https://github.com/cdek/sdk-python/issues"
+Homepage = "https://github.com/xxp-odoo-erp/cdek"
+Documentation = "https://github.com/xxp-odoo-erp/cdek/blob/main/README.md"
+Repository = "https://github.com/xxp-odoo-erp/cdek"
+Issues = "https://github.com/xxp-odoo-erp/cdek/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
