@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from datetime import date as Date
 from datetime import datetime
 from uuid import UUID
@@ -10,17 +14,17 @@ from ..request import BaseRequest
 
 
 class ScheduleLocation(City, Country, Region, Coordinates, Address, Zip):
-    code: int | None = None
-    region: str | None = None
-    region_code: int | None = None
-    city: str | None = None
-    city_uuid: str | None = None
+    code: Optional[int] = None
+    region: Optional[str] = None
+    region_code: Optional[int] = None
+    city: Optional[str] = None
+    city_uuid: Optional[str] = None
 
 
 class DeliveryLocation(Zip, Coordinates, Country, Region):
-    code: int | None = None
-    fias_guid: UUID | None = None
-    city: str | None = None
+    code: Optional[int] = None
+    fias_guid: Optional[UUID] = None
+    city: Optional[str] = None
     address: str
 
 
@@ -32,13 +36,13 @@ class RegisterDeliveryRequest(OrderInfo, BaseRequest):
     time_to: str = Field(
         ..., description='Время доставки "По", согласованное с получателем'
     )
-    comment: str | None = Field(
+    comment: Optional[str] = Field(
         None, max_length=255, description="Комментарий к договоренности о доставке"
     )
-    delivery_point: str | None = Field(
+    delivery_point: Optional[str] = Field(
         None, max_length=255, description="Буквенно-цифровой код ПВЗ СДЭК"
     )
-    to_location: ScheduleLocation | None = Field(None, description="Населённый пункт")
+    to_location: Optional[ScheduleLocation] = Field(None, description="Населённый пункт")
 
     def to_location_init(self, **kwargs):
         """Создать объект локации для договорённости о доставке"""
@@ -57,13 +61,13 @@ class RegisterDeliveryRequest(OrderInfo, BaseRequest):
 
 class DeliveryIntervalRequest(BaseRequest):
     date_time: datetime = Field(..., description="Дата и время заявки на вызов курьера")
-    from_location: DeliveryLocation | None = Field(
+    from_location: Optional[DeliveryLocation] = Field(
         None, description="Адрес отправления"
     )
-    shipment_point: str | None = Field(None, description="Код ПВЗ СДЭК")
+    shipment_point: Optional[str] = Field(None, description="Код ПВЗ СДЭК")
     to_location: DeliveryLocation = Field(..., description="Адрес доставки")
     tariff_code: int = Field(..., description="Код тарифа")
-    additional_order_types: list[int] | None = Field(
+    additional_order_types: Optional[list[int]] = Field(
         None, description="Дополнительные типы заказа"
     )
 

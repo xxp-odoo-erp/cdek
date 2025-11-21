@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 from .contact import Contact, ContragentType, Passport, Tin
 from .dimensions import Dimensions
 from .entity_response import EntityResponse, RelatedEntity, Request, RootEntity
 from .error import Error
 from .image import Image
 from .location import Address, City, Coordinates, Country, FullLocation, Region, Zip
+from .money import Money, Vat
 from .package import CalcPackage, Package
 from .phone import Phone
 from .seller import Seller
@@ -36,4 +39,6 @@ __all__ = [
     "Package",
     "FullLocation",
     "Seller",
+    "Money",
+    "Vat",
 ]

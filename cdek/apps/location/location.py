@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from ..app import App
 from .filters import (
     CityFilter,
@@ -18,7 +22,7 @@ from .responses import (
 class LocationApp(App):
     """Получение списка локаций"""
 
-    def city(self, filter_params: CityFilter) -> CityResponse | None:
+    def city(self, filter_params: CityFilter) -> Optional[CityResponse]:
         """
         Подбор локации по названию города
         Метод позволяет получать подсказки по подбору населенного пункта
@@ -31,17 +35,17 @@ class LocationApp(App):
             ValueError: Если filter_params не является объектом CityFilter
 
         Returns:
-            CityResponse | None: Объект CityResponse с информацией о найденном городе
+            Optional[CityResponse]: Объект CityResponse с информацией о найденном городе
             или None, если город не найден
         """
         # Обрабатываем filter_params как словарь
-        if not isinstance(filter_params, CityFilter | None):
+        if filter_params is not None and not isinstance(filter_params, CityFilter):
             raise ValueError("filter_params must be a CityFilter instance")
         response = self._get("location/suggest/cities", params=filter_params)
         return CityResponse.model_validate(response) if response else None
 
     def regions(
-        self, filter_params: RegionFilter | None = None
+        self, filter_params: Optional[RegionFilter] = None
     ) -> list[RegionResponse]:
         """
         Получение списка регионов
@@ -57,13 +61,13 @@ class LocationApp(App):
             list[RegionResponse]: Список объектов RegionResponse
             с информацией о регионах
         """
-        if not isinstance(filter_params, RegionFilter | None):
+        if filter_params is not None and not isinstance(filter_params, RegionFilter):
             raise ValueError("filter_params must be a RegionFilter instance")
         response = self._get("location/regions", params=filter_params)
         # Здесь должен быть импорт и создание RegionsResponse объектов
         return [RegionResponse.model_validate(region) for region in response]
 
-    def zip(self, filter_params: ZipFilter | None = None):
+    def zip(self, filter_params: Optional[ZipFilter] = None):
         """
         Получение почтовых индексов города
         Метод предназначен для получения списка почтовых индексов.
@@ -78,12 +82,12 @@ class LocationApp(App):
             list[ZipResponse]: Список объектов ZipResponse с информацией
             о почтовых индексах
         """
-        if not isinstance(filter_params, ZipFilter | None):
+        if filter_params is not None and not isinstance(filter_params, ZipFilter):
             raise ValueError("filter_params must be a ZipFilter instance")
         response = self._get("location/postalcodes", params=filter_params)
         return [ZipResponse.model_validate(zip_code) for zip_code in response]
 
-    def coordinates(self, filter_params: CoordinatesFilter | None = None):
+    def coordinates(self, filter_params: Optional[CoordinatesFilter] = None):
         """
         Получение локации по координатам
         Метод позволяет определить локацию по переданным в запросе координатам
@@ -99,14 +103,14 @@ class LocationApp(App):
             list[CoordinatesResponse]: Список объектов CoordinatesResponse
             с информацией о локации
         """
-        if not isinstance(filter_params, CoordinatesFilter | None):
+        if filter_params is not None and not isinstance(filter_params, CoordinatesFilter):
             raise ValueError("filter_params must be a CoordinatesFilter instance")
         response = self._get("location/coordinates", params=filter_params)
         return [
             CoordinatesResponse.model_validate(coordinates) for coordinates in response
         ]
 
-    def cities(self, filter_params: CityListFilter | None = None):
+    def cities(self, filter_params: Optional[CityListFilter] = None):
         """
         Получение списка населенных пунктов
         Метод предназначен для получения детальной информации о населенных пунктах
@@ -120,7 +124,7 @@ class LocationApp(App):
         Returns:
             list[CitiesResponse]: Список объектов CitiesResponse с информацией о городах
         """
-        if not isinstance(filter_params, CityListFilter | None):
+        if filter_params is not None and not isinstance(filter_params, CityListFilter):
             raise ValueError("filter_params must be a CityListFilter instance")
         response = self._get("location/cities", params=filter_params)
         return [CitiesResponse.model_validate(city) for city in response]

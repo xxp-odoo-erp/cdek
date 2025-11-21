@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -21,7 +25,7 @@ class WebookSetEntityResponse(EntityResponse):
 class WebhookUUIDEntityResponse(EntityResponse):
     """Ответ на получение информации о подписке по UUID"""
 
-    entity: WebhookResponse | None = Field(default=None, description="Webhook")
+    entity: Optional[WebhookResponse] = Field(default=None, description="Webhook")
 
 
 class WebhookDeleteEntityResponse(EntityResponse):

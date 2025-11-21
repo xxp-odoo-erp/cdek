@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from datetime import date as Date
 from uuid import UUID
 
@@ -35,13 +39,13 @@ class AvailableDeliveryIntervalsResponse(BaseModel):
 class ScheduleInfoEntity(RegisterDeliveryRequest):
     uuid: UUID = Field(..., description="Идентификатор договоренности о доставке")
     statuses: list[Status] = Field(..., description="Статусы договоренности о доставке")
-    source: str | None = Field(
+    source: Optional[str] = Field(
         None,
         description="Источник согласования",
     )
 
 
 class AgreementInfoResponse(BaseModel):
-    entity: ScheduleInfoEntity | None = Field(
+    entity: Optional[ScheduleInfoEntity] = Field(
         default=None, description="Договорённость о доставке"
     )

@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 from datetime import date as Date
 from datetime import datetime
+from typing import Optional
 
 from pydantic import Field, field_serializer
 
@@ -21,30 +24,30 @@ class OrderResponse(Order):
     type: int = Field(..., description="Тип заказа")
     is_return: bool = Field(..., description="Признак возврата заказа")
     is_reverse: bool = Field(..., description="Признак реверсного заказа")
-    cdek_number: int | None = Field(..., description="Номер заказа в ИС СДЭК")
-    accompanying_waybill: AccompanyingWaybill | None = Field(
+    cdek_number: Optional[int] = Field(..., description="Номер заказа в ИС СДЭК")
+    accompanying_waybill: Optional[AccompanyingWaybill] = Field(
         None, description="Информация для сопроводительной накладной"
     )
-    keep_free_until: datetime | None = Field(
+    keep_free_until: Optional[datetime] = Field(
         None, description="Дата окончания бесплатного хранения"
     )
     statuses: list[OrderStatus] = Field(..., description="Статусы заказа")
     is_client_return: bool = Field(..., description="Признак клиентского возврата")
-    delivery_mode: str | None = Field(None, description="Режим доставки")
-    planned_delivery_date: Date | None = Field(
+    delivery_mode: Optional[str] = Field(None, description="Режим доставки")
+    planned_delivery_date: Optional[Date] = Field(
         None, description="Планируемая дата доставки"
     )
-    delivery_detail: DeliveryDetail | None = Field(
+    delivery_detail: Optional[DeliveryDetail] = Field(
         None, description="Детальная информация о доставке"
     )
-    transacted_payment: bool | None = Field(
+    transacted_payment: Optional[bool] = Field(
         None, description="Признак проведенного платежа"
     )
-    delivery_problem: DeliveryProblem | None = Field(
+    delivery_problem: Optional[DeliveryProblem] = Field(
         None, description="Проблема с доставкой"
     )
-    developer_key: str | None = Field(None, description="Ключ разработчика")
-    calls: Call | None = Field(None, description="Информация о прозвонах")
+    developer_key: Optional[str] = Field(None, description="Ключ разработчика")
+    calls: Optional[Call] = Field(None, description="Информация о прозвонах")
 
     @field_serializer("planned_delivery_date")
     def serialize_planned_delivery_date(self, planned_delivery_date: Date) -> str:
@@ -60,6 +63,6 @@ class OrderResponse(Order):
 class OrderEntityResponse(EntityResponse):
     """Модель ответа о заказе."""
 
-    entity: OrderResponse | None = Field(
+    entity: Optional[OrderResponse] = Field(
         default=None, description="Информация о заказе в рамках протокола"
     )

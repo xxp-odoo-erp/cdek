@@ -1,31 +1,35 @@
-from enum import StrEnum, auto
+from __future__ import annotations
+
+from typing import Optional
+
+from enum import Enum
 
 from pydantic import BaseModel, Field
 
 
-class PrintType(StrEnum):
+class PrintType(str, Enum):
     """Типы печатной формы"""
 
-    tpl_china = auto()
-    tpl_armenia = auto()
-    tpl_russia = auto()
-    tpl_english = auto()
-    tpl_italian = auto()
-    tpl_korean = auto()
-    tpl_latvian = auto()
-    tpl_lithuanian = auto()
-    tpl_german = auto()
-    tpl_turkish = auto()
-    tpl_czech = auto()
-    tpl_thailand = auto()
-    tpl_invoice = auto()
+    tpl_china = "tpl_china"
+    tpl_armenia = "tpl_armenia"
+    tpl_russia = "tpl_russia"
+    tpl_english = "tpl_english"
+    tpl_italian = "tpl_italian"
+    tpl_korean = "tpl_korean"
+    tpl_latvian = "tpl_latvian"
+    tpl_lithuanian = "tpl_lithuanian"
+    tpl_german = "tpl_german"
+    tpl_turkish = "tpl_turkish"
+    tpl_czech = "tpl_czech"
+    tpl_thailand = "tpl_thailand"
+    tpl_invoice = "tpl_invoice"
 
 
 class PrintOrder(BaseModel):
-    order_uuid: str | None = Field(None, description="Идентификатор заказа в ИС СДЭК")
-    cdek_number: int | None = Field(None, description="Номер заказа СДЭК")
+    order_uuid: Optional[str] = Field(None, description="Идентификатор заказа в ИС СДЭК")
+    cdek_number: Optional[int] = Field(None, description="Номер заказа СДЭК")
 
 
 class PrintForm(BaseModel):
     orders: list[PrintOrder] = Field(..., description="Список заказов")
-    copy_count: int | None = Field(None, description="Количество копий")
+    copy_count: Optional[int] = Field(None, description="Количество копий")

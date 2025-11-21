@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from datetime import date as Date
+from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field, field_serializer
@@ -9,16 +12,16 @@ from .location import Address, City, Coordinates, Country, Region, Zip
 
 class IntakeLocation(City, Country, Region, Coordinates, Zip, Address):
     address: str = Field(..., description="Строка адреса")
-    region: str | None = Field(None, description="Название региона")
-    city: str | None = Field(None, description="Название населенного пункта")
-    city_uuid: str | None = Field(
+    region: Optional[str] = Field(None, description="Название региона")
+    city: Optional[str] = Field(None, description="Название населенного пункта")
+    city_uuid: Optional[str] = Field(
         None, description="Уникальный идентификатор населенного пункта"
     )
 
 
 class Intakes(BaseModel):
-    cdek_number: str | None = Field(None, description="Номер заказа СДЭК")
-    order_uuid: UUID | None = Field(None, description="Идентификатор заказа")
+    cdek_number: Optional[str] = Field(None, description="Номер заказа СДЭК")
+    order_uuid: Optional[UUID] = Field(None, description="Идентификатор заказа")
     intake_date: Date = Field(..., description="Дата заявки на вызов курьера")
     intake_time_from: str = Field(
         ..., description="Время начала заявки на вызов курьера"
@@ -28,20 +31,20 @@ class Intakes(BaseModel):
     )
     lunch_time_from: str = Field(..., description="Время начала обеда")
     lunch_time_to: str = Field(..., description="Время окончания обеда")
-    name: str | None = Field(None, description="Имя заказчика")
-    weight: int | None = Field(None, description="Вес заявки")
-    length: int | None = Field(None, description="Длина заявки")
-    width: int | None = Field(None, description="Ширина заявки")
-    height: int | None = Field(None, description="Высота заявки")
-    comment: str | None = Field(None, description="Комментарий к заявке")
-    courier_power_of_attorney: bool | None = Field(
+    name: Optional[str] = Field(None, description="Имя заказчика")
+    weight: Optional[int] = Field(None, description="Вес заявки")
+    length: Optional[int] = Field(None, description="Длина заявки")
+    width: Optional[int] = Field(None, description="Ширина заявки")
+    height: Optional[int] = Field(None, description="Высота заявки")
+    comment: Optional[str] = Field(None, description="Комментарий к заявке")
+    courier_power_of_attorney: Optional[bool] = Field(
         None, description="Нужно ли вызывать курьера"
     )
-    courier_identity_card: bool | None = Field(
+    courier_identity_card: Optional[bool] = Field(
         None, description="Нужно ли вызывать курьера"
     )
-    sender: Contact | None = Field(None, description="Контакт заказчика")
-    from_location: IntakeLocation | None = Field(None, description="Населённый пункт")
+    sender: Optional[Contact] = Field(None, description="Контакт заказчика")
+    from_location: Optional[IntakeLocation] = Field(None, description="Населённый пункт")
     need_call: bool = Field(False, description="Необходим прозвон получателя")
 
     @field_serializer("intake_date")

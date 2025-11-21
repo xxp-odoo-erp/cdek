@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from typing import Literal
 from uuid import UUID
 
@@ -9,41 +13,41 @@ from ..request import BaseRequest
 class OfficeFilter(BaseRequest):
     """Фильтр для ПВЗ"""
 
-    code: str | None = Field(None, max_length=255, description="Код ПВЗ")
+    code: Optional[str] = Field(None, max_length=255, description="Код ПВЗ")
     type: Literal["PVZ", "POSTAMAT", "ALL"] = Field("ALL", description="Тип офиса")
-    postal_code: str | None = Field(
+    postal_code: Optional[str] = Field(
         None, max_length=255, 
         description="Почтовый индекс города, для которого необходим список офисов"
     )
-    city_code: int | None = Field(
+    city_code: Optional[int] = Field(
         None, 
         description='Код населенного пункта СДЭК (метод "Список населенных пунктов")'
         )
-    country_code: str | None = Field(
+    country_code: Optional[str] = Field(
         None,
         max_length=2,
         description="Код страны в формате ISO_3166-1_alpha-2",
     )
-    region_code: int | None = Field(None, description="Код региона СДЭК")
-    have_cashless: bool | None = Field(None, description="Наличие терминала оплаты")
-    have_cash: bool | None = Field(None, description="Есть прием наличных")
-    is_dressing_room: bool | None = Field(None, description="Наличие примерочной")
-    weight_max: int | None = Field(
+    region_code: Optional[int] = Field(None, description="Код региона СДЭК")
+    have_cashless: Optional[bool] = Field(None, description="Наличие терминала оплаты")
+    have_cash: Optional[bool] = Field(None, description="Есть прием наличных")
+    is_dressing_room: Optional[bool] = Field(None, description="Наличие примерочной")
+    weight_max: Optional[int] = Field(
         None, gt=0, description="Максимальный вес в кг, который может принять офис")
-    weight_min: int | None = Field(
+    weight_min: Optional[int] = Field(
         None, gt=0, description="Минимальный вес в кг, который может принять офис")
     lang: str = Field("rus", description="Локализация офиса")
-    take_only: bool | None = Field(
+    take_only: Optional[bool] = Field(
         None, description="Является ли офис только пунктом выдачи")
-    is_handout: bool | None = Field(None, description="Является пунктом выдачи")
-    is_reception: bool | None = Field(None, description="Есть ли в офисе приём заказов")
-    is_marketplace: bool | None = Field(
+    is_handout: Optional[bool] = Field(None, description="Является пунктом выдачи")
+    is_reception: Optional[bool] = Field(None, description="Есть ли в офисе приём заказов")
+    is_marketplace: Optional[bool] = Field(
         None, description='Офис для доставки "До маркетплейса"')
-    is_ltl: bool | None = Field(
+    is_ltl: Optional[bool] = Field(
         None, description="Работает ли офис с LTL (сборный груз)")
-    fulfillment: bool | None = Field(None, description="Офис с зоной фулфилмента")
-    fias_guid: UUID | None = Field(None, description="Код города ФИАС")
-    size: int | None = Field(
+    fulfillment: Optional[bool] = Field(None, description="Офис с зоной фулфилмента")
+    fias_guid: Optional[UUID] = Field(None, description="Код города ФИАС")
+    size: Optional[int] = Field(
         None, ge=0, description="Ограничение выборки результата (размер страницы)")
-    page: int | None = Field(
+    page: Optional[int] = Field(
         None, ge=0, description="Номер страницы выборки результата")

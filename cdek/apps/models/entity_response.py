@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -13,13 +16,13 @@ class RootEntity(BaseModel):
 class EntityResponse(BaseModel):
     """Модель ответа о сущности."""
 
-    entity: RootEntity | None = Field(
+    entity: Optional[RootEntity] = Field(
         default=None, description="Идентификатор сущности в ИС СДЭК"
     )
-    requests: list[Request] | None = None
-    related_entities: list[RelatedEntity] | None = None
+    requests: Optional[list[Request]] = None
+    related_entities: Optional[list[RelatedEntity]] = None
 
-    def get_entry_uuid(self) -> str | None:
+    def get_entry_uuid(self) -> Optional[str]:
         """Получить UUID сущности."""
         if self.entity is None:
             return None
@@ -27,7 +30,7 @@ class EntityResponse(BaseModel):
             return str(self.entity.uuid)
         return None
 
-    def get_entity(self) -> RootEntity | None:
+    def get_entity(self) -> Optional[RootEntity]:
         """Получить данные сущности."""
         if self.entity is None:
             return None
