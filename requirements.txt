@@ -1,2 +1,2 @@
+pydantic>=2.6,<3.0
 requests>=2.25.0
-
