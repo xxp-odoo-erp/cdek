@@ -1,15 +1,19 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from pydantic import BaseModel, Field
 
 
 class Vat(BaseModel):
-    vat_sum: float | None = Field(None, description="Сумма НДС")
-    vat_rate: int | None = Field(None, description="Ставка НДС")
+    vat_sum: Optional[float] = Field(None, description="Сумма НДС")
+    vat_rate: Optional[int] = Field(None, description="Ставка НДС")
 
 
 class Money(Vat):
     """Модель для денежных сумм и НДС."""
 
-    value: float | None = Field(None, description="Сумма платежа, включая НДС")
+    value: Optional[float] = Field(None, description="Сумма платежа, включая НДС")
 
     @classmethod
     def init(cls, **kwargs):

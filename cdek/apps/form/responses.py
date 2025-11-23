@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from datetime import datetime
 from typing import Literal
 from uuid import UUID
@@ -22,7 +26,7 @@ class PrintStatus(BaseModel):
 
 class PrintBarcodeEntity(PrintBarcodeRequest):
     uuid: UUID = Field(..., description="Идентификатор ШК места к заказу")
-    url: str | None = Field(None, description="Ссылка на скачивание файла")
+    url: Optional[str] = Field(None, description="Ссылка на скачивание файла")
     lang: Literal["RUS", "ENG", "DEU", "ITA", "TUR", "CES", "KOR", "LIT", "LAV"] = (
         Field("RUS", description="Язык печати")
     )
@@ -30,19 +34,19 @@ class PrintBarcodeEntity(PrintBarcodeRequest):
 
 
 class PrintBarcodeResponse(EntityResponse):
-    entity: PrintBarcodeEntity | None = Field(
+    entity: Optional[PrintBarcodeEntity] = Field(
         default=None, description="ШК места к заказу"
     )
 
 
 class WaybillResponse(PrintForm):
     uuid: UUID = Field(..., description="Идентификатор ШК места к заказу")
-    type: PrintType | None = Field(None, description="Форма квитанции")
-    url: str | None = Field(None, description="Ссылка на скачивание файла")
+    type: Optional[PrintType] = Field(None, description="Форма квитанции")
+    url: Optional[str] = Field(None, description="Ссылка на скачивание файла")
     statuses: list[PrintStatus] = Field(..., description="Статус файла")
 
 
 class WaybillEntityResponse(EntityResponse):
-    entity: WaybillResponse | None = Field(
+    entity: Optional[WaybillResponse] = Field(
         default=None, description="Квитанция к заказу"
     )

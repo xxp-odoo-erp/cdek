@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from pydantic import BaseModel, Field
 
 from ..models import (
@@ -16,6 +20,9 @@ class OfficeLocation(FullLocation):
     """Модель ответа локации офиса"""
 
     code: int = Field(alias="city_code")
+    region: Optional[str] = Field(default=None)
+    city: Optional[str] = Field(default=None)
+
 
 
 class OfficeResponse(BaseModel):
@@ -23,19 +30,19 @@ class OfficeResponse(BaseModel):
 
     code: str = Field(..., description="Код ПВЗ")
     uuid: str = Field(..., description="Идентификатор офиса в ИС СДЭК")
-    address_comment: str | None = Field(None, description="Описание местоположения")
-    nearest_station: str | None = Field(
+    address_comment: Optional[str] = Field(None, description="Описание местоположения")
+    nearest_station: Optional[str] = Field(
         None, description="Ближайшая станция/остановка транспорта"
     )
-    nearest_metro_station: str | None = Field(
+    nearest_metro_station: Optional[str] = Field(
         None, description="Ближайшая станция метро"
     )
     work_time: str = Field(
         ..., description="Режим работы, строка вида «пн-пт 9-18, сб 9-16»"
     )
-    phones: list[Phone] = Field(..., description="Телефоны офиса")
-    email: str | None = Field(None, description="Адрес электронной почты")
-    note: str | None = Field(None, description="Примечание по ПВЗ")
+    phones: Optional[list[Phone]] = Field(default=None, description="Телефоны офиса")
+    email: Optional[str] = Field(None, description="Адрес электронной почты")
+    note: Optional[str] = Field(None, description="Примечание по ПВЗ")
     type: str = Field(
         ..., description="Тип ПВЗ. PVZ — склад СДЭК, POSTAMAT — постамат СДЭК"
     )
@@ -46,10 +53,10 @@ class OfficeResponse(BaseModel):
     is_handout: bool = Field(..., description="Является пунктом выдачи")
     is_reception: bool = Field(..., description="Является пунктом приёма")
     is_dressing_room: bool = Field(..., description="Есть ли примерочная")
-    is_marketplace: bool | None = Field(
+    is_marketplace: Optional[bool] = Field(
         None, description='Офис для доставки заказов "До маркетплейса"'
     )
-    is_ltl: bool | None = Field(
+    is_ltl: Optional[bool] = Field(
         None, description="Работает ли офис с LTL (сборный груз)"
     )
     have_cashless: bool = Field(..., description="Есть безналичный расчет")
@@ -58,29 +65,29 @@ class OfficeResponse(BaseModel):
         ..., description="Есть безналичный расчёт по СБП"
     )
     allowed_cod: bool = Field(..., description="Разрешен наложенный платеж в ПВЗ")
-    site: str | None = Field(None, description="Ссылка на данный офис на сайте СДЭК")
-    office_image_list: list[Image] | None = Field(
+    site: Optional[str] = Field(None, description="Ссылка на данный офис на сайте СДЭК")
+    office_image_list: Optional[list[Image]] = Field(
         None, description="Все фото офиса (кроме фото как доехать)"
     )
     work_time_list: list[WorkTime] = Field(..., description="График работы на неделю")
     work_time_exception_list: list[WorkTimeException] = Field(
         ..., description="Исключения из графика работы"
     )
-    weight_min: float | None = Field(
+    weight_min: Optional[float] = Field(
         None, description="Минимальный вес (в кг.), принимаемый в ПВЗ (> WeightMin)"
     )
-    weight_max: float | None = Field(
+    weight_max: Optional[float] = Field(
         None, description="Максимальный вес (в кг.), принимаемый в ПВЗ (<= WeightMax)"
     )
-    dimensions: Dimensions | None = Field(None, description="Размеры ПВЗ")
-    errors: list[Error] | None = Field(None, description="Список ошибок")
-    warnings: list[WarningModel] | None = Field(
+    dimensions: Optional[list[Dimensions]] = Field(None, description="Размеры ПВЗ")
+    errors: Optional[list[Error]] = Field(None, description="Список ошибок")
+    warnings: Optional[list[WarningModel]] = Field(
         None, description="Список предупреждений"
     )
     location: OfficeLocation = Field(..., description="Информация об офисе")
-    distance: int | None = Field(
+    distance: Optional[int] = Field(
         None, description="Расстояние до точки, поиск ближайшего ПВЗ"
     )
-    fulfillment: bool | None = Field(
+    fulfillment: Optional[bool] = Field(
         None, description='Работает ли офис с "Фулфилмент. Приход"'
     )

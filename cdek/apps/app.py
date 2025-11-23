@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import time
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, Optional
 
 import requests
 
@@ -22,9 +22,10 @@ class App:
         self.constants = constants
         self.token = None
         self.expire = 0
+        self._response_headers = {}
         self._session = requests.Session()
 
-    def _prepare_data(self, params: Any) -> dict | None:
+    def _prepare_data(self, params: Any) -> Optional[dict]:
         """Подготовка параметра для запроса"""
         if params is None:
             return None
@@ -49,8 +50,8 @@ class App:
         self,
         method: Literal["GET", "POST", "PATCH", "DELETE"],
         url: str,
-        params: dict | None = None,
-        json: dict | None = None,
+        params: Optional[dict] = None,
+        json: Optional[dict] = None,
         **kwargs,
     ):
         """
@@ -85,6 +86,7 @@ class App:
 
             response_json = response.json()
             self._check_errors(url, response, response_json)
+            self._response_headers = response.headers
             return response_json
 
         except requests.exceptions.RequestException as e:
@@ -96,8 +98,8 @@ class App:
         self,
         method: Literal["GET", "POST", "PATCH", "DELETE"],
         url: str,
-        params: Any | None = None,
-        json: Any | None = None,
+        params: Optional[Any] = None,
+        json: Optional[Any] = None,
         **kwargs,
     ):
         """
@@ -244,6 +246,7 @@ class App:
                     f"От API CDEK при вызове метода {method} "
                     f"получена ошибка: {message}",
                     response.status_code,
+                    api_response,
                 )
 
         # Обработка общих ошибок
@@ -259,6 +262,7 @@ class App:
             raise CdekRequestException(
                 f"От API CDEK при вызове метода {method} получена ошибка: {message}",
                 response.status_code,
+                api_response,
             )
 
         # Общая ошибка при неверном статусе
@@ -267,4 +271,5 @@ class App:
                 f"Неверный код ответа от сервера CDEK при вызове метода "
                 f"{method}: {response.status_code}",
                 response.status_code,
+                api_response,
             )

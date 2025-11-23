@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from datetime import datetime as DateTime
 from typing import Literal
 
@@ -18,7 +22,7 @@ class CheckInfo(BaseModel):
         ..., description="Тип чека"
     )
     payment_info: list[PaymentInfo] = Field(..., description="Информация о платеже")
-    shift_no: int | None = Field(None, description="Номер смены")
+    shift_no: Optional[int] = Field(None, description="Номер смены")
 
     @field_serializer("date")
     def serialize_date(self, date: DateTime) -> str:
@@ -28,7 +32,7 @@ class CheckInfo(BaseModel):
 
 class CheckResponse(BaseModel):
     check_info: list[CheckInfo] = Field(..., description="Информация о чеке")
-    errors: list[Error] | None = Field(None, description="Список ошибок")
-    warnings: list[WarningModel] | None = Field(
+    errors: Optional[list[Error]] = Field(None, description="Список ошибок")
+    warnings: Optional[list[WarningModel]] = Field(
         None, description="Список предупреждений"
     )

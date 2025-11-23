@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from datetime import date as Date
 
 from pydantic import BaseModel, Field, field_serializer
@@ -11,10 +15,10 @@ class WorkTime(BaseModel):
 class WorkTimeException(BaseModel):
     date_start: Date = Field(..., description="Дата начала исключения в работе офиса")
     date_end: Date = Field(..., description="Дата окончания исключения в работе офиса")
-    time_start: str | None = Field(
+    time_start: Optional[str] = Field(
         None, description="Время начала работы в указанную дату"
     )
-    time_end: str | None = Field(
+    time_end: Optional[str] = Field(
         None, description="Время окончания работы в указанную дату"
     )
     is_working: bool = Field(

@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from typing import Literal
 
 from pydantic import Field
@@ -12,4 +16,4 @@ class PrintBarcodeRequest(BaseRequest, PrintForm):
 
 
 class PrintInvoiceRequest(BaseRequest, PrintForm):
-    type: PrintType | None = Field(None, description="Тип накладной")
+    type: Optional[PrintType] = Field(None, description="Тип накладной")

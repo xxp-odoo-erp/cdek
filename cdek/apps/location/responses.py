@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -36,10 +40,10 @@ class CoordinatesResponse(City):
 
 
 class CitiesResponse(City, Country, Region, Coordinates):
-    region: str | None = Field(
+    region: Optional[str] = Field(
         default=None, max_length=255, description="Название региона"
     )
-    time_zone: str | None = Field(None, description="Часовой пояс населенного пункта")
-    payment_limit: float | None = Field(
+    time_zone: Optional[str] = Field(None, description="Часовой пояс населенного пункта")
+    payment_limit: Optional[float] = Field(
         ..., description="Ограничение на сумму наложенного платежа в населенном пункте"
     )

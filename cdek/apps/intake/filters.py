@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from datetime import date as Date
 from uuid import UUID
 
@@ -20,14 +24,14 @@ class IntakeFilter(BaseRequest):
 
 
 class IntakeLocation(BaseRequest, Region, Coordinates, Zip):
-    code: int | None = Field(None, description="Код населенного пункта СДЭК")
-    city: str | None = Field(None, description="Название населенного пункта")
-    fias_guid: UUID | None = Field(
+    code: Optional[int] = Field(None, description="Код населенного пункта СДЭК")
+    city: Optional[str] = Field(None, description="Название населенного пункта")
+    fias_guid: Optional[UUID] = Field(
         None, description="Уникальный идентификатор ФИАС населенного пункта"
     )
-    address: str | None = Field(None, description="Строка адреса")
-    region: str | None = Field(None, description="Название региона")
-    city_uuid: str | None = Field(
+    address: Optional[str] = Field(None, description="Строка адреса")
+    region: Optional[str] = Field(None, description="Название региона")
+    city_uuid: Optional[str] = Field(
         None, description="Уникальный идентификатор населенного пункта"
     )
 

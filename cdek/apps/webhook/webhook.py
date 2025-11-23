@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from ..app import App
 from .requests import WebhookRequest
 from .responses import (

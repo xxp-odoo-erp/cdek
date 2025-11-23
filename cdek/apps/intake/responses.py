@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from datetime import date as Date
+from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -15,23 +18,23 @@ class IntakesResponse(Intakes):
 
 
 class IntakePackage(BaseModel):
-    package_id: UUID | None = Field(
+    package_id: Optional[UUID] = Field(
         None,
         description="Уникальный номер упаковки в ИС СДЭК",
     )
-    weight: int | None = Field(
+    weight: Optional[int] = Field(
         None,
         description="Общий вес упаковки (в граммах)",
     )
-    length: int | None = Field(
+    length: Optional[int] = Field(
         None,
         description="Длина упаковки (в сантиметрах)",
     )
-    width: int | None = Field(
+    width: Optional[int] = Field(
         None,
         description="Ширина упаковки (в сантиметрах)",
     )
-    height: int | None = Field(
+    height: Optional[int] = Field(
         None,
         description="Высота упаковки (в сантиметрах)",
     )
@@ -39,23 +42,23 @@ class IntakePackage(BaseModel):
 
 class IntakesEntity(BaseModel):
     order_uuid: UUID = Field(..., alias="uuid")
-    intake_number: str | None = Field(
+    intake_number: Optional[str] = Field(
         None, max_length=255, description="Номер заявки в системе СДЭК"
     )
-    to_location: IntakeLocation | None = Field(None, description="Место доставки")
-    statuses: list[Status] | None = Field(None, description="Статусы заявки")
-    packages: list[IntakePackage] | None = Field(
+    to_location: Optional[IntakeLocation] = Field(None, description="Место доставки")
+    statuses: Optional[list[Status]] = Field(None, description="Статусы заявки")
+    packages: Optional[list[IntakePackage]] = Field(
         None, description="Список упаковок заявки"
     )
-    contragent_uuid: UUID | None = Field(None, description="Идентификатор контрагента")
+    contragent_uuid: Optional[UUID] = Field(None, description="Идентификатор контрагента")
 
 
 class IntakeEntityResponse(EntityResponse):
-    entity: IntakesEntity | None = None
+    entity: Optional[IntakesEntity] = None
 
 
 class IntakeDateResponse(BaseModel):
     date: list[Date] = Field(..., description="Доступные даты для забора курьером")
-    all_days: bool | None = Field(None, description="Все дни")
-    errors: list[Error] | None = Field(None, description="Ошибки")
-    warnings: list[WarningModel] | None = Field(None, description="Предупреждения")
+    all_days: Optional[bool] = Field(None, description="Все дни")
+    errors: Optional[list[Error]] = Field(None, description="Ошибки")
+    warnings: Optional[list[WarningModel]] = Field(None, description="Предупреждения")

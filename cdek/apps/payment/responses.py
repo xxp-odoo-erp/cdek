@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from datetime import date as Date
 from datetime import datetime as DateTime
 from uuid import UUID
@@ -23,9 +27,9 @@ class PaymentOrder(BaseModel):
 
 
 class PaymentInfoResponse(BaseModel):
-    orders: list[PaymentOrder] | None = Field(None, description="Список заказов")
-    errors: list[Error] | None = Field(None, description="Список ошибок")
-    warnings: list[WarningModel] | None = Field(
+    orders: Optional[list[PaymentOrder]] = Field(None, description="Список заказов")
+    errors: Optional[list[Error]] = Field(None, description="Список ошибок")
+    warnings: Optional[list[WarningModel]] = Field(
         None, description="Список предупреждений"
     )
 
@@ -58,11 +62,11 @@ class RegistryOrder(BaseModel):
 
 class Registry(BaseModel):
     registry_number: int = Field(..., description="Номер реестра наложенного платежа")
-    payment_date: Date | None = Field(
+    payment_date: Optional[Date] = Field(
         None, description="Фактическая дата оплаты реестра наложенного платежа"
     )
     sum: float = Field(..., description="Сумма по реестру (в валюте взаиморасчетов)")
-    payment_order_number: str | None = Field(
+    payment_order_number: Optional[str] = Field(
         None,
         description=(
             "Номер платежного поручения, в рамках которого был осуществлен платеж. "
@@ -70,7 +74,7 @@ class Registry(BaseModel):
         ),
     )
     orders: list[RegistryOrder] = Field(..., description="Список заказов реестра")
-    date_created: DateTime | None = Field(
+    date_created: Optional[DateTime] = Field(
         None, description="Дата создания реестра наложенного платежа"
     )
 
@@ -86,8 +90,8 @@ class Registry(BaseModel):
 
 
 class PaymentResponse(BaseModel):
-    registries: list[Registry] | None = Field(None, description="Список реестров")
-    errors: list[Error] | None = Field(None, description="Список ошибок")
-    warnings: list[WarningModel] | None = Field(
+    registries: Optional[list[Registry]] = Field(None, description="Список реестров")
+    errors: Optional[list[Error]] = Field(None, description="Список ошибок")
+    warnings: Optional[list[WarningModel]] = Field(
         None, description="Список предупреждений"
     )

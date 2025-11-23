@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from datetime import datetime
 
 from pydantic import Field, field_serializer
@@ -9,17 +13,17 @@ from ..request import BaseRequest
 
 
 class CalculatorLocation(BaseRequest, Zip, Coordinates):
-    code: int | None = Field(None, description="Код населенного пункта СДЭК")
-    country_code: str | None = Field(
-        None, max_length=2, description="Код страны в формате ISO_3166-1_alpha-2"
+    code: Optional[int] = Field(default=None, description="Код населенного пункта СДЭК")
+    country_code: Optional[str] = Field(
+        default=None, max_length=2, description="Код страны в формате ISO_3166-1_alpha-2"
     )
-    city: str | None = Field(None, description="Название населенного пункта")
-    address: str | None = Field(None, description="Адрес населенного пункта")
-    contragent_type: ContragentType | None = Field(None, description="Тип контрагента")
+    city: Optional[str] = Field(default=None, description="Название населенного пункта")
+    address: Optional[str] = Field(default=None, description="Адрес населенного пункта")
+    contragent_type: Optional[ContragentType] = Field(default=None, description="Тип контрагента")
 
 
 class TariffListRequest(BaseRequest):
-    date: datetime | None = Field(
+    date: Optional[datetime] = Field(
         None,
         description="Дата и время планируемой передачи заказа",
     )
@@ -27,11 +31,11 @@ class TariffListRequest(BaseRequest):
         1,
         description="Тип заказа. 1 — интернет-магазин, 2 — доставка. По умолчанию — 1.",
     )
-    additional_order_types: list[int] | None = Field(
+    additional_order_types: Optional[list[int]] = Field(
         None,
         description="Дополнительные типы заказа",
     )
-    currency: int | None = Field(
+    currency: Optional[int] = Field(
         None,
         description=("Валюта расчетаПо умолчанию — валюта договора."),
     )
@@ -41,11 +45,11 @@ class TariffListRequest(BaseRequest):
         description="Язык вывода информации о тарифах. "
         "Возможные значения: rus, eng, zho",
     )
-    from_location: CalculatorLocation | None = Field(
+    from_location: Optional[CalculatorLocation] = Field(
         None, description="Отправляющий адрес"
     )
-    to_location: CalculatorLocation | None = Field(None, description="Получающий адрес")
-    packages: list[CalcPackage] | None = Field(None, description="Список упаковок")
+    to_location: Optional[CalculatorLocation] = Field(None, description="Получающий адрес")
+    packages: Optional[list[CalcPackage]] = Field(None, description="Список упаковок")
 
     def set_city_codes(self, from_location: int, to_location: int):
         """Задать коды населённых пунктов отправителя и получателя"""
@@ -65,12 +69,12 @@ class TariffListRequest(BaseRequest):
 
 
 class CalcAdditionalService(BaseRequest):
-    code: str | None = Field(None, description="Код дополнительной услуги")
-    parameter: str | None = Field(None, description="Параметр дополнительной услуги")
+    code: Optional[str] = Field(None, description="Код дополнительной услуги")
+    parameter: Optional[str] = Field(None, description="Параметр дополнительной услуги")
 
 
 class TariffCodeRequest(TariffListRequest):
     tariff_code: int = Field(..., description="Код тарифа")
-    services: list[CalcAdditionalService] | None = Field(
+    services: Optional[list[CalcAdditionalService]] = Field(
         None, description="Список дополнительных услуг"
     )

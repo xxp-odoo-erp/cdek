@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 from pydantic import Field
 
 from ..models.order import Order, UpdateOrder
@@ -9,8 +11,8 @@ from ..request import BaseRequest
 class OrderRequest(BaseRequest, Order):
     """Модель для запроса на создание заказа."""
 
-    print: str | None = Field(None, description="Тип печатной формы")
-    widget_token: str | None = Field(
+    print: Optional[str] = Field(None, description="Тип печатной формы")
+    widget_token: Optional[str] = Field(
         None, description="Токен CMS"
     )
 
@@ -18,5 +20,5 @@ class OrderRequest(BaseRequest, Order):
 class OrderUpdateRequest(BaseRequest, UpdateOrder):
     """Изменение заказа"""
 
-    uuid: str | None = Field(None, description="Идентификатор заказа в ИС СДЭК")
-    cdek_number: int | None = Field(None, description="Номер заказа в ИС СДЭК")
+    uuid: Optional[str] = Field(None, description="Идентификатор заказа в ИС СДЭК")
+    cdek_number: Optional[int] = Field(None, description="Номер заказа в ИС СДЭК")

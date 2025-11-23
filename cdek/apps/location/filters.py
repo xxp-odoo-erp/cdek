@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from typing import Literal
 from uuid import UUID
 
@@ -10,7 +14,7 @@ class CityFilter(BaseRequest):
     """Фильтр для городов"""
 
     name: str = Field(..., description="Наименование населенного пункта СДЭК")
-    country_code: str | None = Field(
+    country_code: Optional[str] = Field(
         None, description="Код страны в формате ISO_3166-1_alpha-2"
     )
 
@@ -18,35 +22,35 @@ class CityFilter(BaseRequest):
 class CityListFilter(BaseRequest):
     """Фильтр для списка городов"""
 
-    country_codes: str | None = Field(
+    country_codes: Optional[str] = Field(
         None, description="Массив кодов стран в формате ISO_3166-1_alpha-2"
     )
-    region_code: int | None = Field(None, description="Код региона (справочник СДЭК)")
-    kladr_region_code: str | None = Field(None, description="Код КЛАДР региона")
-    kladr_code: str | None = Field(None, description="Код КЛАДР населенного пункта")
-    fias_guid: UUID | None = Field(
+    region_code: Optional[int] = Field(None, description="Код региона (справочник СДЭК)")
+    kladr_region_code: Optional[str] = Field(None, description="Код КЛАДР региона")
+    kladr_code: Optional[str] = Field(None, description="Код КЛАДР населенного пункта")
+    fias_guid: Optional[UUID] = Field(
         None, description="Уникальный идентификатор ФИАС населенного пункта"
     )
-    postal_code: str | None = Field(None, description="Почтовый индекс")
-    code: int | None = Field(None, description="Код населенного пункта СДЭК")
-    city: str | None = Field(
+    postal_code: Optional[str] = Field(None, description="Почтовый индекс")
+    code: Optional[int] = Field(None, description="Код населенного пункта СДЭК")
+    city: Optional[str] = Field(
         None,
         description="Название населенного пункта. Должно соответствовать полностью",
     )
-    payment_limit: float | None = Field(
+    payment_limit: Optional[float] = Field(
         None, description="Ограничение на сумму наложенного платежа"
     )
-    size: int | None = Field(1000, description="Ограничение выборки результата")
-    page: int | None = Field(
+    size: Optional[int] = Field(1000, description="Ограничение выборки результата")
+    page: Optional[int] = Field(
         0, description="Номер страницы выборки результата. Нумерация страниц с 0"
     )
-    lang: str | None = Field(None, description="Язык локализации ответа")
+    lang: Optional[str] = Field(None, description="Язык локализации ответа")
 
 
 class RegionFilter(BaseRequest):
     """Фильтр для регионов"""
 
-    country_codes: str | None = Field(
+    country_codes: Optional[str] = Field(
         None, description="Список кодов стран в формате ISO_3166-1_alpha-2"
     )
     size: int = Field(1000, description="Ограничение выборки результата")

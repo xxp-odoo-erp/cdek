@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Optional
+
 from pydantic import BaseModel, Field
 
 from ..models.error import Error
@@ -5,8 +9,8 @@ from ..models.warning import WarningModel
 
 
 class DeliveryDateRange(BaseModel):
-    min: str | None = Field(None, description="Минимальная дата доставки")
-    max: str | None = Field(None, description="Максимальная дата доставки")
+    min: Optional[str] = Field(None, description="Минимальная дата доставки")
+    max: Optional[str] = Field(None, description="Максимальная дата доставки")
 
 
 class TariffListItem(BaseModel):
@@ -18,7 +22,7 @@ class TariffListItem(BaseModel):
     tariff_name: str = Field(
         ..., max_length=255, description="Название тарифа на языке вывода"
     )
-    tariff_description: str | None = Field(
+    tariff_description: Optional[str] = Field(
         None, max_length=255, description="Описание тарифа на языке вывода"
     )
     delivery_mode: int = Field(..., description="Режим тарифа (справочник СДЭК)")
@@ -29,13 +33,13 @@ class TariffListItem(BaseModel):
     period_max: int = Field(
         ..., description="Максимальное время доставки (в рабочих днях)"
     )
-    calendar_min: int | None = Field(
+    calendar_min: Optional[int] = Field(
         None, description="Минимальное время доставки (в календарных днях)"
     )
-    calendar_max: int | None = Field(
+    calendar_max: Optional[int] = Field(
         None, description="Максимальное время доставки (в календарных днях)"
     )
-    delivery_date_range: DeliveryDateRange | None = Field(
+    delivery_date_range: Optional[DeliveryDateRange] = Field(
         None, description="Прогнозируемый диапазон дат доставки"
     )
 
@@ -43,9 +47,9 @@ class TariffListItem(BaseModel):
 class TariffListResponse(BaseModel):
     """Модель ответа со списком тарифов."""
 
-    tariff_codes: "list[TariffListItem] | None" = Field(default_factory=list)
-    errors: list[Error] | None = Field(None, description="Список ошибок")
-    warnings: list[WarningModel] | None = Field(
+    tariff_codes: Optional[list[TariffListItem]] = Field(default_factory=list)
+    errors: Optional[list[Error]] = Field(None, description="Список ошибок")
+    warnings: Optional[list[WarningModel]] = Field(
         None, description="Список предупреждений"
     )
 
@@ -74,14 +78,14 @@ class TariffResponse(BaseModel):
     period_max: int = Field(
         ..., description="Максимальное время доставки (в рабочих днях)"
     )
-    calendar_min: int | None = Field(
+    calendar_min: Optional[int] = Field(
         None, description="Минимальное время доставки (в календарных днях)"
     )
-    calendar_max: int | None = Field(
+    calendar_max: Optional[int] = Field(
         None, description="Максимальное время доставки (в календарных днях)"
     )
     weight_calc: int = Field(..., description="Расчетный вес (в граммах)")
-    services: list[Services] | None = Field(
+    services: Optional[list[Services]] = Field(
         None,
         description="Дополнительные услуги "
         "(возвращается, если в запросе были переданы доп. услуги)",
@@ -92,11 +96,11 @@ class TariffResponse(BaseModel):
     currency: str = Field(
         ..., description="Валюта, в которой рассчитана стоимость доставки (код СДЭК)"
     )
-    errors: list[Error] | None = Field(None, description="Список ошибок")
-    warnings: list[WarningModel] | None = Field(
+    errors: Optional[list[Error]] = Field(None, description="Список ошибок")
+    warnings: Optional[list[WarningModel]] = Field(
         None, description="Список предупреждений"
     )
-    delivery_date_range: DeliveryDateRange | None = Field(
+    delivery_date_range: Optional[DeliveryDateRange] = Field(
         None, description="Прогнозируемый диапазон дат доставки"
     )
 
@@ -112,30 +116,30 @@ class TariffResponse(BaseModel):
 class DeliveryMode(BaseModel):
     """Модель для режима доставки."""
 
-    delivery_mode: str | None = None
-    delivery_mode_name: str | None = None
-    tariff_code: int | None = None
+    delivery_mode: Optional[str] = None
+    delivery_mode_name: Optional[str] = None
+    tariff_code: Optional[int] = None
 
 
 class AvailableTariff(BaseModel):
-    tariff_name: str | None = Field(None, description="Имя сервиса")
-    weight_min: float | None = Field(None, description="Минимальный вес отправления")
-    weight_max: float | None = Field(None, description="Максимальный вес отправления")
-    weight_calc_max: float | None = Field(
+    tariff_name: Optional[str] = Field(None, description="Имя сервиса")
+    weight_min: Optional[float] = Field(None, description="Минимальный вес отправления")
+    weight_max: Optional[float] = Field(None, description="Максимальный вес отправления")
+    weight_calc_max: Optional[float] = Field(
         None, description="Максимальный расчётный вес"
     )
-    length_min: int | None = Field(None, description="Минимальная длина упаковки")
-    length_max: int | None = Field(None, description="Максимальная длина упаковки")
-    width_min: int | None = Field(None, description="Минимальная ширина упаковки")
-    width_max: int | None = Field(None, description="Максимальная ширина упаковки")
-    height_min: int | None = Field(None, description="Минимальная высота упаковки")
-    height_max: int | None = Field(None, description="Максимальная высота упаковки")
-    order_types: list[str] | None = Field(
+    length_min: Optional[int] = Field(None, description="Минимальная длина упаковки")
+    length_max: Optional[int] = Field(None, description="Максимальная длина упаковки")
+    width_min: Optional[int] = Field(None, description="Минимальная ширина упаковки")
+    width_max: Optional[int] = Field(None, description="Максимальная ширина упаковки")
+    height_min: Optional[int] = Field(None, description="Минимальная высота упаковки")
+    height_max: Optional[int] = Field(None, description="Максимальная высота упаковки")
+    order_types: Optional[list[str]] = Field(
         None,
         description="Список доступных типов заказов для тарифа "
         "(пустой список означает отсутствие ограничений)",
     )
-    payer_contragent_type: list[str] | None = Field(
+    payer_contragent_type: Optional[list[str]] = Field(
         None,
         description=(
             "Список типов контрагентов-плательщиков: "
@@ -143,7 +147,7 @@ class AvailableTariff(BaseModel):
             "Пустой список означает отсутствие ограничений."
         ),
     )
-    sender_contragent_type: list[str] | None = Field(
+    sender_contragent_type: Optional[list[str]] = Field(
         None,
         description=(
             "Список типов контрагентов-отправителей: "
@@ -151,7 +155,7 @@ class AvailableTariff(BaseModel):
             "Пустой список означает отсутствие ограничений."
         ),
     )
-    recipient_contragent_type: list[str] | None = Field(
+    recipient_contragent_type: Optional[list[str]] = Field(
         None,
         description=(
             "Список типов контрагентов-получателей: LEGAL_ENTITY — юридическое лицо, "
@@ -159,10 +163,10 @@ class AvailableTariff(BaseModel):
             "Пустой список означает отсутствие ограничений."
         ),
     )
-    delivery_modes: list[DeliveryMode] | None = Field(
+    delivery_modes: Optional[list[DeliveryMode]] = Field(
         None, description="Режимы доставки"
     )
-    additional_order_types_param: dict | None = Field(
+    additional_order_types_param: Optional[dict] = Field(
         None, description="Доп. типы заказа, применимые к тарифу"
     )
 
@@ -170,7 +174,7 @@ class AvailableTariff(BaseModel):
 class TariffAvailableResponse(BaseModel):
     """Модель ответа о доступных тарифах."""
 
-    tariff_codes: "list[AvailableTariff] | None" = Field(
+    tariff_codes: Optional[list[AvailableTariff]] = Field(
         None, description="Список доступных тарифов"
     )
 
