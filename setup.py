@@ -18,7 +18,7 @@ except FileNotFoundError:
 
 setup(
     name="cdek",
-    version="2.1.1.0.2",
+    version="1.0.0",
     description="Python SDK для работы с API СДЭК версии 2.0",
     long_description=long_description,
     long_description_content_type="text/markdown",

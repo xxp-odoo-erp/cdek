@@ -28,4 +28,3 @@ publish:
 
 check:
 	twine check dist/*
-

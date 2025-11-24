@@ -1,0 +1,22 @@
+# Changes here will be overwritten by Copier
+_commit: 64a5c83
+_src_path: gh:browniebroke/pypackage-template
+cli_name: cdek
+copyright_year: '2025'
+documentation: true
+email: geomer198@gmail.com
+full_name: Maksim Shurupov
+github_username: xxp-odoo-erp
+has_cli: true
+initial_commit: false
+is_django_package: false
+open_source_license: Apache-2.0
+open_with_editor: false
+package_name: cdek
+project_name: CDEK Python SDK v2
+project_short_description: CDEK Python SDK упрощает интеграцию с API СДЭК версии 2.0
+project_slug: cdek
+run_uv_sync: true
+setup_github: true
+setup_pre_commit: true
+
