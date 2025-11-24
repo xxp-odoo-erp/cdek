@@ -1,56 +1,178 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools-scm>=6.2"]
 build-backend = "setuptools.build_meta"
+requires = [ "setuptools>=77.0.3" ]
 
 [project]
 name = "cdek"
-version = "2.1.1.0.2"
-description = "Python SDK для работы с API СДЭК версии 2.0"
+version = "0.0.0"
+description = "CDEK Python SDK упрощает интеграцию с API СДЭК версии 2.0"
 readme = "README.md"
-requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "Apache-2.0"
 authors = [
-    {name = "CDEK Python SDK", email = "geomer198@gmail.com"}
+  { name = "Maksim Shurupov", email = "geomer198@gmail.com" },
 ]
-maintainers = [
-    {name = "CDEK Python SDK", email = "geomer198@gmail.com"}
-]
-keywords = ["cdek", "sdk", "api", "delivery", "shipping", "logistics"]
+requires-python = ">=3.10"
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Software Development :: Libraries",
-]
-dependencies = [
-    "pydantic>=2.6,<3.0",
-    "requests>=2.28.0",
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Libraries",
 ]
 
-[project.urls]
-Homepage = "https://github.com/xxp-odoo-erp/cdek"
-Documentation = "https://github.com/xxp-odoo-erp/cdek/blob/main/README.md"
-Repository = "https://github.com/xxp-odoo-erp/cdek"
-Issues = "https://github.com/xxp-odoo-erp/cdek/issues"
+dependencies = [
+  "pydantic>=2.6,<3.0",
+  "requests>=2.28.0",
+  "rich>=10",
+  "typer>=0.15,<1",
+]
+urls."Bug Tracker" = "https://github.com/xxp-odoo-erp/cdek/issues"
+urls.Changelog = "https://github.com/xxp-odoo-erp/cdek/blob/main/CHANGELOG.md"
+urls.documentation = "https://cdek.readthedocs.io"
+urls.repository = "https://github.com/xxp-odoo-erp/cdek"
 
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["cdek*"]
+where = [ "src" ]
+include = [ "cdek*" ]
 
-[tool.setuptools.package-data]
-"*" = ["*.py"]
+[dependency-groups]
+dev = [
+  "coverage",
+  "pytest>=8,<9",
+  "pytest-cov>=6,<7",
+]
+docs = [
+  "furo>=2023.5.20; python_version>='3.11'",
+  "myst-parser>=0.16; python_version>='3.11'",
+  "sphinx>=4; python_version>='3.11'",
+  "sphinx-autobuild>=2024,<2025; python_version>='3.11'",
+]
 
-[tool.black]
-line-length = 100
-target-version = ['py310']
+[tool.ruff]
+line-length = 88
+lint.select = [
+  "B",   # flake8-bugbear
+  "D",   # flake8-docstrings
+  "C4",  # flake8-comprehensions
+  "S",   # flake8-bandit
+  "F",   # pyflake
+  "E",   # pycodestyle
+  "W",   # pycodestyle
+  "UP",  # pyupgrade
+  "I",   # isort
+  "RUF", # ruff specific
+]
+lint.ignore = [
+  "D203", # 1 blank line required before class docstring
+  "D212", # Multi-line docstring summary should start at the first line
+  "D100", # Missing docstring in public module
+  "D104", # Missing docstring in public package
+  "D107", # Missing docstring in `__init__`
+  "D401", # First line of docstring should be in imperative mood
+]
+lint.per-file-ignores."conftest.py" = [ "D100" ]
+lint.per-file-ignores."docs/conf.py" = [ "D100" ]
+lint.per-file-ignores."setup.py" = [ "D100" ]
+lint.per-file-ignores."tests/**/*" = [
+  "D100",
+  "D101",
+  "D102",
+  "D103",
+  "D104",
+  "S101",
+]
+lint.isort.known-first-party = [ "cdek", "tests" ]
 
-[tool.isort]
-profile = "black"
-line_length = 100
+[tool.pyproject-fmt]
+max_supported_python = "3.14"
 
+[tool.pytest.ini_options]
+addopts = """\
+    -v
+    -Wdefault
+    --cov=cdek
+    --cov-report=term
+    --cov-report=xml
+    """
+pythonpath = [ "src" ]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.paths]
+source = [
+  "src",
+  ".tox/**/site-packages",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "@overload",
+  "if TYPE_CHECKING",
+  "raise NotImplementedError",
+  'if __name__ == "__main__":',
+]
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+mypy_path = "src/"
+no_implicit_optional = true
+show_error_codes = true
+warn_unreachable = true
+warn_unused_ignores = true
+exclude = [
+  'docs/.*',
+  'setup.py',
+]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+allow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "docs.*"
+ignore_errors = true
+
+[tool.semantic_release]
+version_toml = [ "pyproject.toml:project.version" ]
+version_variables = [
+  "src/cdek/__init__.py:__version__",
+  "docs/conf.py:release",
+]
+build_command = """
+pip install uv
+uv lock
+git add uv.lock
+uv build
+"""
+
+[tool.semantic_release.changelog]
+exclude_commit_patterns = [
+  '''chore(?:\([^)]*?\))?: .+''',
+  '''ci(?:\([^)]*?\))?: .+''',
+  '''refactor(?:\([^)]*?\))?: .+''',
+  '''style(?:\([^)]*?\))?: .+''',
+  '''test(?:\([^)]*?\))?: .+''',
+  '''build\((?!deps\): .+)''',
+  '''Merged? .*''',
+  '''Initial [Cc]ommit.*''', # codespell:ignore
+]
+
+[tool.semantic_release.changelog.environment]
+keep_trailing_newline = true
+
+[tool.semantic_release.branches.main]
+match = "main"
+
+[tool.semantic_release.branches.noop]
+match = "(?!main$)"
+prerelease = true
