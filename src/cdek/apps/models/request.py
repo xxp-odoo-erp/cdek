@@ -17,7 +17,13 @@ class Request(BaseModel):
         None, description="Идентификатор запроса в ИС СДЭК"
     )
     type: Literal[
-        "CREATE", "UPDATE", "DELETE", "AUTH", "GET", "CREATE_CLIENT_RETURN"
+        "CREATE",
+        "UPDATE",
+        "DELETE",
+        "AUTH",
+        "GET",
+        "CREATE_CLIENT_RETURN",
+        "CREATE_REFUSAL",
     ] = Field(..., description="Тип запроса")
     date_time: datetime = Field(
         ..., description="Дата и время установки текущего состояния запроса"
