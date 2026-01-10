@@ -57,5 +57,9 @@ class FullLocation(City, Country, Region, Coordinates, Address, Zip):
 
 
 class OrderLocation(City, Country, Region, Coordinates, Zip):
+    code: int | None = Field(default=None)  # type: ignore
+    city_uuid: UUID | None = Field(default=None)  # type: ignore
+    region: str | None = Field(default=None)  # type: ignore
+    city: str | None = Field(default=None)  # type: ignore
     time_zone: str | None = Field(None, description="Часовой пояс населенного пункта")
     address: str = Field(..., description="Строка адреса")

@@ -177,28 +177,6 @@ class UpdateOrder(BaseModel):
         None, description="Признак необходимости создания реверсного заказа"
     )
 
-
-class Order(UpdateOrder):
-    additional_order_types: list[int] | None = Field(
-        None, description="Дополнительные типы заказа"
-    )
-    tariff_code: int = Field(..., description="Код тарифа")
-    date_invoice: Date | None = Field(None, description="Дата инвойса")
-    shipper_name: str | None = Field(None, description="Грузоотправитель")
-    shipper_address: str | None = Field(None, description="Адрес грузоотправителя")
-    services: list[AdditionalService] | None = Field(
-        None, description="Дополнительные услуги"
-    )
-    packages: list[Package] = Field(default_factory=list, description="Упаковки")
-    is_client_return: bool | None = Field(
-        None, description="Признак клиентского возврата"
-    )
-
-    @field_serializer("date_invoice")
-    def serialize_date_invoice(self, date_invoice: Date) -> str:
-        """Вернуть дату инвойса в формате YYYY-MM-DD"""
-        return date_invoice.strftime("%Y-%m-%d")
-
     @classmethod
     def location_init(cls, **kwargs: Any) -> OrderLocation:
         """Создать объект адреса заказа с указанными полями"""
@@ -229,6 +207,16 @@ class Order(UpdateOrder):
         self.to_location = location
         return self
 
+    def set_shipment_point(self, code: str) -> Order:
+        """Задать код ПВЗ СДЭК"""
+        self.shipment_point = code
+        return self
+
+    def set_delivery_point(self, code: str) -> Order:
+        """Задать код ПВЗ СДЭК"""
+        self.delivery_point = code
+        return self
+
     def set_contact(self, sender: Contact) -> Order:
         """Сохранить контактные данные отправителя"""
         self.sender = sender
@@ -243,6 +231,28 @@ class Order(UpdateOrder):
     def package_init(cls, **kwargs: Any) -> Package:
         """Создать объект упаковки по переданным параметрам"""
         return Package(**kwargs)
+
+
+class Order(UpdateOrder):
+    additional_order_types: list[int] | None = Field(
+        None, description="Дополнительные типы заказа"
+    )
+    tariff_code: int = Field(..., description="Код тарифа")
+    date_invoice: Date | None = Field(None, description="Дата инвойса")
+    shipper_name: str | None = Field(None, description="Грузоотправитель")
+    shipper_address: str | None = Field(None, description="Адрес грузоотправителя")
+    services: list[AdditionalService] | None = Field(
+        None, description="Дополнительные услуги"
+    )
+    packages: list[Package] = Field(default_factory=list, description="Упаковки")
+    is_client_return: bool | None = Field(
+        None, description="Признак клиентского возврата"
+    )
+
+    @field_serializer("date_invoice")
+    def serialize_date_invoice(self, date_invoice: Date) -> str:
+        """Вернуть дату инвойса в формате YYYY-MM-DD"""
+        return date_invoice.strftime("%Y-%m-%d")
 
     def add_package(self, package: Package) -> Order:
         """Добавить упаковку в список пакетов заказа"""
