@@ -3,7 +3,6 @@ from __future__ import annotations
 from datetime import date as Date
 from datetime import datetime
 from enum import Enum
-from typing import Any
 from uuid import UUID
 
 from pydantic import BaseModel, Field, field_serializer, field_validator
@@ -44,7 +43,7 @@ class RelatedEntity(BaseModel):
 
     @field_validator("type", mode="before")
     @classmethod
-    def convert_type_to_upper(cls, v: Any) -> str:
+    def convert_type_to_upper(cls, v: str) -> str:
         """Преобразование типа в верхний регистр перед валидацией"""
         return isinstance(v, str) and v.upper() or v
 
