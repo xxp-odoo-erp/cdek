@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.3 (2026-01-10)
+
+### Bug fixes
+
+- Related_entity is updated ([`e702fd8`](https://github.com/xxp-odoo-erp/cdek/commit/e702fd86a313e2b720edf3f0b4510ab0737bfa03))
+
 ## v1.1.2 (2026-01-10)
 
 ### Bug fixes
