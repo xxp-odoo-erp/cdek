@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.4 (2026-01-10)
+
+### Bug fixes
+
+- Order_response model is updated ([`94eeabf`](https://github.com/xxp-odoo-erp/cdek/commit/94eeabfa0ad12a3f437d84868204af5c5692d4e0))
+
 ## v1.1.3 (2026-01-10)
 
 ### Bug fixes
