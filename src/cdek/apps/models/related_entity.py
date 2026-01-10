@@ -5,7 +5,7 @@ from datetime import datetime
 from enum import Enum
 from uuid import UUID
 
-from pydantic import BaseModel, Field, field_serializer
+from pydantic import BaseModel, Field, field_serializer, field_validator
 
 
 class RelatedEntityType(str, Enum):
@@ -40,6 +40,12 @@ class RelatedEntity(BaseModel):
     )
     time_from: str | None = Field(None, description="Время начала ожидания курьера")
     time_to: str | None = Field(None, description="Время окончания ожидания курьера")
+
+    @field_validator("type", mode="before")
+    @classmethod
+    def convert_type_to_upper(cls, v: str) -> str:
+        """Преобразование типа в верхний регистр перед валидацией"""
+        return isinstance(v, str) and v.upper() or v
 
     @field_serializer("create_time")
     def serialize_create_time(self, create_time: datetime) -> str:
