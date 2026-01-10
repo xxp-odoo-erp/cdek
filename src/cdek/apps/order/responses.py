@@ -21,9 +21,9 @@ class OrderResponse(Order):
 
     uuid: str = Field(..., description="Идентификатор заказа в ИС СДЭК")
     type: int = Field(..., description="Тип заказа")
-    is_return: bool = Field(..., description="Признак возврата заказа")
-    is_reverse: bool = Field(..., description="Признак реверсного заказа")
-    cdek_number: int | None = Field(..., description="Номер заказа в ИС СДЭК")
+    is_return: bool | None = Field(None, description="Признак возврата заказа")
+    is_reverse: bool | None = Field(None, description="Признак реверсного заказа")
+    cdek_number: int | None = Field(None, description="Номер заказа в ИС СДЭК")
     accompanying_waybill: AccompanyingWaybill | None = Field(
         None, description="Информация для сопроводительной накладной"
     )
@@ -31,7 +31,9 @@ class OrderResponse(Order):
         None, description="Дата окончания бесплатного хранения"
     )
     statuses: list[OrderStatus] = Field(..., description="Статусы заказа")
-    is_client_return: bool = Field(..., description="Признак клиентского возврата")
+    is_client_return: bool | None = Field(
+        None, description="Признак клиентского возврата"
+    )
     delivery_mode: str | None = Field(None, description="Режим доставки")
     planned_delivery_date: Date | None = Field(
         None, description="Планируемая дата доставки"
