@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.5 (2026-01-11)
+
+### Bug fixes
+
+- Request method is fixed ([`e1916e1`](https://github.com/xxp-odoo-erp/cdek/commit/e1916e18642aa868ca35f84ae5a4d19f5bbe7b2f))
+
 ## v1.1.4 (2026-01-10)
 
 ### Bug fixes

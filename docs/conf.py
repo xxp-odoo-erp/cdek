@@ -15,7 +15,7 @@ from sphinx.ext import apidoc
 project = "CDEK Python SDK v2"
 copyright = "2025, Maksim Shurupov"  # noqa: A001
 author = "Maksim Shurupov"
-release = "1.1.4"
+release = "1.1.5"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
