@@ -71,6 +71,7 @@ class App:
             CdekRequestException: при сетевых ошибках или ошибках API
         """
         headers = self._prepare_header(url)
+        response_json = None
         try:
             response = self._session.request(
                 method,
