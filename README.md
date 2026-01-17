@@ -4,7 +4,7 @@
   <a href="https://github.com/xxp-odoo-erp/cdek/actions/workflows/ci.yml?query=branch%3Amain">
     <img src="https://img.shields.io/github/actions/workflow/status/xxp-odoo-erp/cdek/ci.yml?branch=main&label=CI&logo=github&style=flat-square" alt="CI Status" >
   </a>
-  <a href="https://cdek.readthedocs.io">
+  <a href="https://cdek.readthedocs.io/ru/latest/">
     <img src="https://img.shields.io/readthedocs/cdek.svg?logo=read-the-docs&logoColor=fff&style=flat-square" alt="Documentation Status">
   </a>
   <a href="https://codecov.io/gh/xxp-odoo-erp/cdek">
@@ -32,7 +32,7 @@
 
 ---
 
-**Документация**: <a href="https://xxp-odoo-erp.github.io/cdek/" target="_blank">https://xxp-odoo-erp.github.io/cdek </a>
+**Документация**: <a href="https://cdek.readthedocs.io/ru/latest/" target="_blank">https://cdek.readthedocs.io </a>
 
 **Исходный код**: <a href="https://github.com/xxp-odoo-erp/cdek" target="_blank">https://github.com/xxp-odoo-erp/cdek </a>
 
