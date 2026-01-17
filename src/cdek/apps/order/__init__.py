@@ -1,5 +1,11 @@
 from .order import OrderApp
 from .requests import OrderRequest, OrderUpdateRequest
-from .responses import OrderResponse
+from .responses import OrderEntityResponse, OrderResponse
 
-__all__ = ["OrderApp", "OrderRequest", "OrderResponse", "OrderUpdateRequest"]
+__all__ = [
+    "OrderApp",
+    "OrderRequest",
+    "OrderResponse",
+    "OrderUpdateRequest",
+    "OrderEntityResponse",
+]
