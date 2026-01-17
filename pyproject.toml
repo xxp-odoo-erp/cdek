@@ -33,7 +33,7 @@ dependencies = [
 ]
 urls."Bug Tracker" = "https://github.com/xxp-odoo-erp/cdek/issues"
 urls.Changelog = "https://github.com/xxp-odoo-erp/cdek/blob/main/CHANGELOG.md"
-urls.documentation = "https://cdek.readthedocs.io"
+urls.documentation = "https://cdek.readthedocs.io/ru/latest/"
 urls.repository = "https://github.com/xxp-odoo-erp/cdek"
 
 [tool.setuptools.packages.find]
