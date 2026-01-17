@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.7 (2026-01-17)
+
+### Bug fixes
+
+- Import apps is updated ([`6123d7d`](https://github.com/xxp-odoo-erp/cdek/commit/6123d7d82fa8261c50de049b1d5f9465baa8236a))
+
 ## v1.1.6 (2026-01-17)
 
 ### Bug fixes
