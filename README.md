@@ -32,23 +32,23 @@
 
 ---
 
-**Documentation**: <a href="https://cdek.readthedocs.io" target="_blank">https://cdek.readthedocs.io </a>
+**Документация**: <a href="https://xxp-odoo-erp.github.io/cdek/" target="_blank">https://xxp-odoo-erp.github.io/cdek </a>
 
-**Source Code**: <a href="https://github.com/xxp-odoo-erp/cdek" target="_blank">https://github.com/xxp-odoo-erp/cdek </a>
+**Исходный код**: <a href="https://github.com/xxp-odoo-erp/cdek" target="_blank">https://github.com/xxp-odoo-erp/cdek </a>
 
 ---
 
 CDEK Python SDK упрощает интеграцию с API СДЭК версии 2.0
 
-## Installation
+## Установка
 
-Install this via pip (or your favourite package manager):
+Установите пакет через pip (или ваш любимый менеджер пакетов):
 
 `pip install cdek`
 
-## Contributors ✨
+## Участники ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Спасибо этим замечательным людям ([ключ эмодзи](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- prettier-ignore-start -->
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -57,13 +57,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 <!-- prettier-ignore-end -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+Этот проект следует спецификации [all-contributors](https://github.com/all-contributors/all-contributors). Приветствуются любые виды вклада!
 
-## Credits
+## Благодарности
 
 [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-orange.json)](https://github.com/copier-org/copier)
 
-This package was created with
-[Copier](https://copier.readthedocs.io/) and the
-[browniebroke/pypackage-template](https://github.com/browniebroke/pypackage-template)
-project template.
+Этот пакет был создан с помощью
+[Copier](https://copier.readthedocs.io/) и шаблона проекта
+[browniebroke/pypackage-template](https://github.com/browniebroke/pypackage-template).
