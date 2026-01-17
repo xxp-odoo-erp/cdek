@@ -1,7 +1,13 @@
 from .barcode import BarcodeApp
 from .invoice import InvoiceApp
 from .requests import PrintBarcodeRequest, PrintInvoiceRequest
-from .responses import PrintBarcodeResponse, WaybillEntityResponse
+from .responses import (
+    PrintBarcodeEntity,
+    PrintBarcodeResponse,
+    PrintStatus,
+    WaybillEntityResponse,
+    WaybillResponse,
+)
 
 __all__ = [
     "BarcodeApp",
@@ -10,4 +16,7 @@ __all__ = [
     "PrintInvoiceRequest",
     "PrintBarcodeResponse",
     "WaybillEntityResponse",
+    "PrintBarcodeEntity",
+    "PrintStatus",
+    "WaybillResponse",
 ]

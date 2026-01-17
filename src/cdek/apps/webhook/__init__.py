@@ -1,3 +1,4 @@
+from .enums import WebhookType
 from .requests import WebhookRequest
 from .responses import (
     WebhookDeleteEntityResponse,
@@ -14,4 +15,5 @@ __all__ = [
     "WebhookUUIDEntityResponse",
     "WebhookDeleteEntityResponse",
     "WebookSetEntityResponse",
+    "WebhookType",
 ]
