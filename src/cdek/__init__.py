@@ -2,7 +2,7 @@ from . import constants
 from .client import CdekClient
 from .exceptions import CdekAuthException, CdekException, CdekRequestException
 
-__version__ = "1.1.5"
+__version__ = "1.1.6"
 __author__ = "CDEK Python SDK"
 __license__ = "Apache-2.0"
 

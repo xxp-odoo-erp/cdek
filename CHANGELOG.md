@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.6 (2026-01-17)
+
+### Bug fixes
+
+- __init__ files for import ([`7afbc66`](https://github.com/xxp-odoo-erp/cdek/commit/7afbc668ef620644a49a60c1be8b1b8dcf3b8af2))
+
 ## v1.1.5 (2026-01-11)
 
 ### Bug fixes
