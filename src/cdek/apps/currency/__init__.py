@@ -1,3 +1,3 @@
-from .currency import CurrencyApp
+from .currency import Currency, CurrencyApp
 
-__all__ = ["CurrencyApp"]
+__all__ = ["CurrencyApp", "Currency"]
