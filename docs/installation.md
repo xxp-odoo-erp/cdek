@@ -1,11 +1,57 @@
 (installation)=
 
-# Installation
+# Установка
 
-The package is published on [PyPI](https://pypi.org/project/cdek/) and can be installed with `pip` (or any equivalent):
+Пакет опубликован на [PyPI](https://pypi.org/project/cdek/) и может быть установлен с помощью `pip` (или любого эквивалентного менеджера пакетов):
+
+## Базовая установка
 
 ```bash
 pip install cdek
 ```
 
-Next, see the {ref}`section about usage <usage>` to see how to use it.
+## Требования
+
+- Python 3.10 или выше
+- Зависимости устанавливаются автоматически:
+  - `pydantic>=2.6,<3.0` - для валидации данных
+  - `requests>=2.28.0` - для HTTP-запросов
+  - `rich>=10` - для улучшенного вывода в консоли
+  - `typer>=0.15,<1` - для CLI интерфейса
+
+## Установка из исходников
+
+Если вы хотите установить библиотеку из исходного кода:
+
+```bash
+git clone https://github.com/xxp-odoo-erp/cdek.git
+cd cdek
+pip install -e .
+```
+
+## Установка для разработки
+
+Для разработки с дополнительными зависимостями:
+
+```bash
+git clone https://github.com/xxp-odoo-erp/cdek.git
+cd cdek
+pip install -e ".[dev]"
+```
+
+## Проверка установки
+
+После установки вы можете проверить, что библиотека установлена корректно:
+
+```python
+import cdek
+print(cdek.__version__)
+```
+
+Или через командную строку:
+
+```bash
+python -c "import cdek; print(cdek.__version__)"
+```
+
+Далее см. раздел {ref}`использование <usage>` для примеров работы с библиотекой.
