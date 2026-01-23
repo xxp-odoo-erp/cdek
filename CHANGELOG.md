@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.8 (2026-01-23)
+
+### Bug fixes
+
+- Office response model is updated ([`3780745`](https://github.com/xxp-odoo-erp/cdek/commit/378074561db9acd515e15ab501c26598eda1c11f))
+
 ## v1.1.7 (2026-01-17)
 
 ### Bug fixes
