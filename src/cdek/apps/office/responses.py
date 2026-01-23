@@ -40,8 +40,8 @@ class OfficeResponse(BaseModel):
     phones: list[Phone] | None = Field(default=None, description="Телефоны офиса")
     email: str | None = Field(None, description="Адрес электронной почты")
     note: str | None = Field(None, description="Примечание по ПВЗ")
-    type: str = Field(
-        ..., description="Тип ПВЗ. PVZ — склад СДЭК, POSTAMAT — постамат СДЭК"
+    type: str | None = Field(
+        None, description="Тип ПВЗ. PVZ — склад СДЭК, POSTAMAT — постамат СДЭК"
     )
     owner_code: str = Field(..., description="Принадлежность офиса компании")
     take_only: bool = Field(
