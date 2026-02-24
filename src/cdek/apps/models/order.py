@@ -63,7 +63,7 @@ class DeliveryDetail(BaseModel):
     date: Date | None = Field(None, description="Дата доставки")
     recipient_name: str | None = Field(None, description="Получатель при доставке")
     payment_sum: float | None = Field(None, description="Сумма наложенного платежа")
-    delivery_sum: float = Field(..., description="Сумма доставки")
+    delivery_sum: float | None = Field(None, description="Сумма доставки")
     total_sum: float = Field(..., description="Общая сумма")
     payment_info: list[PaymentInfo] | None = Field(
         None, description="Информация о платеже"
@@ -132,7 +132,7 @@ class Call(BaseModel):
 
 
 class DeliveryRecipientCost(Money):
-    value: float = Field(..., description="Сумма платежа, включая НДС")
+    value: float | None = Field(None, description="Сумма платежа, включая НДС")
 
 
 class DeliveryCostThreshold(Vat):
