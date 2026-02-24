@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.9 (2026-02-24)
+
+### Bug fixes
+
+- Fixes response for order info ([`3958e7f`](https://github.com/xxp-odoo-erp/cdek/commit/3958e7fbbf5dadaaacac54d012dc28354dca75d0))
+
 ## v1.1.8 (2026-01-23)
 
 ### Bug fixes
