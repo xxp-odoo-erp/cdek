@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.10 (2026-03-06)
+
+### Bug fixes
+
+- Base response exception is patched ([`107e3ed`](https://github.com/xxp-odoo-erp/cdek/commit/107e3ed4f56bc36278bde13b5d84b84f931b06f5))
+
 ## v1.1.9 (2026-02-24)
 
 ### Bug fixes
