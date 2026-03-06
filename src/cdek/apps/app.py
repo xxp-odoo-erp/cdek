@@ -89,12 +89,12 @@ class App:
             self._check_errors(url, response, response_json)
             self._response_headers = response.headers
             return response_json
-
+        except CdekRequestException:
+            raise
         except requests.exceptions.RequestException as e:
             raise CdekRequestException(
                 f"Ошибка сети при вызове метода {url}: {str(e)}", response=response_json
             ) from e
-
         except Exception as e:
             raise CdekRequestException(
                 f"Ошибка при вызове метода {url}: {str(e)}"
