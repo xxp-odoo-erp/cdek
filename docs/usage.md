@@ -181,8 +181,8 @@ for office in result["result"]:
 ```python
 from cdek.apps.location.filters import CityFilter
 
-city = client.location.city(CityFilter(city="Москва"))
-if city:
+cities = client.location.city(CityFilter(city="Москва"))
+for city in cities:
     print(f"Найден город: {city.city} (код: {city.code})")
 ```
 

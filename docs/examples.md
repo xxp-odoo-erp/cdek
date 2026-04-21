@@ -169,9 +169,9 @@ print(f"Стоимость услуг: {result.services_sum} руб.")
 from cdek.apps.location.filters import CityFilter
 
 # Поиск города
-city = client.location.city(CityFilter(city="Мос"))
+cities = client.location.city(CityFilter(city="Мос"))
 
-if city:
+for city in cities:
     print(f"Найден: {city.city} (код: {city.code})")
     print(f"Регион: {city.region}")
     print(f"Страна: {city.country}")
