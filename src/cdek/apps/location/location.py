@@ -20,7 +20,7 @@ from .responses import (
 class LocationApp(App):
     """Получение списка локаций"""
 
-    def city(self, filter_params: CityFilter) -> CityResponse | None:
+    def city(self, filter_params: CityFilter) -> list[CityResponse]:
         """
         Подбор локации по названию города
         Метод позволяет получать подсказки по подбору населенного пункта
@@ -40,7 +40,9 @@ class LocationApp(App):
         if filter_params is not None and not isinstance(filter_params, CityFilter):
             raise ValueError("filter_params must be a CityFilter instance")
         response = self._get("location/suggest/cities", params=filter_params)
-        return CityResponse.model_validate(response) if response else None
+        return (
+            [CityResponse.model_validate(city) for city in response] if response else []
+        )
 
     def regions(
         self, filter_params: RegionFilter | None = None
