@@ -33,8 +33,8 @@ class LocationApp(App):
             ValueError: Если filter_params не является объектом CityFilter
 
         Returns:
-            Optional[CityResponse]: Объект CityResponse с информацией о найденном городе
-            или None, если город не найден
+            Optional[list[CityResponse]]: Список объектов CityResponse с информацией о
+            найденных городах или пустой список, если совпадений не найдено
         """
         # Обрабатываем filter_params как словарь
         if filter_params is not None and not isinstance(filter_params, CityFilter):
