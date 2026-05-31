@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.11 (2026-05-31)
+
+### Bug fixes
+
+- Patch from_location to order response model ([`5a74acc`](https://github.com/xxp-odoo-erp/cdek/commit/5a74acc8ebe417356a8690f9249dfaa4d7c728f8))
+
 ## v1.1.10 (2026-03-06)
 
 ### Bug fixes
