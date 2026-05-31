@@ -56,10 +56,13 @@ class FullLocation(City, Country, Region, Coordinates, Address, Zip):
     pass
 
 
-class OrderLocation(City, Country, Region, Coordinates, Zip):
+class BaseOrderLocation(City, Country, Region, Coordinates, Zip):
     code: int | None = Field(default=None)  # type: ignore
     city_uuid: UUID | None = Field(default=None)  # type: ignore
     region: str | None = Field(default=None)  # type: ignore
     city: str | None = Field(default=None)  # type: ignore
     time_zone: str | None = Field(None, description="Часовой пояс населенного пункта")
+
+
+class OrderLocation(BaseOrderLocation):
     address: str = Field(..., description="Строка адреса")

@@ -6,6 +6,7 @@ from datetime import datetime
 from pydantic import Field, field_serializer
 
 from ..models.entity_response import EntityResponse
+from ..models.location import BaseOrderLocation
 from ..models.order import (
     AccompanyingWaybill,
     Call,
@@ -14,6 +15,12 @@ from ..models.order import (
     Order,
     OrderStatus,
 )
+
+
+class OrderLocationResponse(BaseOrderLocation):
+    """Модель ответа о локации заказа."""
+
+    address: str | None = Field(default=None, description="Строка адреса")
 
 
 class OrderResponse(Order):
@@ -49,6 +56,9 @@ class OrderResponse(Order):
     )
     developer_key: str | None = Field(None, description="Ключ разработчика")
     calls: Call | None = Field(None, description="Информация о прозвонах")
+    from_location: OrderLocationResponse | None = Field(
+        default=None, description="Адрес отправления"
+    )
 
     @field_serializer("planned_delivery_date")
     def serialize_planned_delivery_date(self, planned_delivery_date: Date) -> str:
