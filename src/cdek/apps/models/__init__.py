@@ -9,6 +9,7 @@ from .intakes import IntakeLocation, Intakes
 from .item import Item
 from .location import (
     Address,
+    BaseOrderLocation,
     City,
     Coordinates,
     Country,
@@ -90,6 +91,7 @@ __all__ = [
     "OrderInfo",
     "Status",
     "AccompanyingWaybill",
+    "BaseOrderLocation",
     "OrderLocation",
     "Item",
     "RelatedEntityType",
