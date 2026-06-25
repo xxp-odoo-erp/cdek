@@ -29,12 +29,14 @@ def test_office_get_returns_points_for_moscow(test_client) -> None:  # type: ign
     # В API приходит UUID как строка
     city_response = MagicMock()
     city_response.status_code = 200
-    city_response.json.return_value = {
-        "code": 44,
-        "city_uuid": "6b88cb14-0669-4ae3-9ded-1d7843d40ac8",
-        "full_name": "г. Москва",
-        "country_code": "RU",
-    }
+    city_response.json.return_value = [
+        {
+            "code": 44,
+            "city_uuid": "6b88cb14-0669-4ae3-9ded-1d7843d40ac8",
+            "full_name": "г. Москва",
+            "country_code": "RU",
+        }
+    ]
     city_response.headers = {}
 
     # Настраиваем мок для получения ПВЗ согласно структуре CDEK API
@@ -82,10 +84,10 @@ def test_office_get_returns_points_for_moscow(test_client) -> None:  # type: ign
         mock_office_session.post.return_value = _mock_auth_response()
         mock_office_session.request.return_value = offices_response
 
-        city = location_app.city(CityFilter(name="Москва"))
-        assert city is not None
+        cities = location_app.city(CityFilter(name="Москва"))
+        assert cities
 
-        result = office_app.get(OfficeFilter(city_code=city.code, size=5))
+        result = office_app.get(OfficeFilter(city_code=cities[0].code, size=5))
 
         assert "result" in result
         assert isinstance(result["result"], list)

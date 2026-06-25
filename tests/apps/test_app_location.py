@@ -26,12 +26,14 @@ def test_location_city_returns_moscow(test_client) -> None:  # type: ignore
     # В API приходит UUID как строка
     success_response = MagicMock()
     success_response.status_code = 200
-    success_response.json.return_value = {
-        "code": 44,
-        "city_uuid": "89b75a9b-d5ae-49ad-8ae6-476bb9c6122e",
-        "full_name": "г. Москва",
-        "country_code": "RU",
-    }
+    success_response.json.return_value = [
+        {
+            "code": 44,
+            "city_uuid": "89b75a9b-d5ae-49ad-8ae6-476bb9c6122e",
+            "full_name": "г. Москва",
+            "country_code": "RU",
+        }
+    ]
     success_response.headers = {}
 
     # Мокируем сессию
@@ -39,11 +41,11 @@ def test_location_city_returns_moscow(test_client) -> None:  # type: ignore
         mock_session.post.return_value = _mock_auth_response()
         mock_session.request.return_value = success_response
 
-        city = location_app.city(CityFilter(name="Москва"))
+        cities = location_app.city(CityFilter(name="Москва"))
 
-        assert city is not None
-        assert city.code == 44
-        assert city.full_name == "г. Москва"
+        assert cities[0] is not None
+        assert cities[0].code == 44
+        assert cities[0].full_name == "г. Москва"
 
 
 def test_location_regions_returns_data(test_client) -> None:  # type: ignore
