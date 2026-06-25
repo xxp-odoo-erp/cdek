@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1.12 (2026-06-25)
+
+### Bug fixes
+
+- Fix docstring for city suggestions ([`39827cc`](https://github.com/xxp-odoo-erp/cdek/commit/39827cca1b43e97f923d19f3fe3cae6066075d67))
+- Fix documentation for city suggestions ([`b2e630d`](https://github.com/xxp-odoo-erp/cdek/commit/b2e630d359453b90938291c31a45fd62113bbdc9))
+- Fix city suggestions validation error ([`0b11b96`](https://github.com/xxp-odoo-erp/cdek/commit/0b11b96c2813e3d2a5636162b59930f9cbe29212))
+
 ## v1.1.11 (2026-05-31)
 
 ### Bug fixes
