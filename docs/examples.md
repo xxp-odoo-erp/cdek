@@ -274,6 +274,57 @@ if webhooks:
     print("Вебхук удален")
 ```
 
+### Разбор входящего уведомления СДЭК
+
+```python
+from cdek.apps.webhook import (
+    DelivAgreementEvent,
+    OrderStatusEvent,
+    WebhookType,
+    parse_webhook,
+)
+
+# Пример тела запроса ORDER_STATUS от СДЭК
+payload = {
+    "type": "ORDER_STATUS",
+    "date_time": "2023-11-28T07:44:45+0000",
+    "uuid": "72753031-1820-4f99-9240-aab139f05ca5",
+    "attributes": {
+        "is_return": False,
+        "is_reverse": False,
+        "is_client_return": False,
+        "cdek_number": "1100285492",
+        "number": "17011574744791",
+        "related_entities": [],
+        "code": "RECEIVED_AT_SHIPMENT_WAREHOUSE",
+        "status_code": "3",
+        "status_date_time": "2023-11-28T07:44:45+0000",
+        "city_name": "Новосибирск",
+        "city_code": "270",
+        "deleted": False,
+    },
+}
+
+event = parse_webhook(payload)
+
+match event.type:
+    case WebhookType.ORDER_STATUS:
+        assert isinstance(event, OrderStatusEvent)
+        print(
+            f"Заказ {event.attributes.cdek_number}: "
+            f"{event.attributes.code} ({event.attributes.city_name})"
+        )
+    case WebhookType.DELIV_AGREEMENT:
+        assert isinstance(event, DelivAgreementEvent)
+        print(
+            f"Договорённость {event.attributes.delivery_uuid}: "
+            f"{event.attributes.date} {event.attributes.time_from}-"
+            f"{event.attributes.time_to}"
+        )
+    case _:
+        print(f"Событие {event.type}: {event.uuid}")
+```
+
 ## Обработка ошибок
 
 ### Обработка различных типов ошибок

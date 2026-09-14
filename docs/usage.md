@@ -257,6 +257,35 @@ print(f"Вебхук создан: {response.entity.uuid}")
 response = client.webhook.delete("uuid-вебхука")
 ```
 
+#### Разбор входящих webhook
+
+СДЭК отправляет POST с JSON-конвертом `{type, date_time, uuid, attributes}`.
+Разберите тело запроса через `parse_webhook`:
+
+```python
+from cdek.apps.webhook import (
+    OrderStatusEvent,
+    PrintFormEvent,
+    WebhookType,
+    parse_webhook,
+)
+
+# payload — dict, str или bytes тела HTTP-запроса от СДЭК
+event = parse_webhook(payload)
+
+if event.type == WebhookType.ORDER_STATUS:
+    assert isinstance(event, OrderStatusEvent)
+    print(event.attributes.cdek_number, event.attributes.code)
+elif event.type == WebhookType.PRINT_FORM:
+    assert isinstance(event, PrintFormEvent)
+    print(event.attributes.type, event.attributes.url)
+```
+
+Поддерживаемые типы: `ORDER_STATUS`, `ORDER_MODIFIED`, `PRINT_FORM`,
+`DOWNLOAD_PHOTO`, `PREALERT_CLOSED`, `ACCOMPANYING_WAYBILL`,
+`OFFICE_AVAILABILITY`, `DELIV_PROBLEM`, `DELIV_AGREEMENT`, `COURIER_INFO`,
+`RECEIPT`.
+
 ### Работа с накладными и штрих-кодами
 
 #### Получение накладной
