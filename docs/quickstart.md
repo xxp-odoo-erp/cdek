@@ -92,6 +92,31 @@ for office in offices["result"]:
     print(f"{office.name} - {office.address}")
 ```
 
+## Пример разбора входящего webhook
+
+```python
+from cdek.apps.webhook import OrderStatusEvent, parse_webhook
+
+payload = {
+    "type": "ORDER_STATUS",
+    "date_time": "2023-11-28T07:44:45+0000",
+    "uuid": "72753031-1820-4f99-9240-aab139f05ca5",
+    "attributes": {
+        "is_return": False,
+        "is_reverse": False,
+        "is_client_return": False,
+        "cdek_number": "1100285492",
+        "code": "DELIVERED",
+        "status_code": "4",
+        "status_date_time": "2023-11-28T07:44:45+0000",
+    },
+}
+
+event = parse_webhook(payload)
+assert isinstance(event, OrderStatusEvent)
+print(event.attributes.cdek_number, event.attributes.code)
+```
+
 ## Следующие шаги
 
 - Изучите {ref}`полное руководство по использованию <usage>`
