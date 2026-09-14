@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.0 (2026-09-14)
+
+### Features
+
+- Add inbound event models and parse_webhook ([`55a8670`](https://github.com/xxp-odoo-erp/cdek/commit/55a8670552b3fa6b9d6cba774d822b0b4b28e6dd))
+
 ## v1.1.12 (2026-06-25)
 
 ### Bug fixes
